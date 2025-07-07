@@ -1,14 +1,15 @@
 import { useState } from "react";
-import closeIcon from "../assets/icons/closeIcon.svg"
+import closeIcon from "../../assets/icons/closeIcon.svg"
 
 type Props = {
+    id: number;
     onClose: () => void;
 }
 
-const InfoModal = ({onClose}: Props) => {
+const InfoModal = ({onClose, id}: Props) => {
     const [preClosed, setPreClosed] = useState(false);
     const test = {
-        title: "БЛЯТЬ",
+        title: id,
         type: "text" //text, media, media&text, table
     }
     return(

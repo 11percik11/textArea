@@ -1,25 +1,28 @@
 import { useState } from "react";
 import MenuSwipe from "../comps/MenuSwipe";
-import InfoModal from "../comps/InfoModal";
+import InfoModal from "../comps/modals/InfoModal";
 import MainTable from "../comps/MainTable";
 
 const MainPage = () => {
     const [currentTable, setCurrentTable] = useState(0);
-    const [isInfoModalOpen, setInfoModalOpen] = useState(false);
+    const [infoModalId, setInfoModalId] = useState<number | null>(null);
+    //@ts-ignore
+    const nature:[[]] = window.__testable__.nature;
+    //@ts-ignore
+    const socium:[[]] = window.__testable__.socium;
     return(
         <div className="w-full h-full p-[32px]">
             {
-                isInfoModalOpen &&
-                <InfoModal onClose={() => setInfoModalOpen(false)}/>
+                infoModalId!== null &&
+                <InfoModal id={infoModalId} onClose={() => setInfoModalId(null)}/>
             }
             <div className="w-[1856px] h-[896px] overflow-scroll hide-scroll">
                 {currentTable === 0 && //тут будет либо меняться инфа в таблице, либо сама таблица
-                    <MainTable/>
+                    <MainTable content={nature} onCellInfoOpen={(id) => setInfoModalId(id)}/>
                 }
                 {currentTable === 1 && //тут будет либо меняться инфа в таблице, либо сама таблица
-                    <div className="w-full h-full bg-table-ocean">
+                    <MainTable content={socium} onCellInfoOpen={(id) => setInfoModalId(id)}/>
 
-                    </div>
                 }
             </div>
             <MenuSwipe onSelect={(option)=>setCurrentTable(option)}/>
