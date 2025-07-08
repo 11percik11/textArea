@@ -1,4 +1,4 @@
-import Cell from "./Cell";
+import MainCell from "./MainCell";
 
 type Props = {
     content: any;
@@ -21,7 +21,7 @@ const MainTable = ({onCellInfoOpen, content}: Props) => {
                         </div>
                         {row.map((cell: any, cellIndex: number) => (
                             <div key={cellIndex} className={`${colors[index%4]} border-[1px] border-stroke p-[24px] w-[406px] flex justify-center items-center`}>
-                                {!!cell && <Cell onOpen={(id)=>onCellInfoOpen(id)} data={cell}/>}
+                                {!!cell && <MainCell onOpen={(id)=>onCellInfoOpen(id)} data={cell}/>}
                             </div>
                         ))}
                 </div>
