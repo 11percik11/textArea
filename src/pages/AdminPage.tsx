@@ -13,8 +13,8 @@ const AdminPage = () => {
     const table:[[]] = window.__testable__.nature;
     const [currTable, setCurrTable] = useState(table);
     const navigate = useNavigate();
-    const cols = table.length;
-    const rows = table[0].length;      //уточнить у Максима, как будут строиться строки
+    const cols = currTable.length;
+    const rows = currTable[0].length;      //уточнить у Максима, как будут строиться строки
     return(
         <div className="animate-appear w-full h-full p-[32px]">
             <div className="flex justify-between items-center gap-[16px]">

@@ -15,7 +15,6 @@ const App = () => {
         <Route path="/" element={<MainPage/>}/>
         <Route path="/table" element={<MainPage/>}/>
         <Route path="/admin" element={<AdminPage/>}/>
-        
       </Routes>
     </Router>
     </div>
