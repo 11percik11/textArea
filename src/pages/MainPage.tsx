@@ -17,10 +17,10 @@ const MainPage = () => {
                 <InfoModal id={infoModalId} onClose={() => setInfoModalId(null)}/>
             }
             <div className="w-[1856px] h-[896px] overflow-scroll hide-scroll">
-                {currentTable === 0 && //тут будет либо меняться инфа в таблице, либо сама таблица
+                {currentTable === 0 &&
                     <MainTable content={nature} onCellInfoOpen={(id) => setInfoModalId(id)}/>
                 }
-                {currentTable === 1 && //тут будет либо меняться инфа в таблице, либо сама таблица
+                {currentTable === 1 &&
                     <MainTable content={socium} onCellInfoOpen={(id) => setInfoModalId(id)}/>
 
                 }

@@ -23,26 +23,26 @@ const PasswordModal = ({onBack}: Props) => {
         <input onChange={handleChange} type="password" disabled={true} className="text-center w-full text-white text-[62px]" value={enteredPassword}/>
         <div className="mx-auto mt-[64px] w-[452px] h-[384px] grid grid-rows-4 grid-cols-3 gap-[16px]">
             {numbers.map((num, index: number) => (
-                <div key={index} onClick={() => {setEnteredPassword((prev) => prev + num.toString());}} className="flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-[#FFFFFF33]">
+                <div key={index} onClick={() => {setEnteredPassword((prev) => prev + num.toString());}} className="flex active:bg-[#75757533] items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-[#FFFFFF33]">
                     {num}
                 </div>
             ))}
             <div className="flex gap-[16px] w-[452px]">
-                <div onClick={() => {setEnteredPassword((prev) => prev.slice(0, -1))}} className="flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-white">
+                <div onClick={() => {setEnteredPassword((prev) => prev.slice(0, -1))}} className="active:bg-[#757575] flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-white">
                     <img src={backspaceIcon} alt="backspace" className="size-[32px]" />
                 </div>
-                <div onClick={() => {setEnteredPassword((prev) => prev + "0");}} className="flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-[#FFFFFF33]">
+                <div onClick={() => {setEnteredPassword((prev) => prev + "0");}} className="active:bg-[#75757533] flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-[#FFFFFF33]">
                     {0}
                 </div>
                 <div onClick={() => {
                     if(testPass === enteredPassword) {
                         navigate("/admin");
-                        
+                        onBack();
                     }
                     else {
                         setEnteredPassword("");
                     }
-                }} className="flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-white">
+                }} className="active:bg-[#757575] flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-white">
                     <img src={arrIcon} alt="next" className="size-[32px]" />
                 </div>
             </div>

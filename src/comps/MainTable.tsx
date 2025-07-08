@@ -12,7 +12,7 @@ const MainTable = ({onCellInfoOpen, content}: Props) => {
     ]
     //@ts-ignore
     return(
-        <div className="w-[1856px] border-[2px] border-stroke rounded-[24px] overflow-hidden">
+        <div className="w-[1856px] border-[2px] border-stroke rounded-[24px] overflow-auto">
             {content.map((row: any, index: number) => (
                 <div 
                     key={index}
