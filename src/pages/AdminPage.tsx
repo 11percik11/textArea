@@ -6,15 +6,16 @@ import ExitModal from "../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
 import arrIcon from "../assets/icons/grayArrIcon.svg"
 import addIcon from "../assets/icons/addIcon.svg"
+import type { Table } from "../types";
 
 const AdminPage = () => {
     const [isExitModalOpen, setExitModalOpen] = useState(false);
     //@ts-ignore
-    const table:[[]] = window.__testable__.nature;
-    const [currTable, setCurrTable] = useState(table);
+    const table:Table = window.__testable__.nature;
+    const [currTable, setCurrTable] = useState(table.rows);
     const navigate = useNavigate();
-    const cols = currTable.length;
-    const rows = currTable[0].length;      //уточнить у Максима, как будут строиться строки
+    const cols = currTable[0].content.length;
+    const rows = currTable.length;
     return(
         <div className="animate-appear w-full h-full p-[32px]">
             <div className="flex justify-between items-center gap-[16px]">
@@ -24,7 +25,7 @@ const AdminPage = () => {
                 <div className="w-[1456px] h-[32px] text-accent text-[32px] font-bold">
                     Главные таблицы
                 </div>
-                <button disabled={currTable === table} className="w-[296px] h-[72px] rounded-[24px] text-white text-[24px] font-semibold flex items-center justify-center bg-accent disabled:opacity-[20%]">
+                <button disabled={JSON.stringify(currTable) == JSON.stringify(table.rows)} className="w-[296px] h-[72px] rounded-[24px] text-white text-[24px] font-semibold flex items-center justify-center bg-accent disabled:opacity-[20%]">
                     Сохранить
                 </button>
             </div>
@@ -54,7 +55,7 @@ const AdminPage = () => {
                     </div>
                 </button>
             </div>
-            <AdminTable content={table}/>
+            <AdminTable onEdit={(editedTable) => {setCurrTable(editedTable); console.log(editedTable); console.log(table.rows)}} content={table.rows}/>
             <MenuSwipe onSelect={()=>{}}/>
             {isExitModalOpen && <ExitModal onNo={()=>setExitModalOpen(false)} onYes={() => {setExitModalOpen(false); navigate("/")}}/>}
         </div>
