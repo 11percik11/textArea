@@ -8,11 +8,12 @@ import imagesIcon from "../assets/icons/AlbumIcon.svg"
 
 type Props = {
     data: Cell;
+    color: string;
 }
 
-const AdminCell = ({data}: Props) => {
+const AdminCell = ({data, color}: Props) => {
     return(
-        <div className="border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative">
+        <div style={{'backgroundColor':color}} className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}>
             <div hidden={!data.id} className="w-[376px] h-[56px] flex gap-[8px] justify-left items-center">
                 {data.media && data.media.length <= 5 && data.media?.map((media, index:number)=>(
                     <div key={index} className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">

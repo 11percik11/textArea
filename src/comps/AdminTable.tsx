@@ -11,6 +11,7 @@ type Props = {
 }
 
 const AdminTable = ({content, onEdit}: Props) => {
+
     const [changableRows, setChangableRows] = useState(content);
     const [changableTitles, setChangableTitles] = useState(content[0].content);
     const finishedTable = useRef(content);
@@ -67,7 +68,6 @@ const AdminTable = ({content, onEdit}: Props) => {
             <div className="h-[40px] pl-[40px] flex">
                 <div className="min-w-[232px] h-[40px] bg-[#0000000D] border-[1px] border-stroke"/>
                 <ReactSortable
-
                     className="flex"
                     dragClass="sortableDrag"
                     list={changableTitles}
@@ -107,7 +107,7 @@ const AdminTable = ({content, onEdit}: Props) => {
                             {row.title} + {row.color}
                         </div>
                         {row.content.map((cell, colIndex)=>(
-                                <AdminCell key={colIndex} data={cell}/>
+                                <AdminCell color={row.color} key={colIndex} data={cell}/>
                         ))}
                     </div>
                 ))}

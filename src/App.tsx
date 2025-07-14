@@ -3,6 +3,7 @@ import MainPage from "./pages/MainPage";
 import PasswordModal from "./comps/modals/PasswordModal";
 import { useState } from "react";
 import AdminPage from "./pages/AdminPage";
+import CellEditPage from "./pages/CellEditPage";
 
 const App = () => {
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="/" element={<MainPage/>}/>
         <Route path="/table" element={<MainPage/>}/>
         <Route path="/admin" element={<AdminPage/>}/>
+        <Route path="/celledit" element={<CellEditPage/>}/>
       </Routes>
     </Router>
     </div>
