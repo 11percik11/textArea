@@ -7,6 +7,7 @@ import ChooseTemplate from "../comps/ChooseTemplate";
 import FilesAdder from "../comps/FilesAdder";
 import addIcon from "../assets/icons/addIcon.svg";
 
+
 const CellEditPage = () => {
     const [isExitModalOpen, setExitModalOpen] = useState(false);
     const [isCellExist, setCellExist] = useState(false);
