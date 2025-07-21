@@ -49,7 +49,6 @@ const PdfReader = ({ onClose, title }: Props) => {
           )}
         </div>
       </div>
-      {pdfDocument && pdfDocument.numPages && (
         <div className="p-[8px] w-[608px] h-[96px] rounded-[32px] bg-white fixed bottom-[32px] left-0 right-0 mx-auto flex gap-[8px]">
           <button
             className="disabled:opacity-[20%] size-[80px] bg-accent p-[24px] rounded-[24px]"
@@ -76,12 +75,12 @@ const PdfReader = ({ onClose, title }: Props) => {
           </button>
           <div className="text-[24px] text-accent font-semibold w-[416px] h-[80px] rounded-[24px] bg-[#B8B8B84D] flex items-center justify-center text-center">
             {page}
-            {page2 <= pdfDocument.numPages && "-" + page2} из{" "}
-            {pdfDocument.numPages}
+            {pdfDocument?.numPages && page2 <= pdfDocument?.numPages && "-" + page2} из{" "}
+            {pdfDocument?.numPages}
           </div>
           <button
             className="disabled:opacity-[20%] size-[80px] bg-accent p-[24px] rounded-[24px]"
-            disabled={page2 >= pdfDocument.numPages}
+            disabled={!!pdfDocument?.numPages && page2 >= pdfDocument?.numPages}
             onClick={() => {
               setPage(page + 2);
               setPage2(page2 + 2);
@@ -104,7 +103,6 @@ const PdfReader = ({ onClose, title }: Props) => {
             </svg>
           </button>
         </div>
-      )}
     </div>
   );
 };
