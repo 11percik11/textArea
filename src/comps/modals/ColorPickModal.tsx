@@ -1,3 +1,1 @@
-const ColorPickModal = () => {
-    
-};
+const ColorPickModal = () => {};
