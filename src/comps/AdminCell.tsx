@@ -10,7 +10,6 @@ type Props = {
     data: Cell;
     color: string;
 }
-
 const AdminCell = ({data, color}: Props) => {
     return(
         <div style={{'backgroundColor':color}} className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}>

@@ -23,11 +23,9 @@ const MainPage = () => {
                 }
                 {currentTable === 1 &&
                     <MainTable content={socium} onCellInfoOpen={(id) => setInfoModalId(id)}/>
-
                 }
             </div>
             <MenuSwipe onSelect={(option)=>setCurrentTable(option)}/>
-            <PdfReader onClose={()=>{console.log("kindaclosed")}} title={"test"} />
         </div>
     );
 };

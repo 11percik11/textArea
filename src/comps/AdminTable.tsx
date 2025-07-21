@@ -61,6 +61,7 @@ const AdminTable = ({content, onEdit}: Props) => {
 
         const updateRows = (table: Table["rows"]) => {
             setChangableRows(table);
+            setChangableTitles(table[0].content)
             finishedTable.current = table;
         }
     return(
@@ -69,7 +70,7 @@ const AdminTable = ({content, onEdit}: Props) => {
                 <div className="min-w-[232px] h-[40px] bg-[#0000000D] border-[1px] border-stroke"/>
                 <ReactSortable
                     className="flex"
-                    dragClass="sortableDrag"
+                    handle=".dragHandleVert"
                     list={changableTitles}
                     setList={makeMagic}
                     animation={200}
@@ -79,8 +80,8 @@ const AdminTable = ({content, onEdit}: Props) => {
                 >
                 {changableTitles.map((col)=>(
                     <div 
-                        key={col.id} className="bg-[#F6F6F6] px-[8px] min-w-[424px] h-[40px] border-[1px] border-stroke flex justify-between items-center">
-                        <img src={dragIcon} alt="" className="handle size-[24px]" />
+                        key={col.id} className="dragHandleVert bg-[#F6F6F6] px-[8px] min-w-[424px] h-[40px] border-[1px] border-stroke flex justify-between items-center">
+                        <img src={dragIcon} alt="" className=" size-[24px]" />
                         <img src={deleteIcon} alt="" className="size-[24px]" />
                     </div>
                 ))}
@@ -88,17 +89,16 @@ const AdminTable = ({content, onEdit}: Props) => {
             </div>
             <div className="w-full h-full">
             <ReactSortable
-                    dragClass="sortableDrag"
                     list={changableRows}
                     setList={updateRows}
                     animation={200}
                     easing="ease-out"
                     direction={'vertical'}
-                    
+                    handle=".dragHandle"
                 >
             {changableRows.map((row)=>(
                     <div style={{"backgroundColor":row.color}} key={row.id} className={`flex h-[152px]`}>
-                        <div className="min-w-[40px] h-[152px] bg-[#F6F6F6] border-[1px] border-stroke">
+                        <div className="dragHandle min-w-[40px] h-[152px] bg-[#F6F6F6] border-[1px] border-stroke">
                             <img src={dragIcon} alt="" className="size-[24px] mx-auto mt-[8px]" />
                             <div className={`size-[20px] mt-[32px] mx-auto outline-[1px] rounded-[4px] bg-table-yellow outline-offset-[1px] outline-accent`}/>
                             <img src={deleteIcon} alt="" className="size-[24px] mx-auto mt-[32px]" />
