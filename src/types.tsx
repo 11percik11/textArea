@@ -16,7 +16,7 @@ export interface Table {
   rows: {
     title: string;
     id: number;
-    color: string;
+    color?: string;
     timelineFlag: boolean; //mb type
     content: Cell[];
   }[];

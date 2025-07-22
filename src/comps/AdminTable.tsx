@@ -134,7 +134,7 @@ const AdminTable = ({ content, onEdit }: Props) => {
                 {row.title} + {row.color}
               </div>
               {row.content.map((cell, colIndex) => (
-                <AdminCell color={row.color} key={colIndex} data={cell} />
+                <AdminCell color={row.color || "#FFFFFF"} key={colIndex} data={cell} />
               ))}
             </div>
           ))}

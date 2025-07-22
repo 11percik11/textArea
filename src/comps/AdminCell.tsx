@@ -1,6 +1,5 @@
 import type { Cell } from "../types";
 import imageIcon from "../assets/icons/imageIcon.svg";
-import textIcon from "../assets/icons/textIcon.svg";
 import tableIcon from "../assets/icons/tableIcon.svg";
 import videoIcon from "../assets/icons/videoIcon.svg";
 import documentIcon from "../assets/icons/Document Text.svg";
@@ -46,7 +45,9 @@ const AdminCell = ({ data, color }: Props) => {
             <img src={imagesIcon} alt="image" className="size-[24px]" />
           </div>
         )}
-        {data.files?.map((file, index: number) => (
+        {
+          //@ts-ignore
+          data.files?.map((file, index: number) => (
           <div
             key={index}
             className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center"

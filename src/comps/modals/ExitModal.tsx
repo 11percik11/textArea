@@ -5,7 +5,7 @@ type Props = {
 
 const ExitModal = ({ onNo, onYes }: Props) => {
   return (
-    <div className="animate-appear w-full h-full fixed bg-[#00000099] top-0 left-0 flex items-center justify-center">
+    <div className="z-100 animate-appear w-full h-full fixed bg-[#00000099] top-0 left-0 flex items-center justify-center">
       <div className="w-[764px] h-[206px] bg-white rounded-[32px] p-[32px]">
         <div className="text-[32px] text-accent font-bold leading-[120%] text-center">
           Выйти из режима администратора?

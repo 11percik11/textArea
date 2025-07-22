@@ -1,19 +1,35 @@
 import { useState } from "react";
 import exitIcon from "../assets/icons/exitIcon.svg";
 import ExitModal from "../comps/modals/ExitModal";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import arrIcon from "../assets/icons/arrSimple.svg";
 import ChooseTemplate from "../comps/ChooseTemplate";
 import FilesAdder from "../comps/FilesAdder";
 import addIcon from "../assets/icons/addIcon.svg";
 
 const CellEditPage = () => {
+
+  //const testMedia: { id: number; type: string; url: string }[] = []; 
+
+
   const [isExitModalOpen, setExitModalOpen] = useState(false);
-  const [isCellExist, setCellExist] = useState(false);
+  const [isCellExist] = useState(false);
+
+
+  //const [isKeyboardOpen, setKeyboardOpen] = useState(false);
+  const [titleValue] = useState("");
+  const [timelineValue] = useState("");
+  //const [textBlockValue, setTextBlockValue] = useState("");
+
+  //const [media, setMedia] = useState(testMedia);
+
+
+
   const navigate = useNavigate();
-  const params = useParams();
+  //const params = useParams();
   const handleBack = () => {};
   const [selectedTemplate, setSelectedTemplate] = useState(0); //потом поменять на cell type
+  const [isTimeline] = useState(true);
   return (
     <div className="animate-appear w-full h-full p-[32px]">
       <div className="flex justify-between items-center gap-[16px]">
@@ -44,7 +60,33 @@ const CellEditPage = () => {
           selectedTemplate={selectedTemplate}
           setSelectedTemplate={(type) => setSelectedTemplate(type)}
         />
-        <div className="w-[1232px] h-[928px] bg-black"></div>
+        <div className="w-[1232px] h-[928px]">
+          <div className="w-[1232px] h-[92px] flex gap-[16px]">
+            <div className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
+              <span className="text-[16px] text-accent font-bold">
+                Название{!isTimeline && "*"}
+              </span>
+              <input value={titleValue} placeholder="Укажите название" className="w-full h-[20px] mt-[8px] text-text"/>
+            </div>
+            <div hidden={!isTimeline} className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
+              <span className="text-[16px] text-accent font-bold">
+                Значение*
+              </span>
+              <input value={timelineValue} placeholder="Укажите временной период" className="w-full h-[20px] mt-[8px] text-text"/>
+
+            </div>
+          </div>
+          <div hidden={selectedTemplate !== 2 && selectedTemplate!== 1} className="w-[1232px] min-h-[160px] max-h-[288px] rounded-[24px] bg-white mt-[16px] p-[24px]">
+          <span className="text-[16px] text-accent font-bold">
+                Медиа
+              </span>
+          </div>
+          <div hidden={selectedTemplate !== 0 && selectedTemplate!== 2} className={`w-[1232px] mt-[16px] h-fill min-h-[516px] rounded-[24px] bg-white p-[24px]`}>
+          <span className="text-[16px] text-accent font-bold">
+                Текст
+              </span>
+          </div>
+        </div>
         <div className="w-[296px] h-[928px]">
           <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
             <div className="text-center mx-auto text-accent text-[32px] font-bold">

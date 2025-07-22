@@ -10,6 +10,7 @@ type Props = {
 const PasswordModal = ({ onBack }: Props) => {
   const navigate = useNavigate();
   const testPass = "1204";
+  const [errorSettled, setErrorSettled] = useState(false);
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [enteredPassword, setEnteredPassword] = useState("");
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +18,7 @@ const PasswordModal = ({ onBack }: Props) => {
   };
   return (
     <div className="animate-appear w-full h-full bg-[#00000099] backdrop-blur-[40px] fixed z-100">
-      <div className="mt-[192px] text-center text-white text-[32px] font-bold leading-[120%]">
+      <div className={`mt-[192px] text-center ${errorSettled ? "text-[#FF9797] animate-shake" : "text-white"} text-[32px] font-bold leading-[120%]`}>
         Введите пароль
       </div>
       <input
@@ -54,7 +55,7 @@ const PasswordModal = ({ onBack }: Props) => {
             }}
             className="active:bg-[#75757533] flex items-center justify-center leading-[100%] font-semibold text-white text-[32px] text-center w-[140px] h-[84px] rounded-[24px] bg-[#FFFFFF33]"
           >
-            {0}
+            0
           </div>
           <div
             onClick={() => {
@@ -62,6 +63,7 @@ const PasswordModal = ({ onBack }: Props) => {
                 navigate("/admin");
                 onBack();
               } else {
+                setErrorSettled(true);
                 setEnteredPassword("");
               }
             }}

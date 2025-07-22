@@ -24,7 +24,7 @@ const PdfReader = ({ onClose, title }: Props) => {
     canvasRef: canvasRef2,
   });
   return (
-    <div className="w-[1920px] h-[1080px] bg-[#00000099] fixed top-0 left-0">
+    <div className="z-100 w-[1920px] h-[1080px] bg-[#00000099] fixed top-0 left-0">
       <div className="mx-auto w-[1232px] h-[904px] bg-white rounded-[32px] p-[32px] mt-[32px]">
         <div className="w-[1168px] h-[56px] flex justify-between text-left items-center text-[32px] text-accent font-bold leading-[120%]">
           {title}
@@ -49,7 +49,7 @@ const PdfReader = ({ onClose, title }: Props) => {
           )}
         </div>
       </div>
-        <div className="p-[8px] w-[608px] h-[96px] rounded-[32px] bg-white fixed bottom-[32px] left-0 right-0 mx-auto flex gap-[8px]">
+        <div className="z-100 p-[8px] w-[608px] h-[96px] rounded-[32px] bg-white fixed bottom-[32px] left-0 right-0 mx-auto flex gap-[8px]">
           <button
             className="disabled:opacity-[20%] size-[80px] bg-accent p-[24px] rounded-[24px]"
             disabled={page === 1}
