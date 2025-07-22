@@ -27,7 +27,7 @@ const CellEditPage = () => {
 
   const navigate = useNavigate();
   //const params = useParams();
-  const handleBack = () => {};
+  const handleBack = () => {navigate(-1)};
   const [selectedTemplate, setSelectedTemplate] = useState(0); //потом поменять на cell type
   const [isTimeline] = useState(true);
   return (

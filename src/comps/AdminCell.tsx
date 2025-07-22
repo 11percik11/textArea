@@ -4,14 +4,17 @@ import tableIcon from "../assets/icons/tableIcon.svg";
 import videoIcon from "../assets/icons/videoIcon.svg";
 import documentIcon from "../assets/icons/Document Text.svg";
 import imagesIcon from "../assets/icons/AlbumIcon.svg";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   data: Cell;
   color: string;
 };
 const AdminCell = ({ data, color }: Props) => {
+  const navigate = useNavigate();
   return (
     <div
+      onClick={() => navigate("/celledit")}
       style={{ backgroundColor: color }}
       className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}
     >

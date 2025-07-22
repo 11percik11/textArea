@@ -22,7 +22,8 @@ const AdminTable = ({ content, onEdit }: Props) => {
 
   useEffect(() => {
     onEdit(finishedTable.current);
-  }, [finishedTable]);
+    console.log(finishedTable.current)
+  }, [finishedTable.current]);
 
   const makeMagic = (firstRowNewContent: Cell[]) => {
     const resultData: Table["rows"] = JSON.parse(
