@@ -1,24 +1,41 @@
-export interface Cell {
-  id: number;
-  type: string; //text, text&media, media
-  timelineFlag?: boolean; //maybe wont appear
-  isTitleHidden?: boolean;
-  title?: string; //can be undefined in timeline
-  value?: string; //only in timeline, must be defined
-  media?: { id: number; type: string; url: string }[]; //array of links, support videos and images
-  text?: string;
-  files?: { id: number; type: string; url: string }[]; //maybe will be blob[];
-  tableId?: number;
+export interface Cell 
+{
+  "id": number | null,
+  "sequence": number,
+  "title": string,
+  "isTitleVisible": boolean,
+  "type": string,
+  "description": string,
+  "images": any[],
+  "files": any[]
 }
 
-export interface Table {
-  id: number;
-  rows: {
-    title: string;
-    id: number;
-    color?: string;
-    timelineFlag: boolean; //mb type
-    content: Cell[];
-  }[];
-  parentId?: number; //undefined on main table
+export interface Spreadsheet
+{
+  "id": number | null,
+  "title": string,
+  "rows": 
+    {
+      "id": number | null,
+      "title": string,
+      "color": string,
+      "sequence": number,
+      "isTimeScale": boolean,
+      "cells":
+        {
+          "id": number | null,
+          "sequence": number,
+          "title": string,
+          "isTitleVisible": boolean,
+          "type": string,
+          "description": string,
+          "images": any[],
+          "files": any[]
+        }[]
+    }[],
+  "parentCell": {
+    "id": number,
+    "title": string,
+    "sequence": number
+  }
 }

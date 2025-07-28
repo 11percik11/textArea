@@ -1,22 +1,40 @@
 import AdminTable from "../comps/AdminTable";
 import MenuSwipe from "../comps/MenuSwipe";
 import exitIcon from "../assets/icons/exitIcon.svg";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ExitModal from "../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
 import arrIcon from "../assets/icons/grayArrIcon.svg";
 import addIcon from "../assets/icons/addIcon.svg";
-import type { Table } from "../types";
+import type { Cell, Spreadsheet } from "../types";
+import axios from "axios";
 
 const AdminPage = () => {
   const [isExitModalOpen, setExitModalOpen] = useState(false);
+
+
+  
   //@ts-ignore
-  const table: Table = window.__testable__.nature;
-  const [currTable, setCurrTable] = useState(table.rows);
+  const apiUrl = window.__API_CONFIG__.apiUrl;
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(()=>{
+    axios
+    .get(apiUrl + `api/spreadsheet`)
+    .then((response) => {
+      setTable(response.data[0]);
+      setCurrTable(response.data[0].rows);
+      setIsLoading(false);
+    })
+    .catch(() => {
+      console.error("Ошибка получения информации");
+    });
+  },[]);
+  const [table, setTable] = useState<Spreadsheet | null>(null);
+  const [currTable, setCurrTable] = useState<Spreadsheet["rows"]>([]);
   const navigate = useNavigate();
-  const cols = currTable[0].content.length;
-  const rows = currTable.length;
-  return (
+  const cols = useRef(currTable[0]?.cells.length);
+  const rows = useRef(currTable?.length);
+  return ( 
     <div className="animate-appear w-full h-full p-[32px]">
       <div className="flex justify-between items-center gap-[16px]">
         <button
@@ -29,7 +47,7 @@ const AdminPage = () => {
           Главные таблицы
         </div>
         <button
-          disabled={JSON.stringify(currTable) == JSON.stringify(table.rows)}
+          disabled={JSON.stringify(currTable) == JSON.stringify(table?.rows)}
           className="w-[296px] h-[72px] rounded-[24px] text-white text-[24px] font-semibold flex items-center justify-center bg-accent disabled:opacity-[20%]"
         >
           Сохранить
@@ -40,7 +58,7 @@ const AdminPage = () => {
           <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
             Колонки
             <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-              {cols}
+              {currTable[0]?.cells.length}
               <img src={arrIcon} alt="cols" className="size-[32px]" />
             </div>
           </div>
@@ -50,12 +68,26 @@ const AdminPage = () => {
         </button>
         <button
           onClick={() => {
+            const cellsTemp = [];
+            for(let i = 0; i < currTable[0].cells.length; i++) {
+              cellsTemp.push({
+                "id": null,
+                "sequence": i+1,
+                "title": "",
+                "isTitleVisible": true,
+                "type": "text",
+                "description": "",
+                "images": [],
+                "files": []
+              })
+            }
             const rowTemp = {
+              sequence: currTable.length + 1,
               title: "",
-              id: rows + 1,
+              id: null,
               color: "#FFFFFF",
-              timelineFlag: false,
-              content: currTable[0].content,
+              isTimeScale: false,
+              cells: cellsTemp,
             };
             setCurrTable([...currTable, rowTemp]);
           }}
@@ -64,7 +96,7 @@ const AdminPage = () => {
           <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
             Строки
             <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-              {rows}
+              {currTable.length}
               <img
                 src={arrIcon}
                 alt="rows"

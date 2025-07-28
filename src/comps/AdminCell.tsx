@@ -1,4 +1,4 @@
-import type { Cell } from "../types";
+import type { Cell, Spreadsheet } from "../types";
 import imageIcon from "../assets/icons/imageIcon.svg";
 import tableIcon from "../assets/icons/tableIcon.svg";
 import videoIcon from "../assets/icons/videoIcon.svg";
@@ -7,7 +7,7 @@ import imagesIcon from "../assets/icons/AlbumIcon.svg";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  data: Cell;
+  data: any;
   color: string;
 };
 const AdminCell = ({ data, color }: Props) => {
@@ -24,7 +24,7 @@ const AdminCell = ({ data, color }: Props) => {
       >
         {data.media &&
           data.media.length <= 5 &&
-          data.media?.map((media, index: number) => (
+          data.media?.map((media: any, index: number) => (
             <div
               key={index}
               className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center"

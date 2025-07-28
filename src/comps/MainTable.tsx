@@ -1,8 +1,9 @@
-import type { Cell, Table } from "../types";
+import { useEffect, useState } from "react";
+import type { Cell, Spreadsheet, Table } from "../types";
 import MainCell from "./MainCell";
 
 type Props = {
-  content: Table;
+  content: Spreadsheet | null;
   onCellInfoOpen: (id: number) => void;
 };
 
@@ -15,14 +16,14 @@ const MainTable = ({ onCellInfoOpen, content }: Props) => {
   ];
   return (
     <div className="w-[1856px] border-[2px] border-stroke rounded-[24px] overflow-auto">
-      {content.rows.map((row, index: number) => (
+      {content?.rows.map((row, index: number) => (
         <div key={index} style={{backgroundColor: row.color}} className={`flex`}>
           <div
             className={`bg-[#0000001A] border-[1px] border-stroke min-w-[232px] max-w-[232px] px-[24px] py-[40px] text-[20px] text-text font-bold leading-[100%] text-center`}
           >
             {testTitles[index]}
           </div>
-          {row.content.map((cell: Cell, cellIndex: number) => (
+          {row.cells.map((cell: Cell, cellIndex: number) => (
             <div
               style={{backgroundColor: row.color}}
               key={cellIndex}
