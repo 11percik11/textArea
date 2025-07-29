@@ -7,14 +7,15 @@ import imagesIcon from "../assets/icons/AlbumIcon.svg";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  data: any;
+  onSelectCell: (data: Cell) => void;
+  data: Cell;
   color: string;
 };
-const AdminCell = ({ data, color }: Props) => {
+const AdminCell = ({ data, color, onSelectCell }: Props) => {
   const navigate = useNavigate();
   return (
     <div
-      onClick={() => navigate("/celledit")}
+      onClick={() => {onSelectCell(data); navigate("/celledit")}}
       style={{ backgroundColor: color }}
       className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}
     >
@@ -22,9 +23,9 @@ const AdminCell = ({ data, color }: Props) => {
         hidden={!data.id}
         className="w-[376px] h-[56px] flex gap-[8px] justify-left items-center"
       >
-        {data.media &&
-          data.media.length <= 5 &&
-          data.media?.map((media: any, index: number) => (
+        {data.images &&
+          data.images.length <= 5 &&
+          data.images?.map((media: any, index: number) => (
             <div
               key={index}
               className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center"
@@ -43,7 +44,7 @@ const AdminCell = ({ data, color }: Props) => {
               />
             </div>
           ))}
-        {data.media && data.media.length > 5 && (
+        {data.images && data.images.length > 5 && (
           <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
             <img src={imagesIcon} alt="image" className="size-[24px]" />
           </div>
@@ -58,11 +59,12 @@ const AdminCell = ({ data, color }: Props) => {
             <img src={documentIcon} alt="document" className="size-[24px]" />
           </div>
         ))}
-        {!!data.tableId && (
+{/*         {!!data.tableId // узнать как будут цепляться таблицы
+         && (
           <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
             <img src={tableIcon} alt="table" className="size-[24px]" />
           </div>
-        )}
+        )} */}
       </div>
       <div
         hidden={!data.id}

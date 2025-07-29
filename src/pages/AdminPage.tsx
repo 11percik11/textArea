@@ -9,7 +9,11 @@ import addIcon from "../assets/icons/addIcon.svg";
 import type { Cell, Spreadsheet } from "../types";
 import axios from "axios";
 
-const AdminPage = () => {
+type Props = {
+  onSelectCell: (data: Cell) => void;
+}
+
+const AdminPage = ({onSelectCell}: Props) => {
   const [isExitModalOpen, setExitModalOpen] = useState(false);
 
 
@@ -73,7 +77,7 @@ const AdminPage = () => {
               cellsTemp.push({
                 "id": null,
                 "sequence": i+1,
-                "title": "",
+                "title": null,
                 "isTitleVisible": true,
                 "type": "text",
                 "description": "",
@@ -110,6 +114,7 @@ const AdminPage = () => {
         </button>
       </div>
       <AdminTable
+      onSelectCell={(data) => onSelectCell(data)}
         onEdit={(editedTable) => {
           setCurrTable(editedTable);
         }}

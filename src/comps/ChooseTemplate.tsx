@@ -4,8 +4,8 @@ import tmImg from "../assets/images/template image text and media.svg";
 import textImg from "../assets/images/template image text.svg";
 
 type Props = {
-  selectedTemplate: number; // 0 - text, 1 - media, 2 - text & media, 3 - table
-  setSelectedTemplate: (type: number) => void;
+  selectedTemplate: string;
+  setSelectedTemplate: (type: string) => void;
 };
 
 const ChooseTemplate = ({ selectedTemplate, setSelectedTemplate }: Props) => {
@@ -15,8 +15,8 @@ const ChooseTemplate = ({ selectedTemplate, setSelectedTemplate }: Props) => {
         Шаблоны
       </div>
       <div
-        onClick={() => setSelectedTemplate(0)}
-        className={`mt-[16px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == 0 ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
+        onClick={() => setSelectedTemplate("text")}
+        className={`mt-[16px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == "text" ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
       >
         Текст
         <img
@@ -26,8 +26,8 @@ const ChooseTemplate = ({ selectedTemplate, setSelectedTemplate }: Props) => {
         />
       </div>
       <div
-        onClick={() => setSelectedTemplate(1)}
-        className={`mt-[8px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == 1 ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
+        onClick={() => setSelectedTemplate("media")}
+        className={`mt-[8px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == "media" ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
       >
         Медиа
         <img
@@ -37,8 +37,8 @@ const ChooseTemplate = ({ selectedTemplate, setSelectedTemplate }: Props) => {
         />
       </div>
       <div
-        onClick={() => setSelectedTemplate(2)}
-        className={`mt-[8px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == 2 ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
+        onClick={() => setSelectedTemplate("t&m")}
+        className={`mt-[8px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == "t&m" ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
       >
         Текст и медиа
         <img
@@ -48,8 +48,8 @@ const ChooseTemplate = ({ selectedTemplate, setSelectedTemplate }: Props) => {
         />
       </div>
       <div
-        onClick={() => setSelectedTemplate(3)}
-        className={`mt-[8px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == 3 ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
+        onClick={() => setSelectedTemplate("table")}
+        className={`mt-[8px] text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == "table" ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
       >
         Таблица
         <img

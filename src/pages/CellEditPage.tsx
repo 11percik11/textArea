@@ -6,9 +6,16 @@ import arrIcon from "../assets/icons/arrSimple.svg";
 import ChooseTemplate from "../comps/ChooseTemplate";
 import FilesAdder from "../comps/FilesAdder";
 import addIcon from "../assets/icons/addIcon.svg";
+import type { Cell } from "../types";
 
-const CellEditPage = () => {
+type Props = {
+  data: Cell | null;
+}
 
+const CellEditPage = ({data}: Props) => {
+  const applyCell = () => {
+
+  }
   //const testMedia: { id: number; type: string; url: string }[] = []; 
 
 
@@ -17,9 +24,9 @@ const CellEditPage = () => {
 
 
   //const [isKeyboardOpen, setKeyboardOpen] = useState(false);
-  const [titleValue] = useState("");
-  const [timelineValue] = useState("");
-  //const [textBlockValue, setTextBlockValue] = useState("");
+  const [titleValue, setTitleValue] = useState(data?.title);
+  const [timelineValue, setTimelineValue] = useState("");
+  const [textBlockValue, setTextBlockValue] = useState(data?.description);
 
   //const [media, setMedia] = useState(testMedia);
 
@@ -28,8 +35,8 @@ const CellEditPage = () => {
   const navigate = useNavigate();
   //const params = useParams();
   const handleBack = () => {navigate(-1)};
-  const [selectedTemplate, setSelectedTemplate] = useState(0); //потом поменять на cell type
-  const [isTimeline] = useState(true);
+  const [selectedTemplate, setSelectedTemplate] = useState<string>(data?.type || "text"); //text, media, t&m, table
+  const [isTimeline] = useState();
   return (
     <div className="animate-appear w-full h-full p-[32px]">
       <div className="flex justify-between items-center gap-[16px]">
@@ -76,15 +83,16 @@ const CellEditPage = () => {
 
             </div>
           </div>
-          <div hidden={selectedTemplate !== 2 && selectedTemplate!== 1} className="w-[1232px] min-h-[160px] max-h-[288px] rounded-[24px] bg-white mt-[16px] p-[24px]">
+          <div hidden={selectedTemplate !== "t&m" && selectedTemplate!== "media"} className="w-[1232px] min-h-[160px] max-h-[288px] rounded-[24px] bg-white mt-[16px] p-[24px]">
           <span className="text-[16px] text-accent font-bold">
                 Медиа
               </span>
           </div>
-          <div hidden={selectedTemplate !== 0 && selectedTemplate!== 2} className={`w-[1232px] mt-[16px] h-fill min-h-[516px] rounded-[24px] bg-white p-[24px]`}>
-          <span className="text-[16px] text-accent font-bold">
+          <div hidden={selectedTemplate !== "text" && selectedTemplate!== "t&m"} className={`w-[1232px] mt-[16px] h-fill min-h-[516px] rounded-[24px] bg-white p-[24px]`}>
+          <span className="text-[16px] text-accent font-bold w-[1184px] h-[16px]">
                 Текст
               </span>
+              <input value={textBlockValue} className="w-full h-full text-text"/>
           </div>
         </div>
         <div className="w-[296px] h-[928px]">

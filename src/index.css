@@ -79,10 +79,6 @@
 }
 
 /* Для всех сортируемых элементов */
-.react-sortable {
-  -webkit-user-select: none;
-  user-select: none;
-}
 
 input {
   outline: none;
