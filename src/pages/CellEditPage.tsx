@@ -16,12 +16,14 @@ type Props = {
 const CellEditPage = ({data}: Props) => {
   //@ts-ignore
   const apiUrl = window.__API_CONFIG__.apiUrl;
+  const [isLoading, setIsLoading] = useState(false);
   const applyCell = () => {
+    setIsLoading(true);
     const formData = new FormData();
     formData.append('id', data?.id?.toString() || "");
     formData.append('title', titleValue || "");
-    formData.append('description', 'Тестовое описание');
-    formData.append('type', 'text');
+    formData.append('description', textBlockValue || "");
+    formData.append('type', selectedTemplate);
     formData.append('keep_images', '');
     formData.append('keep_files', '');
     formData.append('images', '');
@@ -34,25 +36,38 @@ const CellEditPage = ({data}: Props) => {
     })
     .then(response => {
       console.log(response.data);
+      setIsLoading(false);
     })
     .catch(error => {
       console.error('Error:', error);
     });
   };
+  const [titleValue, setTitleValue] = useState(data?.title);
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitleValue(event.target.value);
   };
+
+  const [timelineValue, setTimelineValue] = useState("");
+  const handleTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTimelineValue(event.target.value);
+  };
+
+  const [textBlockValue, setTextBlockValue] = useState(data?.description);
+  const handleTextBlocklineChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTextBlockValue(event.target.value);
+  };
+
+  const [media, setMedia] = useState(data?.images);
+  const [files, setFiles] = useState(data?.files);
 
   const [isExitModalOpen, setExitModalOpen] = useState(false);
   const [isTableCellExist] = useState(false);
 
 
   //const [isKeyboardOpen, setKeyboardOpen] = useState(false);
-  const [titleValue, setTitleValue] = useState(data?.title);
-  const [timelineValue, setTimelineValue] = useState("");
-  const [textBlockValue, setTextBlockValue] = useState(data?.description);
 
-  const [media, setMedia] = useState(data?.images);
+
+
 
 
 
@@ -63,6 +78,9 @@ const CellEditPage = ({data}: Props) => {
   const [isTimeline] = useState();
   return (
     <div className="animate-appear w-full h-full p-[32px]">
+      {isLoading && 
+        <div className="fixed mx-auto left-0 right-0 my-auto top-0 bottom-0 size-[100px] rounded-full border-[17px] border-dotted border-accent animate-spin"/>
+      }
       <div className="flex justify-between items-center gap-[16px]">
         <button
           onClick={() => setExitModalOpen(true)}
@@ -104,7 +122,7 @@ const CellEditPage = ({data}: Props) => {
               <span className="text-[16px] text-accent font-bold">
                 Значение*
               </span>
-              <input value={timelineValue} placeholder="Укажите временной период" className="w-full h-[20px] mt-[8px] text-text"/>
+              <input onChange={handleTimelineChange} value={timelineValue} placeholder="Укажите временной период" className="w-full h-[20px] mt-[8px] text-text"/>
 
             </div>
           </div>
@@ -117,7 +135,7 @@ const CellEditPage = ({data}: Props) => {
           <span className="text-[16px] text-accent font-bold w-[1184px] h-[16px]">
                 Текст
               </span>
-              <input value={textBlockValue} className="w-full h-full text-text"/>
+              <input onChange={handleTextBlocklineChange} value={textBlockValue} className="w-full h-full text-text"/>
           </div>
         </div>
         <div className="w-[296px] h-[928px]">
@@ -136,7 +154,7 @@ const CellEditPage = ({data}: Props) => {
               Сначала создайте ячейку
             </div>
           </div>
-          <FilesAdder files={data?.files || []}/>
+          <FilesAdder files={files || []}/>
         </div>
       </div>
       {isExitModalOpen && (

@@ -93,6 +93,7 @@ const AdminPage = ({onSelectCell}: Props) => {
               isTimeScale: false,
               cells: cellsTemp,
             };
+            //@ts-ignore
             setCurrTable([...currTable, rowTemp]);
           }}
           className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]"
