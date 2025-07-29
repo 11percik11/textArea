@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ChangeEvent } from "react";
 import exitIcon from "../assets/icons/exitIcon.svg";
 import ExitModal from "../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
@@ -7,20 +7,44 @@ import ChooseTemplate from "../comps/ChooseTemplate";
 import FilesAdder from "../comps/FilesAdder";
 import addIcon from "../assets/icons/addIcon.svg";
 import type { Cell } from "../types";
+import axios from "axios";
 
 type Props = {
   data: Cell | null;
 }
 
 const CellEditPage = ({data}: Props) => {
+  //@ts-ignore
+  const apiUrl = window.__API_CONFIG__.apiUrl;
   const applyCell = () => {
-
-  }
-  //const testMedia: { id: number; type: string; url: string }[] = []; 
-
+    const formData = new FormData();
+    formData.append('id', data?.id?.toString() || "");
+    formData.append('title', titleValue || "");
+    formData.append('description', 'Тестовое описание');
+    formData.append('type', 'text');
+    formData.append('keep_images', '');
+    formData.append('keep_files', '');
+    formData.append('images', '');
+    formData.append('files', ''); 
+    axios.post(`${apiUrl}api/cells`, formData, {
+      headers: {
+        'accept': 'application/json',
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(response => {
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  };
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitleValue(event.target.value);
+  };
 
   const [isExitModalOpen, setExitModalOpen] = useState(false);
-  const [isCellExist] = useState(false);
+  const [isTableCellExist] = useState(false);
 
 
   //const [isKeyboardOpen, setKeyboardOpen] = useState(false);
@@ -28,7 +52,7 @@ const CellEditPage = ({data}: Props) => {
   const [timelineValue, setTimelineValue] = useState("");
   const [textBlockValue, setTextBlockValue] = useState(data?.description);
 
-  //const [media, setMedia] = useState(testMedia);
+  const [media, setMedia] = useState(data?.images);
 
 
 
@@ -56,6 +80,7 @@ const CellEditPage = ({data}: Props) => {
           Редактирование ячейки
         </div>
         <button
+        onClick={applyCell}
           disabled={false}
           className="w-[296px] h-[72px] rounded-[24px] text-white text-[24px] font-semibold flex items-center justify-center bg-accent disabled:opacity-[20%]"
         >
@@ -73,7 +98,7 @@ const CellEditPage = ({data}: Props) => {
               <span className="text-[16px] text-accent font-bold">
                 Название{!isTimeline && "*"}
               </span>
-              <input value={titleValue} placeholder="Укажите название" className="w-full h-[20px] mt-[8px] text-text"/>
+              <input onChange={handleTitleChange} value={titleValue} placeholder="Укажите название" className="w-full h-[20px] mt-[8px] text-text"/>
             </div>
             <div hidden={!isTimeline} className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
               <span className="text-[16px] text-accent font-bold">
@@ -101,7 +126,7 @@ const CellEditPage = ({data}: Props) => {
               Таблица
             </div>
             <button
-              disabled={!isCellExist}
+              disabled={!isTableCellExist}
               className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
             >
               <img src={addIcon} alt="add" className="size-[32px]" />
@@ -111,7 +136,7 @@ const CellEditPage = ({data}: Props) => {
               Сначала создайте ячейку
             </div>
           </div>
-          <FilesAdder />
+          <FilesAdder files={data?.files || []}/>
         </div>
       </div>
       {isExitModalOpen && (

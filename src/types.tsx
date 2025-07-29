@@ -7,7 +7,19 @@ export interface Cell
   "type": string,
   "description": string,
   "images": any[],
-  "files": any[]
+  "files": FileType[]
+}
+
+export interface FileType{
+  title: string,
+  type: string,
+  src?: Blob
+}
+
+export interface ImageType{
+  title: string,
+  type: string,
+  src?: Blob
 }
 
 export interface Spreadsheet

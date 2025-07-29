@@ -1,19 +1,24 @@
 import refreshIcon from "../assets/icons/Refresh.svg";
 import deleteIcon from "../assets/icons/deleteIcon.svg";
 import addIcon from "../assets/icons/addIcon.svg";
+import type { FileType } from "../types";
 
-const FilesAdder = () => {
+type Props = {
+  files: FileType[];
+}
+
+const FilesAdder = ({files}: Props) => {
   return (
     <div className="w-[296px] h-[740px] bg-white rounded-[24px] mt-[16px] p-[16px]">
       <div className="text-[32px] text-accent font-bold text-center">Файлы</div>
       <div className="w-[264px] h-[556px] overflow-y-auto overflow-x-hidden">
-        {[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map(
-          () => (
-            <div className="mt-[16px] max-w-[264px] h-[106px] rounded-[14px] bg-[#0046621A] p-[16px]">
+        {files.map(
+          (file, index) => (
+            <div key={index} className="mt-[16px] max-w-[264px] h-[106px] rounded-[14px] bg-[#0046621A] p-[16px]">
               <div className="flex w-full justify-between font-normal text-text text-[16px] mb-[8px]">
-                {"Название"}
+                {file.title}
                 <div className="text-[12px] font-bold w-[49px] h-[32px] rounded-[17px] bg-[#FFFFFF80] flex text-center justify-center items-center">
-                  {".pdf"}
+                  {file.type}
                 </div>
               </div>
               <div className="flex w-full justify-between font-normal text-text text-[16px] mb-[8px]">
