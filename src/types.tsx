@@ -41,8 +41,8 @@ export interface Spreadsheet
           "isTitleVisible": boolean,
           "type": string,
           "description": string,
-          "images": any[],
-          "files": any[]
+          "images": ImageType[],
+          "files": FileType[]
         }[]
     }[],
   "parentCell": {

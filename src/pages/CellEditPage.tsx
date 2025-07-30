@@ -57,8 +57,8 @@ const CellEditPage = ({data}: Props) => {
     setTextBlockValue(event.target.value);
   };
 
-  const [media, setMedia] = useState(data?.images);
-  const [files, setFiles] = useState(data?.files);
+  const [media, setMedia] = useState(data?.images || []);
+  const [files, setFiles] = useState(data?.files || []);
 
   const [isExitModalOpen, setExitModalOpen] = useState(false);
   const [isTableCellExist] = useState(false);
@@ -130,6 +130,42 @@ const CellEditPage = ({data}: Props) => {
           <span className="text-[16px] text-accent font-bold">
                 Медиа
               </span>
+            <div className="w-[1184px] h-[80px] mt-[16px]">
+              <div className="w-[413px] h-[16px] flex gap-[12px]">
+                {[".jpeg", ".png", ".mp4", ".mov", ".avi", ".webp", ".webm", ".gif"].map((format, index)=>(
+                  <div key={index} className="font-bold text-[16px] text-[#C9C9C9]">
+                    {format}
+                  </div>
+                ))}
+              </div>
+              <button
+              className="disabled:opacity-[20%] mt-[8px] w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
+            >
+              <label>
+<input
+                  accept=".png, .jpeg, .mp4, .mov, .avi, .jpg, .wepb, .webm, .gif"
+                  hidden={false}
+                  id="imgInput"
+                  type="file"
+                  className="xl:size-[396px] lg:size-[436px] size-[328px] absolute opacity-0"
+                  onChange={(event) => {
+                    if (
+                      event.target.files &&
+                      event.target.files[0].size > 8388608
+                    )
+                      alert("Слишком большой файл");
+                    else
+                      setMedia((prevMedia) => [
+                        ...prevMedia,
+                        ...Array.from(event.target.files!),
+                      ]);
+                  }}
+                />
+              </label>
+              <img src={addIcon} alt="add" className="size-[32px]" />
+              Добавить
+            </button>
+            </div>
           </div>
           <div hidden={selectedTemplate !== "text" && selectedTemplate!== "t&m"} className={`w-[1232px] mt-[16px] h-fill min-h-[516px] rounded-[24px] bg-white p-[24px]`}>
           <span className="text-[16px] text-accent font-bold w-[1184px] h-[16px]">
