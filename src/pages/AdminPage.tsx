@@ -11,75 +11,75 @@ import axios from "axios";
 
 type Props = {
   onSelectCell: (data: Cell) => void;
-}
+};
 
-const AdminPage = ({onSelectCell}: Props) => {
+const AdminPage = ({ onSelectCell }: Props) => {
   const [isExitModalOpen, setExitModalOpen] = useState(false);
 
-
-  
   //@ts-ignore
   const apiUrl = window.__API_CONFIG__.apiUrl;
   const [isLoading, setIsLoading] = useState(true);
   const onAddRow = (table: Spreadsheet | null) => {
-    if (table === null) 
-      return;
-    const cells = Array.from({ length: table.rows[0].cells.length }, (_, index) => ({
-      id: null,
-      sequence: index + 1
-    }));
+    if (table === null) return;
+    const cells = Array.from(
+      { length: table.rows[0].cells.length },
+      (_, index) => ({
+        id: null,
+        sequence: index + 1,
+      }),
+    );
 
-
-
-    axios.patch(
-  apiUrl + 'api/rows',
-  {
-    rows: [{
-      id: null,
-      title: "",
-      sequence: table.rows.length+1,
-      cells: cells
-    }]
-  },
-  {
-    headers: {
-      'accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    params: {
-      spreadsheetId: table.id
-    }
-  }
-)
-    .then((response) => {
-      console.log(response);
-      getTable();
-    })
-    .catch((e) => {
-      console.log(e);
-    })
-  }
-
+    axios
+      .patch(
+        apiUrl + "api/rows",
+        {
+          rows: [
+            {
+              id: null,
+              title: "",
+              sequence: table.rows.length + 1,
+              cells: cells,
+            },
+          ],
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          params: {
+            spreadsheetId: table.id,
+          },
+        },
+      )
+      .then((response) => {
+        console.log(response);
+        getTable();
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const getTable = () => {
     axios
-    .get(apiUrl + `api/spreadsheet`)
-    .then((response) => {
-      setTable(response.data[0]);
-      setCurrTable(response.data[0].rows);
-      setIsLoading(false);
-    })
-    .catch(() => {
-      console.error("Ошибка получения информации");
-    });
-  }
-  useEffect(()=>{
+      .get(apiUrl + `api/spreadsheet`)
+      .then((response) => {
+        setTable(response.data[0]);
+        setCurrTable(response.data[0].rows);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        console.error("Ошибка получения информации");
+      });
+  };
+  useEffect(() => {
     getTable();
-  },[]);
+  }, []);
   const [table, setTable] = useState<Spreadsheet | null>(null);
   const [currTable, setCurrTable] = useState<Spreadsheet["rows"]>([]);
   const navigate = useNavigate();
-  return ( 
+  return (
     <div className="animate-appear w-full h-full p-[32px]">
       <div className="flex justify-between items-center gap-[16px]">
         <button
@@ -134,7 +134,7 @@ const AdminPage = ({onSelectCell}: Props) => {
         </button>
       </div>
       <AdminTable
-      onSelectCell={(data) => onSelectCell(data)}
+        onSelectCell={(data) => onSelectCell(data)}
         onEdit={(editedTable) => {
           setCurrTable(editedTable);
         }}

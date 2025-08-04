@@ -18,7 +18,9 @@ const PasswordModal = ({ onBack }: Props) => {
   };
   return (
     <div className="animate-appear w-full h-full bg-[#00000099] backdrop-blur-[40px] fixed z-100">
-      <div className={`mt-[192px] text-center ${errorSettled ? "text-[#FF9797] animate-shake" : "text-white"} text-[32px] font-bold leading-[120%]`}>
+      <div
+        className={`mt-[192px] text-center ${errorSettled ? "text-[#FF9797] animate-shake" : "text-white"} text-[32px] font-bold leading-[120%]`}
+      >
         Введите пароль
       </div>
       <input

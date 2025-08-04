@@ -15,7 +15,10 @@ const AdminCell = ({ data, color, onSelectCell }: Props) => {
   const navigate = useNavigate();
   return (
     <div
-      onClick={() => {onSelectCell(data); navigate("/celledit")}}
+      onClick={() => {
+        onSelectCell(data);
+        navigate("/celledit");
+      }}
       style={{ backgroundColor: color }}
       className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}
     >
@@ -49,9 +52,8 @@ const AdminCell = ({ data, color, onSelectCell }: Props) => {
             <img src={imagesIcon} alt="image" className="size-[24px]" />
           </div>
         )}
-        {
-          //@ts-ignore
-          data.files?.map((file, index: number) => (
+        {//@ts-ignore
+        data.files?.map((file, index: number) => (
           <div
             key={index}
             className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center"
@@ -59,7 +61,7 @@ const AdminCell = ({ data, color, onSelectCell }: Props) => {
             <img src={documentIcon} alt="document" className="size-[24px]" />
           </div>
         ))}
-{/*         {!!data.tableId // узнать как будут цепляться таблицы
+        {/*         {!!data.tableId // узнать как будут цепляться таблицы
          && (
           <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
             <img src={tableIcon} alt="table" className="size-[24px]" />

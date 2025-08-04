@@ -24,8 +24,17 @@ const App = () => {
           <Route path="/test" element={<Test />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/table" element={<MainPage />} />
-          <Route path="/admin" element={<AdminPage onSelectCell={(data) => {setCurrCell(data)}}/>} />
-          <Route path="/celledit" element={<CellEditPage data={currCell}/>} />
+          <Route
+            path="/admin"
+            element={
+              <AdminPage
+                onSelectCell={(data) => {
+                  setCurrCell(data);
+                }}
+              />
+            }
+          />
+          <Route path="/celledit" element={<CellEditPage data={currCell} />} />
         </Routes>
       </Router>
     </div>

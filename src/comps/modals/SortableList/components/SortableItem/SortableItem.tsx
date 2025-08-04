@@ -2,11 +2,11 @@ import React, { createContext, useContext, useMemo } from "react";
 import type { CSSProperties, PropsWithChildren } from "react";
 import type {
   DraggableSyntheticListeners,
-  UniqueIdentifier
+  UniqueIdentifier,
 } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import dragIcon from "../../../../../assets/icons/dragIcon.svg"
+import dragIcon from "../../../../../assets/icons/dragIcon.svg";
 import "./SortableItem.css";
 
 interface Props {
@@ -22,7 +22,7 @@ interface Context {
 const SortableItemContext = createContext<Context>({
   attributes: {},
   listeners: undefined,
-  ref() {}
+  ref() {},
 });
 
 export function SortableItem({ children, id }: PropsWithChildren<Props>) {
@@ -33,20 +33,20 @@ export function SortableItem({ children, id }: PropsWithChildren<Props>) {
     setNodeRef,
     setActivatorNodeRef,
     transform,
-    transition
+    transition,
   } = useSortable({ id });
   const context = useMemo(
     () => ({
       attributes,
       listeners,
-      ref: setActivatorNodeRef
+      ref: setActivatorNodeRef,
     }),
-    [attributes, listeners, setActivatorNodeRef]
+    [attributes, listeners, setActivatorNodeRef],
   );
   const style: CSSProperties = {
     opacity: isDragging ? 0.4 : undefined,
     transform: CSS.Translate.toString(transform),
-    transition
+    transition,
   };
 
   return (
@@ -63,7 +63,7 @@ export function DragHandle() {
 
   return (
     <button className="DragHandle" {...attributes} {...listeners} ref={ref}>
-      <img src={dragIcon} className="size-[24px]"/>
+      <img src={dragIcon} className="size-[24px]" />
     </button>
   );
 }
