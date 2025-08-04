@@ -1,12 +1,14 @@
 export interface Cell {
   id: number | null;
   sequence: number;
-  title: string;
+  title?: string; //можно не задавать на временной линии
   isTitleVisible: boolean;
   type: string;
   description: string;
   images: ImageType[];
   files: FileType[];
+  isTitleHidden?: boolean;
+  value?: string; //для временной линии
 }
 
 export interface FileType {

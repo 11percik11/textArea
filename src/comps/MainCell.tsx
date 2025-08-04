@@ -1,22 +1,22 @@
 import type { Cell } from "../types";
 
 type Props = {
-  onOpen: (id: number) => void;
+  onOpen: (cell: Cell) => void;
   data: Cell;
 };
 
 const MainCell = ({ data, onOpen }: Props) => {
   return (
     <div
-      onClick={() => onOpen(data.id)}
-      className={`w-[358px] mb-[8px] duration-200 active:min-h-full active:bg-[#004662B2] active:text-white min-h-[74px] max-h-[212px] rounded-[24px] bg-[#FFFFFFB2] p-[12px] flex gap-[8px] ${!!data.media ? "justify-left text-[16px]" : "justify-center text-[20px]"} items-center text-accent font-semibold`}
+      onClick={() => onOpen(data)}
+      className={`w-[358px] mb-[8px] duration-200 active:min-h-full active:bg-[#004662B2] active:text-white min-h-[74px] max-h-[212px] rounded-[24px] bg-[#FFFFFFB2] p-[12px] flex gap-[8px] ${data.images.length!=0 ? "justify-left text-[16px]" : "justify-center text-[20px]"} items-center text-accent font-semibold`}
     >
-      {data.media && (
+      {data.images.length!=0 && (
         <div
-          className={`${data.isTitleHidden ? "w-[334px] h-[188px] relative" : "size-[121px]"} rounded-[12px] overflow-hidden`}
+          className={`${ false /* data.isTitleHidden тут должен быть флаг проверки того, должно ли отображаться название ячейки*/ ? "w-[334px] h-[188px] relative" : "size-[121px]"} rounded-[12px] overflow-hidden`}
         >
           <img
-            src={data.media[0].url}
+            src={data.images[0].imageFile}
             alt="media"
             className={`object-cover w-full h-full ${data.isTitleHidden && "blur-[26px] absolute"}`}
           />
@@ -26,7 +26,7 @@ const MainCell = ({ data, onOpen }: Props) => {
           />
           <img
             hidden={!data.isTitleHidden}
-            src={data.media[0].url}
+            src={data.images[0].imageFile}
             alt="media"
             className="object-fit h-full mx-auto left-0 right-0 absolute"
           />

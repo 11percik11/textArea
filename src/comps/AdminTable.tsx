@@ -124,7 +124,7 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
                       className="size-[24px] mx-auto mt-[32px]"
                     />
                   </div>
-                  <div className="border-[1px] border-stroke min-w-[232px] h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
+                  <div className="p-[8px] text-wrap border-[1px] border-stroke w-[232px] h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
                     {row.title} + {row.color}
                   </div>
                   {row.cells?.map((cell: Cell, colIndex: number) => (

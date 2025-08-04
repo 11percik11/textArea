@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import type { Cell, Spreadsheet, Table } from "../types";
+import type { Cell, Spreadsheet } from "../types";
 import MainCell from "./MainCell";
 
 type Props = {
   content: Spreadsheet | null;
-  onCellInfoOpen: (id: number) => void;
+  onCellInfoOpen: (cell: Cell) => void;
 };
 
 const MainTable = ({ onCellInfoOpen, content }: Props) => {
@@ -34,7 +34,7 @@ const MainTable = ({ onCellInfoOpen, content }: Props) => {
               className={`border-[1px] border-stroke p-[24px] w-[406px] flex justify-center items-center`}
             >
               {!!cell && (
-                <MainCell onOpen={(id) => onCellInfoOpen(id)} data={cell} />
+                <MainCell onOpen={(openedCell) => onCellInfoOpen(openedCell)} data={cell} />
               )}
             </div>
           ))}

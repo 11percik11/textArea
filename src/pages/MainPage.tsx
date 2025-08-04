@@ -4,7 +4,7 @@ import InfoModal from "../comps/modals/InfoModal";
 import MainTable from "../comps/MainTable";
 import PdfReader from "../comps/modals/PdfReader";
 import axios from "axios";
-import type { Spreadsheet } from "../types";
+import type { Cell, Spreadsheet } from "../types";
 
 const MainPage = () => {
   //@ts-ignore
@@ -23,26 +23,17 @@ const MainPage = () => {
   }, []);
   const [isLoading, setIsLoading] = useState(true);
   const [currentTable, setCurrentTable] = useState(0);
-  const [infoModalId, setInfoModalId] = useState<{
-    id: number | null;
-    type: string | null;
-  }>({ id: null, type: null });
+  const [infoModalCell, setInfoModalCell] = useState<Cell | null>(null);
   //@ts-ignore
   const [nature, setNature]: Spreadsheet = useState(null);
   //@ts-ignore
   const [socium, setSocium]: Spreadsheet = useState(null);
   return (
     <div className="w-full h-full p-[32px]">
-      {infoModalId.id !== null && infoModalId.type === "info" && (
+      {infoModalCell !== null && (
         <InfoModal
-          id={infoModalId.id}
-          onClose={() => setInfoModalId({ id: null, type: null })}
-        />
-      )}
-      {infoModalId.id !== null && infoModalId.type === "pdf" && (
-        <PdfReader
-          title={"Id: " + infoModalId.id}
-          onClose={() => setInfoModalId({ id: null, type: null })}
+          cell={infoModalCell}
+          onClose={() => setInfoModalCell(null)}
         />
       )}
       {isLoading && (
@@ -55,13 +46,13 @@ const MainPage = () => {
         {currentTable === 0 && (
           <MainTable
             content={nature}
-            onCellInfoOpen={(id) => setInfoModalId({ id: id, type: "info" })}
+            onCellInfoOpen={(cell) => setInfoModalCell(cell)}
           />
         )}
         {currentTable === 1 && (
           <MainTable
             content={socium}
-            onCellInfoOpen={(id) => setInfoModalId({ id: id, type: "pdf" })}
+            onCellInfoOpen={(cell) => setInfoModalCell(cell)}
           />
         )}
       </div>

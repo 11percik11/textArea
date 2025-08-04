@@ -1,7 +1,8 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import backspaceIcon from "../../assets/icons/backspaceIcon.svg";
 import arrIcon from "../../assets/icons/arrIcon.svg";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 type Props = {
   onBack: () => void;
@@ -9,7 +10,20 @@ type Props = {
 
 const PasswordModal = ({ onBack }: Props) => {
   const navigate = useNavigate();
-  const testPass = "1204";
+  const [password, setPassword] = useState<string>();
+  //@ts-ignore
+  const apiUrl = window.__API_CONFIG__.apiUrl;
+  useEffect(() => {
+    axios
+      .get(apiUrl + `api/settings`)
+      .then((response) => {
+        setPassword(response.data[0].password);
+      })
+      .catch(() => {
+        console.error("Ошибка получения пароля");
+        
+      });
+  }, []);
   const [errorSettled, setErrorSettled] = useState(false);
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -61,7 +75,7 @@ const PasswordModal = ({ onBack }: Props) => {
           </div>
           <div
             onClick={() => {
-              if (testPass === enteredPassword) {
+              if (password === enteredPassword) {
                 navigate("/admin");
                 onBack();
               } else {

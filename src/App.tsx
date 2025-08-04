@@ -5,14 +5,15 @@ import { useState } from "react";
 import AdminPage from "./pages/AdminPage";
 import CellEditPage from "./pages/CellEditPage";
 import type { Cell } from "./types";
-import Test from "./pages/Test";
 
 const App = () => {
   const [currCell, setCurrCell] = useState<Cell | null>(null);
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
+  
   return (
     <div className="w-[1920px] h-[1080px] top-0 left-0">
       <button
+        hidden={false} //чета придумать, чтобы не было кнопки в админке
         onClick={() => setPasswordOpen(true)}
         className="fixed z-100 size-[25px] top-0 right-0"
       />
@@ -21,7 +22,6 @@ const App = () => {
           <PasswordModal onBack={() => setPasswordOpen(false)} />
         )}
         <Routes>
-          <Route path="/test" element={<Test />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/table" element={<MainPage />} />
           <Route

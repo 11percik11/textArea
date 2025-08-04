@@ -30,7 +30,7 @@ const AdminPage = ({ onSelectCell }: Props) => {
     );
 
     axios
-      .patch(
+      .post(
         apiUrl + "api/rows",
         {
           rows: [
@@ -44,12 +44,13 @@ const AdminPage = ({ onSelectCell }: Props) => {
         },
         {
           headers: {
-            accept: "application/json",
-            "Content-Type": "application/json",
+            'accept': "application/json",
+            "Content-Type": 'application/json',
           },
           params: {
             spreadsheetId: table.id,
           },
+          withCredentials: true,
         },
       )
       .then((response) => {

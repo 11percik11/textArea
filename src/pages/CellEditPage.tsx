@@ -54,13 +54,13 @@ const CellEditPage = ({ data }: Props) => {
   };
 
   const [textBlockValue, setTextBlockValue] = useState(data?.description);
-  const handleTextBlocklineChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleTextBlocklineChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setTextBlockValue(event.target.value);
   };
 
-  const [media, setMedia] = useState(data?.images || []);
+  const [images, setImages] = useState(data?.images || []);
   const [files, setFiles] = useState(data?.files || []);
-  const [newMedia, setNewMedia] = useState<any>([]);
+  const [newImages, setNewImages] = useState<any>([]);
   const [isExitModalOpen, setExitModalOpen] = useState(false);
   const [isTableCellExist] = useState(false);
 
@@ -73,7 +73,7 @@ const CellEditPage = ({ data }: Props) => {
   };
   const [selectedTemplate, setSelectedTemplate] = useState<string>(
     data?.type || "text",
-  ); //text, media, t&m, table
+  ); //text, images, t&m, table
   const [isTimeline] = useState();
   return (
     <div className="animate-appear w-full h-full p-[32px]">
@@ -142,6 +142,16 @@ const CellEditPage = ({ data }: Props) => {
             className="w-[1232px] min-h-[160px] max-h-[288px] rounded-[24px] bg-white mt-[16px] p-[24px]"
           >
             <span className="text-[16px] text-accent font-bold">Медиа</span>
+            <div hidden={images.length===0 && newImages.length===0} className="mt-[8px] w-[1184px] h-[128px] flex gap-[8px]">
+              {images.map(() => (
+                <div className="size-[120px] rounded-[14px] bg-black">
+                </div>
+              ))}
+              {newImages.map(() => (
+                <div className="size-[120px] rounded-[14px] bg-black">
+                </div>
+              ))}
+            </div>
             <div className="w-[1184px] h-[80px] mt-[16px]">
               <div className="w-[413px] h-[16px] flex gap-[12px]">
                 {[
@@ -177,8 +187,8 @@ const CellEditPage = ({ data }: Props) => {
                       )
                         alert("Слишком большой файл");
                       else
-                        setNewMedia((prevNewMedia: any) => [
-                          ...prevNewMedia,
+                        setNewImages((prevNewImages: any) => [
+                          ...prevNewImages,
                           ...Array.from(event.target.files!),
                         ]);
                     }}
@@ -191,15 +201,16 @@ const CellEditPage = ({ data }: Props) => {
           </div>
           <div
             hidden={selectedTemplate !== "text" && selectedTemplate !== "t&m"}
-            className={`w-[1232px] mt-[16px] h-fill min-h-[516px] rounded-[24px] bg-white p-[24px]`}
+            className={`w-[1232px] mt-[16px] ${selectedTemplate==="text" ? "h-[820px]" : "h-[644px]"} min-h-[516px] rounded-[24px] bg-white p-[24px]`}
           >
             <span className="text-[16px] text-accent font-bold w-[1184px] h-[16px]">
               Текст
             </span>
-            <input
+            <textarea
+              wrap="soft"
               onChange={handleTextBlocklineChange}
               value={textBlockValue}
-              className="w-full h-full text-text"
+              className="w-full h-full text-text outline-none text-wrap"
             />
           </div>
         </div>
