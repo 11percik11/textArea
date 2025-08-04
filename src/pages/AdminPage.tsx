@@ -21,7 +21,47 @@ const AdminPage = ({onSelectCell}: Props) => {
   //@ts-ignore
   const apiUrl = window.__API_CONFIG__.apiUrl;
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(()=>{
+  const onAddRow = (table: Spreadsheet | null) => {
+    if (table === null) 
+      return;
+    const cells = Array.from({ length: table.rows[0].cells.length }, (_, index) => ({
+      id: null,
+      sequence: index + 1
+    }));
+
+
+
+    axios.patch(
+  apiUrl + 'api/rows',
+  {
+    rows: [{
+      id: null,
+      title: "",
+      sequence: table.rows.length+1,
+      cells: cells
+    }]
+  },
+  {
+    headers: {
+      'accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    params: {
+      spreadsheetId: table.id
+    }
+  }
+)
+    .then((response) => {
+      console.log(response);
+      getTable();
+    })
+    .catch((e) => {
+      console.log(e);
+    })
+  }
+
+
+  const getTable = () => {
     axios
     .get(apiUrl + `api/spreadsheet`)
     .then((response) => {
@@ -32,12 +72,13 @@ const AdminPage = ({onSelectCell}: Props) => {
     .catch(() => {
       console.error("Ошибка получения информации");
     });
+  }
+  useEffect(()=>{
+    getTable();
   },[]);
   const [table, setTable] = useState<Spreadsheet | null>(null);
   const [currTable, setCurrTable] = useState<Spreadsheet["rows"]>([]);
   const navigate = useNavigate();
-  const cols = useRef(currTable[0]?.cells.length);
-  const rows = useRef(currTable?.length);
   return ( 
     <div className="animate-appear w-full h-full p-[32px]">
       <div className="flex justify-between items-center gap-[16px]">
@@ -72,29 +113,7 @@ const AdminPage = ({onSelectCell}: Props) => {
         </button>
         <button
           onClick={() => {
-            const cellsTemp = [];
-            for(let i = 0; i < currTable[0].cells.length; i++) {
-              cellsTemp.push({
-                "id": null,
-                "sequence": i+1,
-                "title": null,
-                "isTitleVisible": true,
-                "type": "text",
-                "description": "",
-                "images": [],
-                "files": []
-              })
-            }
-            const rowTemp = {
-              sequence: currTable.length + 1,
-              title: "",
-              id: null,
-              color: "#FFFFFF",
-              isTimeScale: false,
-              cells: cellsTemp,
-            };
-            //@ts-ignore
-            setCurrTable([...currTable, rowTemp]);
+            onAddRow(table);
           }}
           className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]"
         >

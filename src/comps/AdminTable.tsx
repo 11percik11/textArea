@@ -14,17 +14,19 @@ type Props = {
 
 const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
   const [changableRows, setChangableRows] = useState(content);
+  const [test, setTest] = useState(true);
   const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
   const finishedTable = useRef(content);
   useEffect(() => {
+    setTest(false);
     setChangableRows(content);
     setChangableTitles(content[0]?.cells || undefined);
     finishedTable.current = content;
+    setTest(true);
   }, [content]);
 
   useEffect(() => {
     onEdit(finishedTable.current);
-    console.log(finishedTable.current)
   }, [finishedTable.current]);
 
   const makeMagic = (firstRowNewContent: any[]) => {
@@ -81,13 +83,13 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
     <div className="w-[1856px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto">
       <div className="h-[40px] pl-[40px] flex">
         <div className="min-w-[232px] h-[40px] bg-[#0000000D] border-[1px] border-stroke" />
-        {changableTitles!=undefined && 
+        {changableTitles!=undefined && test &&
                 <SortableList
                   className="flex"
                   items={changableTitles}
                   onChange={makeMagic}
                   renderItem={(item) => (
-                    <SortableList.Item id={item.id}>
+                    <SortableList.Item id={item.sequence}>
 
                     <div
                     className="dragHandleVert bg-[#F6F6F6] px-[8px] w-[426px] h-[40px] border-[1px] border-stroke flex justify-between items-center"
@@ -100,6 +102,7 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
                 />
 }
       </div>
+      {test &&
       <div className="w-full h-full">
       <SortableList
       className=""
@@ -134,6 +137,7 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
       )}
       />
       </div>
+      }
     </div>
   );
 };
