@@ -67,3 +67,13 @@ export function DragHandle() {
     </button>
   );
 }
+
+export function DragHandleContainer(props: { children: any }) {
+  const { attributes, listeners, ref } = useContext(SortableItemContext);
+
+  return (
+    <div className="dragHandle" {...attributes} {...listeners} ref={ref}>
+      {props.children}
+    </div>
+  );
+}

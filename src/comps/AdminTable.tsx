@@ -17,6 +17,7 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
   const [test, setTest] = useState(true);
   const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
   const finishedTable = useRef(content);
+
   useEffect(() => {
     setTest(false);
     setChangableRows(content);
@@ -29,57 +30,74 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
     onEdit(finishedTable.current);
   }, [finishedTable.current]);
 
-  const makeMagic = (firstRowNewContent: any[]) => {
-    const resultData: Spreadsheet["rows"] = JSON.parse(
-      JSON.stringify(finishedTable.current),
-    );
+  // const makeMagic = (firstRowNewContent: any[]) => {
+  //   console.log('wtf')
+  //   const resultData: Spreadsheet["rows"] = JSON.parse(
+  //     JSON.stringify(finishedTable.current),
+  //   );
 
-    // Установка нового порядка первой строки
-    resultData[0].cells = firstRowNewContent;
+  //   // Установка нового порядка первой строки
+  //   resultData[0].cells = firstRowNewContent;
+  //   console.log('firstRowNewContent',firstRowNewContent)
 
-    // Определение схемы переупорядочивания
-    const reorderMapping: Record<number, number> = {};
-    finishedTable.current[0].cells.forEach((item, oldIndex) => {
-      const newItem = firstRowNewContent.find(
-        (newItem) => newItem.sequence === item.sequence,
-      );
-      if (!newItem)
-        throw new Error("ID not found in the new order" + item.sequence);
-      reorderMapping[oldIndex] = firstRowNewContent.indexOf(newItem);
-    });
+  //   // Определение схемы переупорядочивания
+  //   const reorderMapping: Record<number, number> = {};
+  //   finishedTable.current[0].cells.forEach((item, oldIndex) => {
+  //     const newItem = firstRowNewContent.find(
+  //       (newItem) => newItem.sequence === item.sequence,
+  //     );
+  //     if (!newItem)
+  //       throw new Error("ID not found in the new order" + item.sequence);
+  //     reorderMapping[oldIndex] = firstRowNewContent.indexOf(newItem);
+  //   });
 
-    // Применение перестроения к остальным строкам
-    for (let j = 1; j < resultData.length; j++) {
-      const currentRow = resultData[j].cells.slice(); // Копия текущего ряда
-      const rearrangedCells: any[] = new Array(currentRow.length);
+  //   // Применение перестроения к остальным строкам
+  //   for (let j = 1; j < resultData.length; j++) {
+  //     const currentRow = resultData[j].cells.slice(); // Копия текущего ряда
+  //     const rearrangedCells: any[] = new Array(currentRow.length);
 
-      // Простановка элементов на новые позиции
-      Object.entries(reorderMapping).forEach(([oldIndexStr, newIndex]) => {
-        const oldIndex = parseInt(oldIndexStr);
-        const cellAtOldPos = currentRow[oldIndex];
-        rearrangedCells[newIndex] = cellAtOldPos;
-      });
+  //     // Простановка элементов на новые позиции
+  //     Object.entries(reorderMapping).forEach(([oldIndexStr, newIndex]) => {
+  //       const oldIndex = parseInt(oldIndexStr);
+  //       const cellAtOldPos = currentRow[oldIndex];
+  //       rearrangedCells[newIndex] = cellAtOldPos;
+  //     });
 
-      // Заполняем пропущенные позиции оставшимися элементами
-      for (let k = 0; k < currentRow.length; k++) {
-        if (!rearrangedCells.includes(currentRow[k])) {
-          rearrangedCells.push(currentRow[k]);
-        }
-      }
+  //     // Заполняем пропущенные позиции оставшимися элементами
+  //     for (let k = 0; k < currentRow.length; k++) {
+  //       if (!rearrangedCells.includes(currentRow[k])) {
+  //         rearrangedCells.push(currentRow[k]);
+  //       }
+  //     }
 
-      // Замена старого порядка на новый
-      resultData[j].cells = rearrangedCells.filter((cell) => cell != null);
-    }
-    finishedTable.current = resultData;
-    setChangableTitles(firstRowNewContent);
-    setChangableRows(resultData);
-  };
+  //     // Замена старого порядка на новый
+  //     resultData[j].cells = rearrangedCells.filter((cell) => cell != null);
+  //   }
+  //   finishedTable.current = resultData;
+  //   setChangableTitles(firstRowNewContent);
+  //   setChangableRows(resultData);
+  // };
 
   const updateRows = (table: Spreadsheet["rows"]) => {
     setChangableRows(table);
     setChangableTitles(table[0]?.cells || undefined);
     finishedTable.current = table;
   };
+
+  const updateColumns = (newlyArrangedContent: Cell) => {
+    const newTitleCells: Spreadsheet["rows"] = JSON.parse(
+      JSON.stringify(newlyArrangedContent),
+    );
+    console.log("header", newTitleCells);
+    console.log("rows", changableRows.map(row => row.cells));
+
+    // const newRowsCells = {}
+
+    setChangableTitles(newTitleCells);
+    // setChangableRows(newRowsCells)
+    // finishedTable.current = resultData;
+  };
+
   return (
     <div className="w-[1856px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto">
       <div className="h-[40px] pl-[40px] flex">
@@ -88,12 +106,13 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
           <SortableList
             className="flex"
             items={changableTitles}
-            onChange={makeMagic}
+            onChange={updateColumns}
             renderItem={(item) => (
-              <SortableList.Item id={item.sequence}>
+              <SortableList.Item id={item.id}>
                 <div className="dragHandleVert bg-[#F6F6F6] px-[8px] w-[426px] h-[40px] border-[1px] border-stroke flex justify-between items-center">
                   <SortableList.DragHandle />
                   <img src={deleteIcon} alt="" className="size-[24px]" />
+                  <div style={{ color: "red" }}>{item.sequence}</div>
                 </div>
               </SortableList.Item>
             )}

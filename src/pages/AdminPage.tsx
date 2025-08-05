@@ -21,6 +21,7 @@ const AdminPage = ({ onSelectCell }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const onAddRow = (table: Spreadsheet | null) => {
     if (table === null) return;
+    console.log('wtf')
     const cells = Array.from(
       { length: table.rows[0].cells.length },
       (_, index) => ({
