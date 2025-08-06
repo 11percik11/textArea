@@ -10,9 +10,15 @@ type Props = {
   content: Spreadsheet["rows"];
   onEdit: (table: Spreadsheet["rows"]) => void;
   onSelectCell: (data: Cell) => void;
+  widthPx?: number;
 };
 
-const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
+const AdminTable = ({
+  content,
+  onEdit,
+  onSelectCell,
+  widthPx = 1856,
+}: Props) => {
   const [changableRows, setChangableRows] = useState(content);
   const [test, setTest] = useState(true);
   const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
@@ -89,7 +95,10 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
       JSON.stringify(newlyArrangedContent),
     );
     console.log("header", newTitleCells);
-    console.log("rows", changableRows.map(row => row.cells));
+    console.log(
+      "rows",
+      changableRows.map((row) => row.cells),
+    );
 
     // const newRowsCells = {}
 
@@ -99,7 +108,9 @@ const AdminTable = ({ content, onEdit, onSelectCell }: Props) => {
   };
 
   return (
-    <div className="w-[1856px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto">
+    <div
+      className={`w-[${widthPx}px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
+    >
       <div className="h-[40px] pl-[40px] flex">
         <div className="min-w-[232px] h-[40px] bg-[#0000000D] border-[1px] border-stroke" />
         {changableTitles != undefined && test && (

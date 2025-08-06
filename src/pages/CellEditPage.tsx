@@ -4,11 +4,14 @@ import ExitModal from "../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
 import arrIcon from "../assets/icons/arrSimple.svg";
 import ChooseTemplate from "../comps/ChooseTemplate";
-import FilesAdder from "../comps/FilesAdder";
+import { CellEditDocuments } from "./CellEditPage/CellEditDocuments/CellEditDocuments";
 import addIcon from "../assets/icons/addIcon.svg";
 import type { Cell } from "../types";
 import axios from "axios";
 import { CellEditMedia } from "./CellEditPage/CellEditMedia/CellEditMedia";
+import { AdminTableControls } from "../comps/AdminTableControls";
+import AdminTable from "../comps/AdminTable";
+import { CellEditTable } from "./CellEditPage/CellEditTable/CellEditTable";
 
 type Props = {
   data: Cell | null;
@@ -158,6 +161,8 @@ const CellEditPage = ({ data }: Props) => {
               className="w-full h-full text-text outline-none text-wrap"
             />
           </div>
+
+          {selectedTemplate === "table" && <CellEditTable />}
         </div>
         <div className="w-[296px] h-[928px]">
           <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
@@ -175,7 +180,7 @@ const CellEditPage = ({ data }: Props) => {
               Сначала создайте ячейку
             </div>
           </div>
-          <FilesAdder files={files || []} />
+          <CellEditDocuments files={files || []} />
         </div>
       </div>
       {isExitModalOpen && (

@@ -1,91 +1,49 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Cell, ImageType } from "../../../types";
-import addIcon from "../../../assets/icons/addIcon.svg";
 import deleteIcon from "../../../assets/icons/deleteIcon.svg";
-import { v4 as uuidv4 } from "uuid";
-import { useSortableMedia } from "./hooks";
-import { SortableOverlay } from "../../../comps/modals/SortableList/components";
-import { DndContext } from "@dnd-kit/core";
-import { SortableContext } from "@dnd-kit/sortable";
+
 import { SortableList } from "../../../comps/modals/SortableList";
 import { DragHandleContainer } from "../../../comps/modals/SortableList/components/SortableItem/SortableItem";
+import CellEditAddFileButton from "../CellEditAddFileButton/CellEditAddFileButton";
+import {
+  useLocalFileLoad,
+  useInitFileLoad,
+  type ImageMedia,
+  useAllFiles,
+} from "../hooks";
 type Props = {
   data: Cell;
 };
-type ImageMedia = {
-  id: string;
-  file: File;
-  preview: string | ArrayBuffer | null | undefined;
-  format: string;
-};
-export const CellEditMedia = ({ data }: Props) => {
-  const [images, setImages] = useState(data?.images || []);
-  const [newImages, setNewImages] = useState<ImageMedia[]>([]);
+const data = { images: [{ cell: "", id: 1, image: "", imageFile: "" }] };
 
-  const onChangePosition = (items: ImageMedia[]) => {
-    setNewImages(items);
-  };
+export const CellEditMedia = () => {
+  const { handleLocalFileDelete, locallyLoadedFiles, onLocalFileLoad } =
+    useLocalFileLoad();
+  const { handleInitFileDelete, initFiles } = useInitFileLoad(data.images);
 
-  const onFileLoad = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0].size > 8388608) {
-      alert("Слишком большой файл");
-      return;
-    }
-
-    console.log("event.target.files", event.target.files);
-
-    const files = Array.from(event.target.files || []);
-    files.forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const fileToAdd: ImageMedia = {
-          id: uuidv4(),
-          file,
-          preview: e.target?.result,
-          format: file.type.split("/")[1],
-        };
-        setNewImages((prev: any) => [...prev, fileToAdd]);
-      };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleDelete = (index: number, isNewImage: boolean) => {
-    if (isNewImage) {
-      setNewImages((prev: any) =>
-        prev.filter((_: any, i: number) => i !== index),
-      );
-    } else {
-      setImages((prev: ImageType[]) => prev.filter((_, i) => i !== index));
-    }
-  };
-
-  useEffect(() => {
-    console.log("newImages", newImages);
-  });
+  const { allFiles, reorderFiles } = useAllFiles(initFiles, locallyLoadedFiles);
 
   return (
     <>
       <span className="text-[16px] text-accent font-bold">Медиа</span>
       <div
-        hidden={images.length === 0 && newImages.length === 0}
+        // hidden={images.length === 0 && locallyLoadedFiles.length === 0}
         className="mt-[8px] w-[1184px] h-[128px] flex gap-[8px]"
       >
-        {images.map(() => (
+        {/* {images.map(() => (
           <div className="size-[120px] rounded-[14px] bg-black"></div>
-        ))}
+        ))} */}
 
         <SortableList
           className="flex gap-[5px]"
-          items={newImages}
-          onChange={onChangePosition}
+          items={allFiles}
+          onChange={reorderFiles}
           renderItem={(item, index) => (
             <SortableList.Item id={item.id}>
               <div
-                key={item.id}
                 className="size-[120px] rounded-[14px] bg-black p-[8px] relative"
                 style={{
-                  backgroundImage: `url(${item.preview})`,
+                  backgroundImage: `url(${item.image})`,
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
@@ -100,7 +58,8 @@ export const CellEditMedia = ({ data }: Props) => {
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent event from bubbling to drag handlers
                     e.preventDefault();
-                    handleDelete(index, true);
+                    handleLocalFileDelete(item.id);
+                    handleInitFileDelete(item.id);
                   }}
                   className="absolute z-10 bottom-[8px] right-[8px] size-[32px] rounded-[6px] bg-white"
                 >
@@ -138,18 +97,10 @@ export const CellEditMedia = ({ data }: Props) => {
             </div>
           ))}
         </div>
-        <button className="disabled:opacity-[20%] mt-[8px] w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center relative">
-          <input
-            accept=".png, .jpeg, .mp4, .mov, .avi, .jpg, .wepb, .webm, .gif"
-            hidden={false}
-            id="imgInput"
-            type="file"
-            className="w-full h-full absolute opacity-0"
-            onChange={onFileLoad}
-          />
-          <img src={addIcon} alt="add" className="size-[32px]" />
-          Добавить
-        </button>
+        <CellEditAddFileButton
+          onFileLoad={onLocalFileLoad}
+          accept=".png, .jpeg, .mp4, .mov, .avi, .jpg, .wepb, .webm, .gif"
+        />
       </div>
     </>
   );

@@ -8,6 +8,7 @@ import arrIcon from "../assets/icons/grayArrIcon.svg";
 import addIcon from "../assets/icons/addIcon.svg";
 import type { Cell, Spreadsheet } from "../types";
 import axios from "axios";
+import { AdminTableControls } from "../comps/AdminTableControls";
 
 type Props = {
   onSelectCell: (data: Cell) => void;
@@ -21,7 +22,7 @@ const AdminPage = ({ onSelectCell }: Props) => {
   const [isLoading, setIsLoading] = useState(true);
   const onAddRow = (table: Spreadsheet | null) => {
     if (table === null) return;
-    console.log('wtf')
+
     const cells = Array.from(
       { length: table.rows[0].cells.length },
       (_, index) => ({
@@ -29,7 +30,6 @@ const AdminPage = ({ onSelectCell }: Props) => {
         sequence: index + 1,
       }),
     );
-
     axios
       .post(
         apiUrl + "api/rows",
@@ -40,22 +40,23 @@ const AdminPage = ({ onSelectCell }: Props) => {
               title: "",
               sequence: table.rows.length + 1,
               cells: cells,
+              isTimeScale: false,
+              color: "red",
             },
           ],
         },
         {
           headers: {
-            'accept': "application/json",
-            "Content-Type": 'application/json',
+            accept: "application/json",
+            "Content-Type": "application/json",
           },
           params: {
             spreadsheetId: table.id,
           },
-          withCredentials: true,
         },
       )
       .then((response) => {
-        console.log(response);
+        console.log(response.headers);
         getTable();
       })
       .catch((e) => {
@@ -100,41 +101,15 @@ const AdminPage = ({ onSelectCell }: Props) => {
           Сохранить
         </button>
       </div>
-      <div className="flex w-full h-[88px] my-[16px] gap-[16px]">
-        <button className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]">
-          <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
-            Колонки
-            <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-              {currTable[0]?.cells.length}
-              <img src={arrIcon} alt="cols" className="size-[32px]" />
-            </div>
-          </div>
-          <div className="size-[56px] bg-accent rounded-[16px] p-[12px]">
-            <img src={addIcon} alt="add" className="" />
-          </div>
-        </button>
-        <button
-          onClick={() => {
-            onAddRow(table);
-          }}
-          className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]"
-        >
-          <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
-            Строки
-            <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-              {currTable.length}
-              <img
-                src={arrIcon}
-                alt="rows"
-                className="size-[32px] rotate-270"
-              />
-            </div>
-          </div>
-          <div className="size-[56px] bg-accent rounded-[16px] p-[12px]">
-            <img src={addIcon} alt="add" className="" />
-          </div>
-        </button>
-      </div>
+
+      <AdminTableControls
+        onAddRow={() => {
+          onAddRow(table);
+        }}
+        onAddColumn={() => {}}
+        current={currTable}
+      />
+
       <AdminTable
         onSelectCell={(data) => onSelectCell(data)}
         onEdit={(editedTable) => {

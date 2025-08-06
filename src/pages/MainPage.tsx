@@ -43,6 +43,9 @@ const MainPage = () => {
         hidden={isLoading}
         className="w-[1856px] h-[896px] overflow-scroll hide-scroll"
       >
+
+      
+
         {currentTable === 0 && (
           <MainTable
             content={nature}
