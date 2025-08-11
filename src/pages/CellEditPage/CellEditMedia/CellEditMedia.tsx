@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useImperativeHandle, useState, type Ref } from "react";
 import type { Cell, ImageType } from "../../../types";
 import deleteIcon from "../../../assets/icons/deleteIcon.svg";
 
@@ -11,15 +11,36 @@ import {
   type ImageMedia,
   useAllFiles,
 } from "../hooks";
+import type { MediaData } from "../types";
 type Props = {
-  data: Cell;
+  images: ImageType[];
+  ref: Ref<{ getAllFiles: (files: any) => MediaData }>;
 };
-const data = { images: [{ cell: "", id: 1, image: "", imageFile: "" }] };
 
-export const CellEditMedia = () => {
+export const CellEditMedia = ({ ref, images }: Props) => {
   const { handleLocalFileDelete, locallyLoadedFiles, onLocalFileLoad } =
     useLocalFileLoad();
-  const { handleInitFileDelete, initFiles } = useInitFileLoad(data.images);
+  const { handleInitFileDelete, initFiles } = useInitFileLoad(images);
+
+  console.log("images", images);
+
+  useImperativeHandle(ref, () => ({
+    getAllFiles: () => {
+      const result: MediaData = {
+        keepFilesIds: initFiles.map(({ id }) => id),
+        newFiles: locallyLoadedFiles,
+      };
+      return result;
+    },
+  }));
+
+  const resolveBackgroundImage = (id: string | number, url: string) => {
+    const isLocalAddedMedia = typeof id === "string";
+    if (isLocalAddedMedia) {
+      return url;
+    }
+    return `http://table-of-time.test.itlabs.top/${url}`;
+  };
 
   const { allFiles, reorderFiles } = useAllFiles(initFiles, locallyLoadedFiles);
 
@@ -43,7 +64,7 @@ export const CellEditMedia = () => {
               <div
                 className="size-[120px] rounded-[14px] bg-black p-[8px] relative"
                 style={{
-                  backgroundImage: `url(${item.image})`,
+                  backgroundImage: `url(${resolveBackgroundImage(item.id, item.image)})`,
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",

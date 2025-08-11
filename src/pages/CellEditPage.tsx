@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import exitIcon from "../assets/icons/exitIcon.svg";
 import ExitModal from "../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,14 @@ import { CellEditMedia } from "./CellEditPage/CellEditMedia/CellEditMedia";
 import { AdminTableControls } from "../comps/AdminTableControls";
 import AdminTable from "../comps/AdminTable";
 import { CellEditTable } from "./CellEditPage/CellEditTable/CellEditTable";
+import { spreadsheetStore } from "../store/root";
+import {
+  useAllFiles,
+  useInitFileLoad,
+  useLocalFileLoad,
+} from "./CellEditPage/hooks";
+import { postSpreadsheetCell } from "../api/spreadsheet";
+import type { MediaData } from "./CellEditPage/types";
 
 type Props = {
   data: Cell | null;
@@ -19,33 +27,27 @@ type Props = {
 
 const CellEditPage = ({ data }: Props) => {
   //@ts-ignore
-  const apiUrl = window.__API_CONFIG__.apiUrl;
+  const mediaFilesRef = useRef(null);
+  const documentFilesRef = useRef(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const applyCell = () => {
+    if (!data) return;
+
+    const mediaFiles = mediaFilesRef.current?.getAllFiles() as MediaData;
+    const documentFiles = documentFilesRef.current?.getAllFiles() as MediaData;
+
     setIsLoading(true);
-    const formData = new FormData();
-    formData.append("id", data?.id?.toString() || "");
-    formData.append("title", titleValue || "");
-    formData.append("description", textBlockValue || "");
-    formData.append("type", selectedTemplate);
-    formData.append("keep_images", "");
-    formData.append("keep_files", "");
-    formData.append("images", "");
-    formData.append("files", "");
-    axios
-      .post(`${apiUrl}api/cells`, formData, {
-        headers: {
-          accept: "application/json",
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    postSpreadsheetCell({
+      cell: data,
+      imageFiles: mediaFiles.newFiles,
+      keepImageFiles: mediaFiles.keepFilesIds,
+      documentFiles: documentFiles.newFiles,
+      keepDocumentFiles: documentFiles.keepFilesIds,
+      selectedTemplate,
+      textBlockValue: textBlockValue || "",
+      titleValue: titleValue || "",
+    }).finally(() => setIsLoading(false));
   };
   const [titleValue, setTitleValue] = useState(data?.title);
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -64,7 +66,6 @@ const CellEditPage = ({ data }: Props) => {
     setTextBlockValue(event.target.value);
   };
 
-  const [files, setFiles] = useState(data?.files || []);
   const [isExitModalOpen, setExitModalOpen] = useState(false);
   const [isTableCellExist] = useState(false);
 
@@ -79,6 +80,13 @@ const CellEditPage = ({ data }: Props) => {
     data?.type || "text",
   ); //text, images, t&m, table
   const [isTimeline] = useState();
+
+  useEffect(() => {
+    if (selectedTemplate === "table") {
+      spreadsheetStore.addSpreadsheetForCurrentCell();
+    }
+  }, [selectedTemplate]);
+
   return (
     <div className="animate-appear w-full h-full p-[32px]">
       {isLoading && (
@@ -113,7 +121,12 @@ const CellEditPage = ({ data }: Props) => {
           selectedTemplate={selectedTemplate}
           setSelectedTemplate={(type) => setSelectedTemplate(type)}
         />
-        <div className="w-[1232px] h-[928px]">
+        <div
+          style={{
+            width: `${selectedTemplate == "table" ? 1544 : 1232}px`,
+          }}
+          className={`h-[928px]`}
+        >
           <div className="w-[1232px] h-[92px] flex gap-[16px]">
             <div className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
               <span className="text-[16px] text-accent font-bold">
@@ -145,7 +158,7 @@ const CellEditPage = ({ data }: Props) => {
             hidden={selectedTemplate !== "t&m" && selectedTemplate !== "media"}
             className="w-[1232px] min-h-[160px] max-h-[288px] rounded-[24px] bg-white mt-[16px] p-[24px]"
           >
-            {data && <CellEditMedia data={data} />}
+            {data && <CellEditMedia images={data.images} ref={mediaFilesRef} />}
           </div>
           <div
             hidden={selectedTemplate !== "text" && selectedTemplate !== "t&m"}
@@ -164,24 +177,29 @@ const CellEditPage = ({ data }: Props) => {
 
           {selectedTemplate === "table" && <CellEditTable />}
         </div>
-        <div className="w-[296px] h-[928px]">
-          <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
-            <div className="text-center mx-auto text-accent text-[32px] font-bold">
-              Таблица
+        {selectedTemplate !== "table" && (
+          <div className="w-[296px] h-[928px]">
+            <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
+              <div className="text-center mx-auto text-accent text-[32px] font-bold">
+                Таблица
+              </div>
+              <button
+                disabled={!isTableCellExist}
+                className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
+              >
+                <img src={addIcon} alt="add" className="size-[32px]" />
+                Добавить
+              </button>
+              <div className="mt-[16px] text-center mx-auto text-[16px] text-stroke font-bold">
+                Сначала создайте ячейку
+              </div>
             </div>
-            <button
-              disabled={!isTableCellExist}
-              className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
-            >
-              <img src={addIcon} alt="add" className="size-[32px]" />
-              Добавить
-            </button>
-            <div className="mt-[16px] text-center mx-auto text-[16px] text-stroke font-bold">
-              Сначала создайте ячейку
-            </div>
+            <CellEditDocuments
+              files={data?.files || []}
+              ref={documentFilesRef}
+            />
           </div>
-          <CellEditDocuments files={files || []} />
-        </div>
+        )}
       </div>
       {isExitModalOpen && (
         <ExitModal

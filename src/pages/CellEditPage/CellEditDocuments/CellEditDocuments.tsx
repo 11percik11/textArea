@@ -1,3 +1,4 @@
+import { useImperativeHandle, type Ref } from "react";
 import refreshIcon from "../../../assets/icons/Refresh.svg";
 import deleteIcon from "../../../assets/icons/deleteIcon.svg";
 import { SortableList } from "../../../comps/modals/SortableList";
@@ -5,17 +6,31 @@ import { DragHandleContainer } from "../../../comps/modals/SortableList/componen
 import type { FileType } from "../../../types";
 import CellEditAddFileButton from "../CellEditAddFileButton/CellEditAddFileButton";
 import { useAllFiles, useInitFileLoad, useLocalFileLoad } from "../hooks";
+import type { MediaData } from "../types";
 
 type Props = {
   files: FileType[];
+  ref: Ref<{ getAllFiles: (files: any) => MediaData }>;
 };
 
-export const CellEditDocuments = ({ files }: Props) => {
+export const CellEditDocuments = ({ files, ref }: Props) => {
   const { handleLocalFileDelete, locallyLoadedFiles, onLocalFileLoad } =
     useLocalFileLoad();
   const { handleInitFileDelete, initFiles } = useInitFileLoad(files);
 
+  console.log("files", files);
+
   const { allFiles, reorderFiles } = useAllFiles(initFiles, locallyLoadedFiles);
+
+  useImperativeHandle(ref, () => ({
+    getAllFiles: () => {
+      const result: MediaData = {
+        keepFilesIds: initFiles.map(({ id }) => id),
+        newFiles: locallyLoadedFiles,
+      };
+      return result;
+    },
+  }));
 
   return (
     <div className="w-[296px] h-[740px] bg-white rounded-[24px] mt-[16px] p-[16px]">
