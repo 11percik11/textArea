@@ -6,17 +6,15 @@ import closeIcon from "../../assets/icons/closeIcon.svg";
 type Props = {
   onClose: () => void;
   title: string;
-  src: string;
 };
 
-const PdfReader = ({ onClose, title, src }: Props) => {
+const PdfReader = ({ onClose, title }: Props) => {
   const [page, setPage] = useState(1);
   const [page2, setPage2] = useState(2);
   const canvasRef = useRef(null);
   const canvasRef2 = useRef(null);
   const { pdfDocument } = usePdf({
     file: test,
-    // file: src,
     page,
     canvasRef,
   });
@@ -26,8 +24,17 @@ const PdfReader = ({ onClose, title, src }: Props) => {
     canvasRef: canvasRef2,
   });
   return (
-    <>
+    <div className="z-100 w-[1920px] h-[1080px] bg-[#00000099] fixed top-0 left-0">
       <div className="mx-auto w-[1232px] h-[904px] bg-white rounded-[32px] p-[32px] mt-[32px]">
+        <div className="w-[1168px] h-[56px] flex justify-between text-left items-center text-[32px] text-accent font-bold leading-[120%]">
+          {title}
+          <button
+            onClick={onClose}
+            className="size-[56px] rounded-[12px] bg-accent p-[12px]"
+          >
+            <img src={closeIcon} alt="close" className="size-[32px]" />
+          </button>
+        </div>
         <div className="w-[1168px] h-[752px] flex gap-[32px] mt-[32px] justify-center items-center">
           {!pdfDocument && <span className={"text-black"}>Loading...</span>}
           <canvas
@@ -98,7 +105,7 @@ const PdfReader = ({ onClose, title, src }: Props) => {
           </svg>
         </button>
       </div>
-    </>
+    </div>
   );
 };
 

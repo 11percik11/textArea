@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import MenuSwipe from "../comps/MenuSwipe";
-import InfoModal from "../comps/modals/InfoModal";
 import MainTable from "../comps/MainTable";
 import PdfReader from "../comps/modals/PdfReader";
 import axios from "axios";
 import type { Cell, Spreadsheet } from "../types";
+import InfoModal from "../comps/modals/InfoModal/InfoModal";
 
 const MainPage = () => {
   //@ts-ignore

@@ -15,7 +15,7 @@ const App = () => {
       <button
         hidden={false} //чета придумать, чтобы не было кнопки в админке
         onClick={() => setPasswordOpen(true)}
-        className="fixed z-100 size-[25px] top-0 right-0"
+        className="fixed z-100 size-[25px] top-0 right-0 w-[50px] h-[50px]"
       />
       <Router>
         {isPasswordModalOpen && (

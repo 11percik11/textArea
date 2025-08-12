@@ -1,4 +1,5 @@
 import type { Cell } from "../types";
+import { getServerMediaUrl } from "../utils/getServerMediaUrl";
 
 type Props = {
   onOpen: (cell: Cell) => void;
@@ -16,7 +17,7 @@ const MainCell = ({ data, onOpen }: Props) => {
           className={`${ false /* data.isTitleHidden тут должен быть флаг проверки того, должно ли отображаться название ячейки*/ ? "w-[334px] h-[188px] relative" : "size-[121px]"} rounded-[12px] overflow-hidden`}
         >
           <img
-            src={data.images[0].imageFile}
+            src={getServerMediaUrl(data.images[0].image)}
             alt="media"
             className={`object-cover w-full h-full ${data.isTitleHidden && "blur-[26px] absolute"}`}
           />

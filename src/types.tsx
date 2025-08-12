@@ -13,16 +13,12 @@ export interface Cell {
 
 export interface FileType {
   id: number;
-  media: string;
-  mediaFile: string;
-  cell: string;
+  file: string;
 }
 
 export interface ImageType {
   id: number;
   image: string;
-  imageFile: string;
-  cell: string;
 }
 
 export interface Spreadsheet {
