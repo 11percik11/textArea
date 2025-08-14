@@ -1,11 +1,12 @@
-import type { Cell, Spreadsheet } from "../types";
-import imageIcon from "../assets/icons/imageIcon.svg";
-import tableIcon from "../assets/icons/tableIcon.svg";
-import videoIcon from "../assets/icons/videoIcon.svg";
-import documentIcon from "../assets/icons/Document Text.svg";
-import imagesIcon from "../assets/icons/AlbumIcon.svg";
+import type { Cell, Spreadsheet } from "../../types";
+import imageIcon from "../../assets/icons/imageIcon.svg";
+import videoIcon from "../../assets/icons/videoIcon.svg";
+
+import documentIcon from "../../assets/icons/Document Text.svg";
+import imagesIcon from "../../assets/icons/AlbumIcon.svg";
 import { useNavigate } from "react-router-dom";
-import { spreadsheetStore } from "../store/root";
+import { spreadsheetStore } from "../../store/root";
+import { TableLinkButton } from "./TableLinkButton/TableLinkButton";
 
 type Props = {
   onSelectCell: (data: Cell) => void;
@@ -19,7 +20,7 @@ const AdminCell = ({ data, color, onSelectCell }: Props) => {
       onClick={() => {
         onSelectCell(data);
         navigate("/celledit");
-        spreadsheetStore.setCurrentCellId(data.id)
+        spreadsheetStore.setCurrentCellId(data.id);
       }}
       style={{ backgroundColor: color }}
       className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}
@@ -69,6 +70,7 @@ const AdminCell = ({ data, color, onSelectCell }: Props) => {
             <img src={tableIcon} alt="table" className="size-[24px]" />
           </div>
         )} */}
+        {data.type === "table" && <TableLinkButton cellId={data.id} />}
       </div>
       <div
         hidden={!data.id}

@@ -5,11 +5,12 @@ import { useState } from "react";
 import AdminPage from "./pages/AdminPage";
 import CellEditPage from "./pages/CellEditPage";
 import type { Cell } from "./types";
+import { TablePage } from "./pages/TablePage/TablePage";
 
 const App = () => {
   const [currCell, setCurrCell] = useState<Cell | null>(null);
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
-  
+
   return (
     <div className="w-[1920px] h-[1080px] top-0 left-0">
       <button
@@ -24,6 +25,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/table" element={<MainPage />} />
+          <Route path="/admin/table" element={<TablePage />} />
           <Route
             path="/admin"
             element={

@@ -1,10 +1,10 @@
 import dragIcon from "../assets/icons/dragIcon.svg";
 import deleteIcon from "../assets/icons/deleteIcon.svg";
 import type { Cell, Spreadsheet } from "../types";
-import AdminCell from "./AdminCell";
 import { ReactSortable } from "react-sortablejs";
 import { useEffect, useRef, useState } from "react";
 import { SortableList } from "./modals/SortableList";
+import AdminCell from "./AdminCell/AdminCell";
 
 type Props = {
   content: Spreadsheet["rows"];

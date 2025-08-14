@@ -37,12 +37,14 @@ const CellEditPage = ({ data }: Props) => {
     const mediaFiles = mediaFilesRef.current?.getAllFiles() as MediaData;
     const documentFiles = documentFilesRef.current?.getAllFiles() as MediaData;
 
+    console.log("documentFiles", mediaFiles, documentFiles);
+
     setIsLoading(true);
     postSpreadsheetCell({
       cell: data,
       imageFiles: mediaFiles.newFiles,
       keepImageFiles: mediaFiles.keepFilesIds,
-      documentFiles: documentFiles.newFiles,
+      documentFiles: documentFiles?.newFiles || [],
       keepDocumentFiles: documentFiles.keepFilesIds,
       selectedTemplate,
       textBlockValue: textBlockValue || "",
@@ -177,29 +179,28 @@ const CellEditPage = ({ data }: Props) => {
 
           {selectedTemplate === "table" && <CellEditTable />}
         </div>
-        {selectedTemplate !== "table" && (
-          <div className="w-[296px] h-[928px]">
-            <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
-              <div className="text-center mx-auto text-accent text-[32px] font-bold">
-                Таблица
-              </div>
-              <button
-                disabled={!isTableCellExist}
-                className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
-              >
-                <img src={addIcon} alt="add" className="size-[32px]" />
-                Добавить
-              </button>
-              <div className="mt-[16px] text-center mx-auto text-[16px] text-stroke font-bold">
-                Сначала создайте ячейку
-              </div>
+
+        <div
+          className="w-[296px] h-[928px]"
+          hidden={selectedTemplate === "table"}
+        >
+          <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
+            <div className="text-center mx-auto text-accent text-[32px] font-bold">
+              Таблица
             </div>
-            <CellEditDocuments
-              files={data?.files || []}
-              ref={documentFilesRef}
-            />
+            <button
+              disabled={!isTableCellExist}
+              className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
+            >
+              <img src={addIcon} alt="add" className="size-[32px]" />
+              Добавить
+            </button>
+            <div className="mt-[16px] text-center mx-auto text-[16px] text-stroke font-bold">
+              Сначала создайте ячейку
+            </div>
           </div>
-        )}
+          <CellEditDocuments files={data?.files || []} ref={documentFilesRef} />
+        </div>
       </div>
       {isExitModalOpen && (
         <ExitModal

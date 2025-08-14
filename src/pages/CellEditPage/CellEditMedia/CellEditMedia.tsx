@@ -12,6 +12,8 @@ import {
   useAllFiles,
 } from "../hooks";
 import type { MediaData } from "../types";
+import { isLocalAddedMedia } from "../../../utils/isLocalAddedMedia";
+import { getFileExtensionFromPath } from "../../../utils/getFileExtensionFromPath";
 type Props = {
   images: ImageType[];
   ref: Ref<{ getAllFiles: (files: any) => MediaData }>;
@@ -35,10 +37,7 @@ export const CellEditMedia = ({ ref, images }: Props) => {
   }));
 
   const resolveBackgroundImage = (id: string | number, url: string) => {
-    const isLocalAddedMedia = typeof id === "string";
-    if (isLocalAddedMedia) {
-      return url;
-    }
+    if (isLocalAddedMedia(id)) return url;
     return `http://table-of-time.test.itlabs.top/${url}`;
   };
 
@@ -87,7 +86,9 @@ export const CellEditMedia = ({ ref, images }: Props) => {
                   <img src={deleteIcon} alt="add" className="size-[32px]" />
                 </button>
                 <p className="absolute bottom-[8px] left-[8px] p-[10px] h-[32px] rounded-[16px] bg-[rgba(255,255,255,0.8)] text-black flex items-center justify-center text-[12px] font-bold">
-                  {item.format}
+                  {isLocalAddedMedia(item.id)
+                    ? item.format
+                    : getFileExtensionFromPath(item.image)}
                 </p>
                 <DragHandleContainer>
                   <div className="absolute inset-0 w-full h-full"></div>

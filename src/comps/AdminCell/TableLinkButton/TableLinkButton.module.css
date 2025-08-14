@@ -1,0 +1,10 @@
+.TableLinkButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background-color: var(--color-accent);
+  margin-left: auto;
+}

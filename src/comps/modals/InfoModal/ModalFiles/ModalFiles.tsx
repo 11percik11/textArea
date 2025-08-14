@@ -3,14 +3,11 @@ import styles from "./ModalFiles.module.css";
 import type { Cell, FileType } from "../../../../types";
 import { Icons } from "../../../icons";
 import clsx from "clsx";
+import { getFileExtensionFromPath } from "../../../../utils/getFileExtensionFromPath";
 type Props = {
   documents: Cell["files"];
   selected: FileType | null;
   setSelected: (value: FileType | null) => void;
-};
-
-const getExtension = (src: string) => {
-  return src.split("/")[1].split(".")[1];
 };
 
 export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
@@ -50,7 +47,7 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
               key={document.id}
             >
               <div className={styles["modal-files-content-item__format-label"]}>
-                .{getExtension(document.file)}
+                .{getFileExtensionFromPath(document.file)}
               </div>
               <p>{document.file}</p>
             </div>
