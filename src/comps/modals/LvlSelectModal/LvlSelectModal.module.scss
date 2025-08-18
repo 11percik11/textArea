@@ -1,0 +1,72 @@
+.LvlSelectModal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-accent);
+
+  &Inner {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    gap: 32px;
+
+    width: 764px;
+    max-width: 920px;
+    height: 368px;
+    max-height: 1316px;
+    background: #ffffff;
+    border-radius: 32px;
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 700;
+      font-size: 32px;
+      line-height: 120%;
+    }
+  }
+
+  &__closeButton {
+    background-color: var(--color-accent);
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+  }
+}
+
+.LvlSelectList {
+  display: flex;
+  flex-direction: column;
+
+  &Item {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+    gap: 12px;
+
+    &__before {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &_active &__text {
+      color: #fff;
+      background-color: var(--color-accent);
+      border-radius: 24px;
+    }
+
+    &__text {
+      padding: 24px;
+      flex-grow: 1;
+    }
+  }
+}

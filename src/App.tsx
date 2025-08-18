@@ -6,6 +6,7 @@ import AdminPage from "./pages/AdminPage";
 import CellEditPage from "./pages/CellEditPage";
 import type { Cell } from "./types";
 import { TablePage } from "./pages/TablePage/TablePage";
+import { LvlSelectModal } from "./comps/modals/LvlSelectModal/LvlSelectModal";
 
 const App = () => {
   const [currCell, setCurrCell] = useState<Cell | null>(null);
@@ -19,6 +20,7 @@ const App = () => {
         className="fixed z-100 size-[25px] top-0 right-0 w-[50px] h-[50px]"
       />
       <Router>
+        <LvlSelectModal />
         {isPasswordModalOpen && (
           <PasswordModal onBack={() => setPasswordOpen(false)} />
         )}
