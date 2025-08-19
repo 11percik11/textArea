@@ -2,7 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import PasswordModal from "./comps/modals/PasswordModal";
 import { useState } from "react";
-import AdminPage from "./pages/AdminPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
 import CellEditPage from "./pages/CellEditPage";
 import type { Cell } from "./types";
 import { TablePage } from "./pages/TablePage/TablePage";
@@ -20,7 +20,7 @@ const App = () => {
         className="fixed z-100 size-[25px] top-0 right-0 w-[50px] h-[50px]"
       />
       <Router>
-        <LvlSelectModal />
+        {/* <LvlSelectModal /> */}
         {isPasswordModalOpen && (
           <PasswordModal onBack={() => setPasswordOpen(false)} />
         )}

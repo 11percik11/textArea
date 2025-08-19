@@ -24,7 +24,7 @@ interface BaseItem {
 
 interface Props<T extends BaseItem> {
   items: T[];
-  onChange(items: T[]): void;
+  onChange(items: T[], activeIndex: number, overIndex: number): void;
   renderItem(item: T, index?: number): ReactNode;
   className: string;
 }
@@ -58,7 +58,11 @@ export function SortableList<T extends BaseItem>({
           const activeIndex = items.findIndex(({ id }) => id === active.id);
           const overIndex = items.findIndex(({ id }) => id === over.id);
 
-          onChange(arrayMove(items, activeIndex, overIndex));
+          onChange(
+            arrayMove(items, activeIndex, overIndex),
+            activeIndex,
+            overIndex,
+          );
         }
         setActive(null);
       }}

@@ -83,3 +83,43 @@ export const postSpreadsheetCell = async (data: PostSpreadsheetCellArgs) => {
     return null;
   }
 };
+
+export const getSpreadsheets = async () => {
+  try {
+    const res = await apiClient.get(`/spreadsheets`);
+    return res.data as Spreadsheet[];
+  } catch (error) {}
+};
+
+interface MoveSpreadsheetContentPositionsParams {
+  spreadsheetId: number;
+  isRow: boolean; // true → move rows, false → move columns
+  first: number; // sequence of first element
+  second: number; // sequence of second element
+}
+
+export const moveSpreadsheetContentPositions = async ({
+  spreadsheetId,
+  isRow,
+  first,
+  second,
+}: MoveSpreadsheetContentPositionsParams) => {
+  try {
+    const res = await apiClient.post<Spreadsheet>(
+      `/spreadsheets/move-content`,
+      null,
+      {
+        params: {
+          spreadsheetId,
+          isRow,
+          first,
+          second,
+        },
+      },
+    );
+    return res.data;
+  } catch (error) {
+    console.error("Failed to move spreadsheet content positions:", error);
+    throw error;
+  }
+};

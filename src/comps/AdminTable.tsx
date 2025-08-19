@@ -5,8 +5,10 @@ import { ReactSortable } from "react-sortablejs";
 import { useEffect, useRef, useState } from "react";
 import { SortableList } from "./modals/SortableList";
 import AdminCell from "./AdminCell/AdminCell";
+import { moveSpreadsheetContentPositions } from "../api/spreadsheet";
 
 type Props = {
+  spreadsheetId: number;
   content: Spreadsheet["rows"];
   onEdit: (table: Spreadsheet["rows"]) => void;
   onSelectCell: (data: Cell) => void;
@@ -14,6 +16,7 @@ type Props = {
 };
 
 const AdminTable = ({
+  spreadsheetId,
   content,
   onEdit,
   onSelectCell,
@@ -25,72 +28,37 @@ const AdminTable = ({
   const finishedTable = useRef(content);
 
   useEffect(() => {
-    setTest(false);
     setChangableRows(content);
     setChangableTitles(content[0]?.cells || undefined);
-    finishedTable.current = content;
-    setTest(true);
   }, [content]);
 
   useEffect(() => {
     onEdit(finishedTable.current);
   }, [finishedTable.current]);
 
-  // const makeMagic = (firstRowNewContent: any[]) => {
-  //   console.log('wtf')
-  //   const resultData: Spreadsheet["rows"] = JSON.parse(
-  //     JSON.stringify(finishedTable.current),
-  //   );
+  setChangableRows;
 
-  //   // Установка нового порядка первой строки
-  //   resultData[0].cells = firstRowNewContent;
-  //   console.log('firstRowNewContent',firstRowNewContent)
-
-  //   // Определение схемы переупорядочивания
-  //   const reorderMapping: Record<number, number> = {};
-  //   finishedTable.current[0].cells.forEach((item, oldIndex) => {
-  //     const newItem = firstRowNewContent.find(
-  //       (newItem) => newItem.sequence === item.sequence,
-  //     );
-  //     if (!newItem)
-  //       throw new Error("ID not found in the new order" + item.sequence);
-  //     reorderMapping[oldIndex] = firstRowNewContent.indexOf(newItem);
-  //   });
-
-  //   // Применение перестроения к остальным строкам
-  //   for (let j = 1; j < resultData.length; j++) {
-  //     const currentRow = resultData[j].cells.slice(); // Копия текущего ряда
-  //     const rearrangedCells: any[] = new Array(currentRow.length);
-
-  //     // Простановка элементов на новые позиции
-  //     Object.entries(reorderMapping).forEach(([oldIndexStr, newIndex]) => {
-  //       const oldIndex = parseInt(oldIndexStr);
-  //       const cellAtOldPos = currentRow[oldIndex];
-  //       rearrangedCells[newIndex] = cellAtOldPos;
-  //     });
-
-  //     // Заполняем пропущенные позиции оставшимися элементами
-  //     for (let k = 0; k < currentRow.length; k++) {
-  //       if (!rearrangedCells.includes(currentRow[k])) {
-  //         rearrangedCells.push(currentRow[k]);
-  //       }
-  //     }
-
-  //     // Замена старого порядка на новый
-  //     resultData[j].cells = rearrangedCells.filter((cell) => cell != null);
-  //   }
-  //   finishedTable.current = resultData;
-  //   setChangableTitles(firstRowNewContent);
-  //   setChangableRows(resultData);
-  // };
-
-  const updateRows = (table: Spreadsheet["rows"]) => {
+  const updateRows = (
+    table: Spreadsheet["rows"],
+    activeIndex: number,
+    overIndex: number,
+  ) => {
+    moveSpreadsheetContentPositions({
+      first: activeIndex,
+      second: overIndex,
+      isRow: true,
+      spreadsheetId,
+    });
+    console.log("update rows", activeIndex, overIndex);
     setChangableRows(table);
     setChangableTitles(table[0]?.cells || undefined);
-    finishedTable.current = table;
+
+    // finishedTable.current = table;
   };
 
   const updateColumns = (newlyArrangedContent: Cell) => {
+    console.log("update cols");
+    return;
     const newTitleCells: Spreadsheet["rows"] = JSON.parse(
       JSON.stringify(newlyArrangedContent),
     );
