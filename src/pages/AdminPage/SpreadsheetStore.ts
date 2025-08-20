@@ -12,24 +12,39 @@ class TableStore {
     makeAutoObservable(this, {
       rows: computed,
       spreadSheetColumnsAndRowsLength: computed,
-      addSpreadsheetContentHandler: action, 
-      updateSpreadsheetColumns: action, 
-      removeSpreadsheetContentHandler: action, 
+      currentTable: computed,
+      addSpreadsheetContentHandler: action,
+      updateSpreadsheetColumns: action,
+      removeSpreadsheetContentHandler: action,
+      setTableId: action,
     });
   }
+
+  tables: Spreadsheet[] | null = null;
 
   table: Spreadsheet | null = null;
   isLoading: boolean = false;
 
+  tableId = 1;
+
+  get currentTable() {
+    return this.tables?.find((table) => table.id === this.tableId);
+  }
+
   get rows() {
     return this.table?.rows || [];
   }
+
+  setTableId = (id: number) => {
+    this.tableId = id;
+  };
 
   getSpreadSheetsHandler = async () => {
     this.isLoading = true;
     try {
       const res = await getSpreadsheets();
       if (!res) return;
+      this.tables = res;
       this.table = res[0];
     } finally {
       runInAction(() => {

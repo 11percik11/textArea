@@ -9,13 +9,13 @@ export function base64ToBlob(base64: string): Blob {
   return new Blob([array], { type: mime });
 }
 
-export function base64ToFile(base64: string, filename: string): File {
-  const blob = base64ToBlob(base64);
-  return new File([blob], filename, { type: blob.type });
-}
+// export function base64ToFile(base64: string, filename: string): File {
+//   const blob = base64ToBlob(base64);
+//   return new File([blob], filename, { type: blob.type });
+// }
 
-export async function fileToBlob(file: File): Promise<Blob> {
-  return new Blob([await file.arrayBuffer()], {
-    type: file.type || "application/octet-stream",
-  });
-}
+// export async function fileToBlob(file: File): Promise<Blob> {
+//   return new Blob([await file.arrayBuffer()], {
+//     type: file.type || "application/octet-stream",
+//   });
+// }

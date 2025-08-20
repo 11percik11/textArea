@@ -38,15 +38,15 @@ export const updateCellContent = async (
   return res.data;
 };
 
-export const addCellFile = async (
+export const addCellDocument = async (
   media: LocalFileMedia,
   cellId: number,
 ): Promise<any> => {
   console.log(`output->'media'`, media);
   const formData = new FormData();
-  const blobFile = base64ToBlob(media.image);
+  const blobFile = base64ToBlob(media.url);
 
-  formData.append("image", blobFile, media.title);
+  formData.append("file", blobFile, media.title);
   try {
     const response = await fetch(`${API_URL}/cell/add-file?cellId=${cellId}`, {
       method: "POST",
@@ -66,4 +66,53 @@ export const addCellFile = async (
     console.error("Error posting spreadsheet cell:", error);
     return null;
   }
+};
+
+export const addCellImage = async (
+  media: LocalFileMedia,
+  cellId: number,
+): Promise<any> => {
+  console.log(`output->'media'`, media);
+  const formData = new FormData();
+  const blobFile = base64ToBlob(media.url);
+
+  formData.append("image", blobFile, media.title);
+  try {
+    const response = await fetch(`${API_URL}/cell/add-image?cellId=${cellId}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error ${response.status}`);
+    }
+
+    const result = await response.json();
+    return result.image;
+  } catch (error) {
+    console.error("Error posting spreadsheet cell:", error);
+    return null;
+  }
+};
+
+
+export const deleteCellDocument = async (
+  fileId: number,
+): Promise<DeleteResponse> => {
+  const res = await apiClient.delete<DeleteResponse>(`/cell/files`, {
+    params: { fileId },
+  });
+  return res.data;
+};
+
+export const deleteCellImage = async (
+  imageId: number,
+): Promise<DeleteResponse> => {
+  const res = await apiClient.delete<DeleteResponse>(`/cell/images`, {
+    params: { imageId },
+  });
+  return res.data;
 };

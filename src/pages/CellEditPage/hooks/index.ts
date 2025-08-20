@@ -1,14 +1,32 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import type { Cell, FileType, ImageType } from "../../../types";
-import { addCellFile } from "../../../api/spreadsheetCell";
+import { addCellDocument } from "../../../api/spreadsheetCell";
 
 export type LocalFileMedia = {
   id: string;
   file: File;
-  image: string | ArrayBuffer | null | undefined;
+  url: string | ArrayBuffer | null | undefined;
   format: string;
   title: string;
+};
+
+const readFileAsDataURL = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        resolve(reader.result);
+      } else {
+        reject(new Error("FileReader result is not a string"));
+      }
+    };
+
+    reader.onerror = (err) => reject(err);
+
+    reader.readAsDataURL(file);
+  });
 };
 
 export const useLocalFileLoad = () => {
@@ -26,15 +44,24 @@ export const useLocalFileLoad = () => {
 
 export const useInitFileLoad = <T extends { id: number }>(
   files: T[],
-  onLocalLoadEnd: (media: LocalFileMedia) => Promise<void>,
+  onLocalLoadEnd: (media: LocalFileMedia) => Promise<{
+    id: number;
+    sequence: number;
+    url: string;
+  }>,
+  onDelete: (mediaId: number) => Promise<boolean>,
 ) => {
   const [initFiles, setInitFiles] = useState(files || []);
 
-  const handleInitFileDelete = (id: number) => {
+  const handleInitFileDelete = async (id: number) => {
+    const res = await onDelete(id);
+    if (!res) return;
     setInitFiles((prevFiles) => prevFiles.filter((file) => file.id !== id));
   };
 
-  const onLocalFileLoad = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onLocalFileLoad = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -43,28 +70,33 @@ export const useInitFileLoad = <T extends { id: number }>(
       return;
     }
 
-    const reader = new FileReader();
+    try {
+      const dataUrl = await readFileAsDataURL(file);
 
-    reader.onload = (e) => {
       const media: LocalFileMedia = {
         id: uuidv4(),
         file,
-        image: e.target?.result,
+        url: dataUrl,
         format: file.type.split("/")[1],
         title: file.name,
       };
-      console.log(e, media);
-      onLocalLoadEnd(media);
-      // setInitFiles((prev) => [...prev, media]);
-    };
 
-    reader.onerror = (err) => {
+      const result = await onLocalLoadEnd(media);
+      if (!result) return;
+
+      console.log(`output->result!!!!`, result, initFiles);
+
+      setInitFiles((prev) => [...prev, result]);
+    } catch (err) {
       console.error("Ошибка чтения файла:", err);
-    };
-
-    reader.readAsDataURL(file);
-    event.target.value = "";
+    } finally {
+      event.target.value = "";
+    }
   };
+
+  useEffect(() => {
+    console.log(`INIT FILES->result!!!!`, initFiles);
+  }, [initFiles, initFiles.length]);
 
   const reorderFiles = (items: any[]) => {
     setInitFiles(items);

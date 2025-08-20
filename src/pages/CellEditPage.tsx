@@ -13,19 +13,9 @@ import ChooseTemplate from "../comps/ChooseTemplate";
 import { CellEditDocuments } from "./CellEditPage/CellEditDocuments/CellEditDocuments";
 import addIcon from "../assets/icons/addIcon.svg";
 import type { Cell } from "../types";
-import axios from "axios";
 import { CellEditMedia } from "./CellEditPage/CellEditMedia/CellEditMedia";
-import { AdminTableControls } from "../comps/AdminTableControls";
-import AdminTable from "../comps/AdminTable";
 import { CellEditTable } from "./CellEditPage/CellEditTable/CellEditTable";
-import { cellStore, spreadsheetStore } from "../store/root";
-import {
-  useAllFiles,
-  useInitFileLoad,
-  useLocalFileLoad,
-} from "./CellEditPage/hooks";
-import { postSpreadsheetCell } from "../api/spreadsheet";
-import type { MediaData } from "./CellEditPage/types";
+import { cellStore } from "../store/root";
 import CellEditConfirmModal from "./CellEditPage/CellEditConfirmModal/CellEditConfirmModal";
 import OverlayLoader from "../comps/OverlayLoader/OverlayLoader";
 import { observer } from "mobx-react-lite";
@@ -209,7 +199,7 @@ const CellEditPage = ({ data }: Props) => {
                   selectedTemplate !== "text-media" &&
                   selectedTemplate !== "media"
                 }
-                className="w-[1232px] min-h-[160px] max-h-[288px] rounded-[24px] bg-white mt-[16px] p-[24px]"
+                className="w-[1232px] min-h-[160px] max-h-[600px] rounded-[24px] bg-white mt-[16px] p-[24px]"
               >
                 {data && (
                   <CellEditMedia images={data.images} ref={mediaFilesRef} />

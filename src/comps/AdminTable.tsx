@@ -47,10 +47,9 @@ const AdminTable = observer(
     ) => {
       const firstSequence = activeIndex + 1;
       const secondsSequence = overIndex + 1;
-      await tableStore.updateSpreadsheetColumns(firstSequence, secondsSequence);
-      // await tableStore.getSpreadSheetsHandler();
-      // setChangableRows(table);
-      // setChangableTitles(table[0]?.cells || undefined);
+      // await tableStore.updateSpreadsheetColumns(firstSequence, secondsSequence);
+      setChangableRows(table);
+      setChangableTitles(table[0]?.cells || undefined);
 
       // finishedTable.current = table;
     };

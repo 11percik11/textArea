@@ -1,4 +1,4 @@
-import { useImperativeHandle, type Ref } from "react";
+import { useEffect, useImperativeHandle, type Ref } from "react";
 import refreshIcon from "../../../assets/icons/Refresh.svg";
 import deleteIcon from "../../../assets/icons/deleteIcon.svg";
 import { SortableList } from "../../../comps/modals/SortableList";
@@ -17,7 +17,15 @@ type Props = {
 
 export const CellEditDocuments = observer(({ files, ref }: Props) => {
   const { handleInitFileDelete, initFiles, reorderFiles, onLocalFileLoad } =
-    useInitFileLoad(files, cellStore.addCellMediaHandler);
+    useInitFileLoad(
+      files,
+      cellStore.addCellDocumentHandler,
+      cellStore.deleteCellDocumentHandler,
+    );
+
+  useEffect(() => {
+    console.log("initFiles", files, initFiles);
+  }, [files, initFiles]);
 
   return (
     <div className="w-[296px] h-[740px] bg-white rounded-[24px] mt-[16px] p-[16px]">
@@ -27,7 +35,7 @@ export const CellEditDocuments = observer(({ files, ref }: Props) => {
           className="flex gap-[5px] flex-col"
           items={initFiles}
           onChange={reorderFiles}
-          renderItem={({ id, file, format }) => (
+          renderItem={({ id, file, format }, index) => (
             <SortableList.Item id={id}>
               <div
                 key={id}
@@ -37,9 +45,9 @@ export const CellEditDocuments = observer(({ files, ref }: Props) => {
                   <div className="absolute inset-0 w-full h-full"></div>
                 </DragHandleContainer>
                 <div className="flex w-full justify-between font-normal text-text text-[16px] mb-[8px]">
-                  {file.name}
+                  {id}
                   <div className="text-[12px] font-bold w-[49px] h-[32px] rounded-[17px] bg-[#FFFFFF80] flex text-center justify-center items-center">
-                    {format}
+                    Документ {index}
                   </div>
                 </div>
                 <div className="flex w-full justify-between font-normal text-text text-[16px] mb-[8px]">

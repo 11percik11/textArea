@@ -1,7 +1,12 @@
-import { updateCellContent } from "./../api/spreadsheetCell";
+import {
+  addCellImage,
+  deleteCellDocument,
+  deleteCellImage,
+  updateCellContent,
+} from "./../api/spreadsheetCell";
 import { action, computed, makeAutoObservable, runInAction } from "mobx";
 import { postSpreadsheet } from "../api/spreadsheet";
-import { addCellFile, updateCellVariant } from "../api/spreadsheetCell";
+import { addCellDocument, updateCellVariant } from "../api/spreadsheetCell";
 import type { Cell } from "../types";
 import type { LocalFileMedia } from "../pages/CellEditPage/hooks";
 
@@ -17,7 +22,7 @@ export class CellStore {
       updateCellVariantHandler: action,
       setCurrentCellId: action,
       setCurrentCell: action,
-      addCellMediaHandler: action,
+      addCellImageHandler: action,
       setLoading: action,
     });
   }
@@ -46,7 +51,7 @@ export class CellStore {
     title: string;
     description: string;
   }) => {
-    this.isLoading = true;
+    // this.isLoading = true;
     console.log(`output->this.currentCell?.id`, this.currentCell);
     try {
       const res = await updateCellContent(this.currentCell?.id, data);
@@ -54,13 +59,33 @@ export class CellStore {
       return true;
     } finally {
       runInAction(() => {
+        // this.isLoading = false;
+      });
+    }
+  };
+
+  addCellImageHandler = async (media: LocalFileMedia) => {
+    this.isLoading = true;
+    try {
+      const result = await addCellImage(media, this.currentCell?.id);
+      return result;
+    } finally {
+      runInAction(() => {
         this.isLoading = false;
       });
     }
   };
 
-  addCellMediaHandler = async (media: LocalFileMedia) => {
-    addCellFile(media, this.currentCell?.id);
+  addCellDocumentHandler = async (media: LocalFileMedia) => {
+    this.isLoading = true;
+    try {
+      const result = await addCellDocument(media, this.currentCell?.id);
+      return result;
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
   };
 
   setCurrentCell = (cell: Cell) => {
@@ -74,6 +99,36 @@ export class CellStore {
     const result = await postSpreadsheet(this.currentCellId);
     if (!result) return;
   }
+
+  deleteCellImageHandler = async (mediaId: number): Promise<boolean> => {
+    this.isLoading = true;
+    try {
+      const res = await deleteCellImage(mediaId);
+      return !!res;
+    } catch (err) {
+      console.error("Failed to delete image:", err);
+      return false;
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  };
+
+  deleteCellDocumentHandler = async (mediaId: number): Promise<boolean> => {
+    this.isLoading = true;
+    try {
+      const res = await deleteCellDocument(mediaId);
+      return !!res;
+    } catch (err) {
+      console.error("Failed to delete document:", err);
+      return false;
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  };
 
   //   get currentCell(){
 

@@ -37,7 +37,7 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
           </button>
         </div>
         <div className={styles["modal-files-content"]}>
-          {documents.map((document) => (
+          {documents.map((document, index) => (
             <div
               onClick={() => setSelected(document)}
               className={clsx(
@@ -47,9 +47,10 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
               key={document.id}
             >
               <div className={styles["modal-files-content-item__format-label"]}>
-                .{getFileExtensionFromPath(document.file)}
+                {/* .{getFileExtensionFromPath(document.file)} */}
+                .pdf
               </div>
-              <p>{document.file}</p>
+              <p>{`Документ ${index + 1}`}</p>
             </div>
           ))}
         </div>

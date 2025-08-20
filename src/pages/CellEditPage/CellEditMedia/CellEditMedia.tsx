@@ -14,56 +14,47 @@ import {
 import type { MediaData } from "../types";
 import { isLocalAddedMedia } from "../../../utils/isLocalAddedMedia";
 import { getFileExtensionFromPath } from "../../../utils/getFileExtensionFromPath";
+import { cellStore } from "../../../store/root";
 type Props = {
   images: ImageType[];
   ref: Ref<{ getAllFiles: (files: any) => MediaData }>;
 };
 
 export const CellEditMedia = ({ ref, images }: Props) => {
-  const { handleLocalFileDelete, locallyLoadedFiles, onLocalFileLoad } =
-    useLocalFileLoad();
-  const { handleInitFileDelete, initFiles } = useInitFileLoad(images);
+  const { handleInitFileDelete, initFiles, reorderFiles, onLocalFileLoad } =
+    useInitFileLoad(
+      images,
+      cellStore.addCellImageHandler,
+      cellStore.deleteCellImageHandler,
+    );
 
   console.log("images", images);
 
-  useImperativeHandle(ref, () => ({
-    getAllFiles: () => {
-      const result: MediaData = {
-        keepFilesIds: initFiles.map(({ id }) => id),
-        newFiles: locallyLoadedFiles,
-      };
-      return result;
-    },
-  }));
-
-  const resolveBackgroundImage = (id: string | number, url: string) => {
-    if (isLocalAddedMedia(id)) return url;
+  const resolveBackgroundImage = (url: string) => {
     return `http://table-of-time.test.itlabs.top/${url}`;
   };
-
-  const { allFiles, reorderFiles } = useAllFiles(initFiles, locallyLoadedFiles);
 
   return (
     <>
       <span className="text-[16px] text-accent font-bold">Медиа</span>
       <div
         // hidden={images.length === 0 && locallyLoadedFiles.length === 0}
-        className="mt-[8px] w-[1184px] h-[128px] flex gap-[8px]"
+        className="mt-[8px] w-[1184px]  flex gap-[8px]"
       >
         {/* {images.map(() => (
           <div className="size-[120px] rounded-[14px] bg-black"></div>
         ))} */}
 
         <SortableList
-          className="flex gap-[5px]"
-          items={allFiles}
+          className="flex gap-[5px] h-auto flex-wrap"
+          items={initFiles}
           onChange={reorderFiles}
           renderItem={(item, index) => (
             <SortableList.Item id={item.id}>
               <div
                 className="size-[120px] rounded-[14px] bg-black p-[8px] relative"
                 style={{
-                  backgroundImage: `url(${resolveBackgroundImage(item.id, item.image)})`,
+                  backgroundImage: `url(${resolveBackgroundImage(item?.image || item?.url)})`,
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
@@ -78,7 +69,6 @@ export const CellEditMedia = ({ ref, images }: Props) => {
                   onClick={(e) => {
                     e.stopPropagation(); // Prevent event from bubbling to drag handlers
                     e.preventDefault();
-                    handleLocalFileDelete(item.id);
                     handleInitFileDelete(item.id);
                   }}
                   className="absolute z-10 bottom-[8px] right-[8px] size-[32px] rounded-[6px] bg-white"
@@ -86,9 +76,7 @@ export const CellEditMedia = ({ ref, images }: Props) => {
                   <img src={deleteIcon} alt="add" className="size-[32px]" />
                 </button>
                 <p className="absolute bottom-[8px] left-[8px] p-[10px] h-[32px] rounded-[16px] bg-[rgba(255,255,255,0.8)] text-black flex items-center justify-center text-[12px] font-bold">
-                  {isLocalAddedMedia(item.id)
-                    ? item.format
-                    : getFileExtensionFromPath(item.image)}
+                  {getFileExtensionFromPath(item?.image || item?.url)}
                 </p>
                 <DragHandleContainer>
                   <div className="absolute inset-0 w-full h-full"></div>

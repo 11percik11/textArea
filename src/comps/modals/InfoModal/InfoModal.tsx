@@ -6,6 +6,7 @@ import { getServerMediaUrl } from "../../../utils/getServerMediaUrl";
 import { ModalGallery } from "./ModalGallery/ModalGallery";
 import { ModalFiles } from "./ModalFiles/ModalFiles";
 import { ModalMediaContent } from "./ModalMediaContent/ModalMediaContent";
+import { Icons } from "../../icons";
 
 enum ContentVariant {
   OneVideoOnly = "VideoOnly",
@@ -62,7 +63,14 @@ const InfoModal = ({ onClose, cell }: Props) => {
     null,
   );
 
-  console.log('selectedDocument',selectedDocument)
+  console.log("selectedDocument", selectedDocument);
+
+  const documents: FileType[] = [
+    {
+      file: "/",
+      id: 1,
+    },
+  ];
 
   const currentLayoutVariant = getLayoutVariant(cell, !!selectedDocument);
 
@@ -71,7 +79,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
       className={`${preClosed && "opacity-0"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10`}
     >
       <ModalFiles
-        documents={cell.files}
+        documents={documents}
         selected={selectedDocument}
         setSelected={setSelectedDocument}
       />
@@ -88,7 +96,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
             }}
             className="size-[56px] rounded-[12px] bg-accent flex items-center justify-center"
           >
-            <img src={closeIcon} alt="close" className="size-[32px]" />
+            <Icons.CloseIcon className="size-[32px]" color="#fff" />
           </button>
         </div>
         <ModalMediaContent cell={cell} selectedDocument={selectedDocument} />

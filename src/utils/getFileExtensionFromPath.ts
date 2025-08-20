@@ -1,3 +1,4 @@
 export const getFileExtensionFromPath = (src: string) => {
-  return src.split("/")[1].split(".")[1];
+  if (src[0] === "/") src = src.slice(1);
+  return src?.split("/")[1].split(".")[1];
 };

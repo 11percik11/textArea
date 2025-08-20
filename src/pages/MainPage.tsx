@@ -6,10 +6,11 @@ import axios from "axios";
 import type { Cell, Spreadsheet } from "../types";
 import InfoModal from "../comps/modals/InfoModal/InfoModal";
 import { getSpreadsheets } from "../api/spreadsheet";
+import { API_CONFIG } from "../assets/config";
 
 const MainPage = () => {
   //@ts-ignore
-  const apiUrl = window.__API_CONFIG__.apiUrl;
+  const apiUrl = API_CONFIG.apiUrl;
   useEffect(() => {
     getSpreadsheets()
       .then((data) => {
@@ -57,7 +58,7 @@ const MainPage = () => {
           />
         )}
       </div>
-      <MenuSwipe onSelect={(option) => setCurrentTable(option)} />
+      {/* <MenuSwipe onSelect={(option) => setCurrentTable(option)} /> */}
     </div>
   );
 };

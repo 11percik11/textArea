@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import test from "../../assets/test3.pdf";
+import test from "../../assets/test4.pdf";
 import { usePdf } from "@mikecousins/react-pdf";
 import closeIcon from "../../assets/icons/closeIcon.svg";
 
@@ -27,7 +27,7 @@ const PdfReader = ({ onClose, title, src }: Props) => {
   });
   return (
     <>
-      <div className="mx-auto w-[1232px] h-[904px] bg-white rounded-[32px] p-[32px] mt-[32px]">
+      <div className="mx-auto bg-white rounded-[32px] p-[32px] mt-[32px]">
         <div className="w-[1168px] h-[752px] flex gap-[32px] mt-[32px] justify-center items-center">
           {!pdfDocument && <span className={"text-black"}>Loading...</span>}
           <canvas
