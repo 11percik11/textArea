@@ -10,16 +10,18 @@ import { AdminTableControls } from "../../comps/AdminTableControls";
 import { tableStore } from "./SpreadsheetStore";
 import { observer } from "mobx-react-lite";
 
-type Props = {
-  onSelectCell: (data: Cell) => void;
-};
+type Props = {};
 
-const AdminPage = observer(({ onSelectCell }: Props) => {
+const AdminPage = observer(({}: Props) => {
   const [isExitModalOpen, setExitModalOpen] = useState(false);
 
   //@ts-ignore
   const apiUrl = window.__API_CONFIG__.apiUrl;
-  const { getSpreadSheetsHandler } = tableStore;
+  const { getSpreadSheetsHandler, addSpreadsheetContentHandler } = tableStore;
+
+  const onAddContent = async (isRow: boolean) => {
+    await addSpreadsheetContentHandler(isRow);
+  };
 
   useEffect(() => {
     getSpreadSheetsHandler();
@@ -41,16 +43,12 @@ const AdminPage = observer(({ onSelectCell }: Props) => {
       </div>
 
       <AdminTableControls
-        onAddRow={() => {
-          // onAddRow(table);
-        }}
-        onAddColumn={() => {}}
-        current={tableStore.rows}
+        addContent={onAddContent}
+        current={tableStore.spreadSheetColumnsAndRowsLength}
       />
 
       <AdminTable
         spreadsheetId={tableStore.table?.id || -1}
-        onSelectCell={(data) => onSelectCell(data)}
         onEdit={(editedRows) => {
           console.log("editedRows", editedRows);
           // setRows(editedRows);

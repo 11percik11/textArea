@@ -1,10 +1,11 @@
 import type { Cell, FileType, ImageType, Spreadsheet } from "../types";
 import { base64ToBlob, fileToBlob } from "../utils/fileTypeConversion";
 import apiClient, { API_URL } from "./client";
+import type { UpdateContentResponse } from "./types";
 
 export const postSpreadsheet = async (cellId: number) => {
   try {
-    const response = await apiClient.post(`/spreadsheet?cell=${cellId}`, {});
+    const response = await apiClient.post(`/spreadsheets?cell=${cellId}`, {});
     return response.data as Spreadsheet;
   } catch (error) {
     console.error("Error posting spreadsheet cell:", error);
@@ -103,11 +104,10 @@ export const moveSpreadsheetContentPositions = async ({
   isRow,
   first,
   second,
-}: MoveSpreadsheetContentPositionsParams) => {
+}: MoveSpreadsheetContentPositionsParams): Promise<UpdateContentResponse> => {
   try {
-    const res = await apiClient.post<Spreadsheet>(
-      `/spreadsheets/move-content`,
-      null,
+    const res = await apiClient.get<UpdateContentResponse>(
+      `/spreadsheets/move`,
       {
         params: {
           spreadsheetId,
@@ -122,4 +122,41 @@ export const moveSpreadsheetContentPositions = async ({
     console.error("Failed to move spreadsheet content positions:", error);
     throw error;
   }
+};
+
+export const removeSpreadsheetContent = async (
+  spreadsheetId: number,
+  isRow: boolean,
+  sequence: number,
+): Promise<UpdateContentResponse> => {
+  const res = await apiClient.get<UpdateContentResponse>(
+    `/spreadsheets/content`,
+    {
+      params: {
+        spreadsheetId,
+        isRow,
+        sequence,
+      },
+    },
+  );
+
+  return res.data;
+};
+
+export const addSpreadsheetContent = async (
+  spreadsheetId: number,
+  isRow: boolean,
+): Promise<UpdateContentResponse> => {
+  const res = await apiClient.post<UpdateContentResponse>(
+    `/spreadsheets/add-content`,
+    {},
+    {
+      params: {
+        spreadsheetId,
+        isRow,
+      },
+    },
+  );
+
+  return res.data;
 };

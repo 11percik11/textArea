@@ -3,7 +3,7 @@ export interface Cell {
   sequence: number;
   title?: string; //можно не задавать на временной линии
   isTitleVisible: boolean;
-  type: string;
+  type: "text" | "text-media" | "media" | "table";
   description: string;
   images: ImageType[];
   files: FileType[];
@@ -47,3 +47,4 @@ export interface Spreadsheet {
     sequence: number;
   };
 }
+

@@ -1,16 +1,25 @@
-import { computed, makeAutoObservable, runInAction } from "mobx";
-import { getSpreadsheets } from "../../api/spreadsheet";
+import { action, computed, makeAutoObservable, runInAction } from "mobx";
+import {
+  addSpreadsheetContent,
+  getSpreadsheets,
+  moveSpreadsheetContentPositions,
+  removeSpreadsheetContent,
+} from "../../api/spreadsheet";
 import type { Spreadsheet } from "../../types";
 
 class TableStore {
   constructor() {
     makeAutoObservable(this, {
       rows: computed,
+      spreadSheetColumnsAndRowsLength: computed,
+      addSpreadsheetContentHandler: action, 
+      updateSpreadsheetColumns: action, 
+      removeSpreadsheetContentHandler: action, 
     });
   }
 
   table: Spreadsheet | null = null;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
 
   get rows() {
     return this.table?.rows || [];
@@ -29,10 +38,70 @@ class TableStore {
     }
   };
 
-  
+  addSpreadsheetContentHandler = async (isRow: boolean) => {
+    this.isLoading = true;
+    try {
+      const res = await addSpreadsheetContent(this.table?.id, isRow);
+      if (!res) return;
+      this.updateSpreadsheet(res.data);
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  };
 
+  removeSpreadsheetContentHandler = async (
+    isRow: boolean,
+    sequence: number,
+  ) => {
+    this.isLoading = true;
+    try {
+      const res = await removeSpreadsheetContent(
+        this.table?.id,
+        isRow,
+        sequence,
+      );
+      if (!res) return;
+      this.updateSpreadsheet(res.data);
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  };
 
+  updateSpreadsheetColumns = async (
+    firstSequence: number,
+    secondsSequence: number,
+  ) => {
+    this.isLoading = true;
+    try {
+      const res = await moveSpreadsheetContentPositions({
+        first: firstSequence,
+        second: secondsSequence,
+        isRow: true,
+        spreadsheetId: this.table?.id,
+      });
+      if (!res) return;
+      this.updateSpreadsheet(res.data);
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  };
 
+  updateSpreadsheet = (table: Spreadsheet) => {
+    this.table = table;
+  };
+
+  get spreadSheetColumnsAndRowsLength() {
+    return {
+      columns: this.table?.rows[0]?.cells.length || 0,
+      rows: this.rows.length,
+    };
+  }
 }
 
 export const tableStore = new TableStore();

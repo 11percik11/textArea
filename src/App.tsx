@@ -1,16 +1,25 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import PasswordModal from "./comps/modals/PasswordModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import CellEditPage from "./pages/CellEditPage";
 import type { Cell } from "./types";
 import { TablePage } from "./pages/TablePage/TablePage";
 import { LvlSelectModal } from "./comps/modals/LvlSelectModal/LvlSelectModal";
+import { cellStore } from "./store/root";
+import { observer } from "mobx-react-lite";
 
 const App = () => {
-  const [currCell, setCurrCell] = useState<Cell | null>(null);
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
+
+  useEffect(() => {
+    console.log("wtf APP", cellStore.currentCell);
+  }, [cellStore.currentCell]);
+
+  useEffect(() => {
+    console.log("wtf APP", cellStore.currentCellId);
+  }, [cellStore.currentCellId]);
 
   return (
     <div className="w-[1920px] h-[1080px] top-0 left-0">
@@ -28,21 +37,15 @@ const App = () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/table" element={<MainPage />} />
           <Route path="/admin/table" element={<TablePage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route
-            path="/admin"
-            element={
-              <AdminPage
-                onSelectCell={(data) => {
-                  setCurrCell(data);
-                }}
-              />
-            }
+            path="/celledit"
+            element={<CellEditPage data={cellStore.currentCell} />}
           />
-          <Route path="/celledit" element={<CellEditPage data={currCell} />} />
         </Routes>
       </Router>
     </div>
   );
 };
 
-export default App;
+export default observer(App);

@@ -5,16 +5,17 @@ import PdfReader from "../comps/modals/PdfReader";
 import axios from "axios";
 import type { Cell, Spreadsheet } from "../types";
 import InfoModal from "../comps/modals/InfoModal/InfoModal";
+import { getSpreadsheets } from "../api/spreadsheet";
 
 const MainPage = () => {
   //@ts-ignore
   const apiUrl = window.__API_CONFIG__.apiUrl;
   useEffect(() => {
-    axios
-      .get(apiUrl + `api/spreadsheet`)
-      .then((response) => {
-        setNature(response.data[0]);
-        setSocium(response.data[1]);
+    getSpreadsheets()
+      .then((data) => {
+        if (!data) return;
+        setNature(data[0]);
+        setSocium(data[1]);
         setIsLoading(false);
       })
       .catch(() => {
@@ -43,9 +44,6 @@ const MainPage = () => {
         hidden={isLoading}
         className="w-[1856px] h-[896px] overflow-scroll hide-scroll"
       >
-
-      
-
         {currentTable === 0 && (
           <MainTable
             content={nature}

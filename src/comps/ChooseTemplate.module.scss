@@ -1,0 +1,8 @@
+.ChooseTemplate {
+    height: fit-content;
+  button {
+    &:disabled {
+      opacity: 0.15;
+    }
+  }
+}

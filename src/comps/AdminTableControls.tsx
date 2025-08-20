@@ -3,30 +3,28 @@ import arrIcon from "../assets/icons/grayArrIcon.svg";
 import addIcon from "../assets/icons/addIcon.svg";
 
 type Props = {
-  current: Spreadsheet["rows"];
-  onAddRow: () => void;
-  onAddColumn: () => void;
+  current: { columns: number; rows: number };
+  addContent: (isRow: boolean) => void;
   onTimelineAdd?: () => void;
 };
 
 export const AdminTableControls = ({
   current,
-  onAddColumn,
-  onAddRow,
+  addContent,
   onTimelineAdd,
 }: Props) => {
   return (
     <div className="flex w-full h-[88px] my-[16px] gap-[16px]">
       <button
         onClick={() => {
-          onAddColumn();
+          addContent(false);
         }}
         className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]"
       >
         <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
           Колонки
           <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-            {current[0]?.cells.length}
+            {current.columns}
             <img src={arrIcon} alt="cols" className="size-[32px]" />
           </div>
         </div>
@@ -36,14 +34,14 @@ export const AdminTableControls = ({
       </button>
       <button
         onClick={() => {
-          onAddRow();
+          addContent(true);
         }}
         className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]"
       >
         <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
           Строки
           <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-            {current.length}
+            {current.rows}
             <img src={arrIcon} alt="rows" className="size-[32px] rotate-270" />
           </div>
         </div>
