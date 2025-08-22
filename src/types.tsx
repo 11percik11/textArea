@@ -1,11 +1,14 @@
 export interface Cell {
-  id: number | null;
+  id: number;
   sequence: number;
   title?: string; //можно не задавать на временной линии
   isTitleVisible: boolean;
   type: "text" | "text-media" | "media" | "table";
   description: string;
   images: ImageType[];
+  children: null | {
+    id: number;
+  };
   files: FileType[];
   isTitleHidden?: boolean;
   value?: string; //для временной линии
@@ -22,7 +25,7 @@ export interface ImageType {
 }
 
 export interface Spreadsheet {
-  id: number | null;
+  id: number;
   title: string;
   rows: {
     id: number | null;
@@ -30,16 +33,7 @@ export interface Spreadsheet {
     color: string;
     sequence: number;
     isTimeScale: boolean;
-    cells: {
-      id: number | null;
-      sequence: number;
-      title: string;
-      isTitleVisible: boolean;
-      type: string;
-      description: string;
-      images: ImageType[];
-      files: FileType[];
-    }[];
+    cells: Cell[];
   }[];
   parentCell: {
     id: number;
@@ -47,4 +41,3 @@ export interface Spreadsheet {
     sequence: number;
   };
 }
-

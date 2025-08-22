@@ -5,23 +5,19 @@ import videoIcon from "../../assets/icons/videoIcon.svg";
 import documentIcon from "../../assets/icons/Document Text.svg";
 import imagesIcon from "../../assets/icons/AlbumIcon.svg";
 import { useNavigate } from "react-router-dom";
-import { spreadsheetStore } from "../../store/root";
+import { cellStore, spreadsheetStore } from "../../store/root";
 import { TableLinkButton } from "./TableLinkButton/TableLinkButton";
 
 type Props = {
-  onSelectCell: (data: Cell) => void;
   data: Cell;
   color: string;
+  onClick: (cellId: number) => void;
 };
-const AdminCell = ({ data, color, onSelectCell }: Props) => {
-  const navigate = useNavigate();
+const AdminCell = ({ data, color, onClick }: Props) => {
+  const onClickHandler = () => onClick(data.id);
   return (
     <div
-      onClick={() => {
-        onSelectCell(data);
-        navigate("/celledit");
-        spreadsheetStore.setCurrentCellId(data.id);
-      }}
+      onClick={onClickHandler}
       style={{ backgroundColor: color }}
       className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}
     >

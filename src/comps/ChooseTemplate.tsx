@@ -5,6 +5,8 @@ import tmImg from "../assets/images/template image text and media.svg";
 import textImg from "../assets/images/template image text.svg";
 import type { Cell } from "../types";
 import style from "./ChooseTemplate.module.scss";
+import { observer } from "mobx-react-lite";
+
 type Props = {
   selectedTemplate: Cell["type"];
   setSelectedTemplate: (type: Cell["type"]) => void;
@@ -57,21 +59,22 @@ const ChooseTemplate = ({ selectedTemplate, setSelectedTemplate }: Props) => {
           className="w-[232px] h-[134px] mt-[16px] mx-auto"
         />
       </button>
-      {/* <button
-        // disabled={selectedTemplate === "table"}
-        disabled
+      <button
+        disabled={selectedTemplate === "table"}
         onClick={() => setSelectedTemplate("table")}
         className={`mt-[8px] bg-red text-center text-[24px] text-accent font-bold w-[264px] h-[206px] bg-[#F2F6F7] rounded-[14px] ${selectedTemplate == "table" ? "border-[4px] border-accent p-[12px]" : "p-[16px]"}`}
       >
-        Таблица <p>(в разработке)</p>
+        Таблица
         <img
           src={tableImg}
           alt="table"
           className="w-[232px] h-[134px] mt-[16px] mx-auto"
         />
-      </button> */}
+      </button>
     </div>
   );
 };
 
-export default ChooseTemplate;
+export default observer(ChooseTemplate);
+
+

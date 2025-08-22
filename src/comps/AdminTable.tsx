@@ -13,21 +13,28 @@ import {
 import { tableStore } from "../pages/AdminPage/SpreadsheetStore";
 import OverlayLoader from "./OverlayLoader/OverlayLoader";
 import { cellStore } from "../store/root";
+import type { SpreadsheetEntity } from "../store/SpreadsheetEntity";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
-  spreadsheetId: number;
-  content: Spreadsheet["rows"];
+  spreadsheet: SpreadsheetEntity;
   onEdit: (table: Spreadsheet["rows"]) => void;
   // onSelectCell: (data: Cell) => void;
   widthPx?: number;
 };
 
 const AdminTable = observer(
-  ({ spreadsheetId, content, onEdit, widthPx = 1856 }: Props) => {
+  ({ spreadsheet, onEdit, widthPx = 1856 }: Props) => {
+    const content = spreadsheet.rows;
     const [changableRows, setChangableRows] = useState(content);
     const [test, setTest] = useState(true);
     const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
     const finishedTable = useRef(content);
+
+    const navigate = useNavigate();
+    const onCellClick = (cellId: number) => {
+      navigate(`/celledit?id=${cellId}&spreadsheetId=${spreadsheet.id}`);
+    };
 
     useEffect(() => {
       setChangableRows(content);
@@ -77,7 +84,7 @@ const AdminTable = observer(
       setChangableRows((prev) =>
         prev.filter((oldRow) => oldRow.sequence !== sequence),
       );
-      await tableStore.removeSpreadsheetContentHandler(true, sequence);
+      await spreadsheet.removeSpreadsheetContentHandler(true, sequence);
       // await tableStore.getSpreadSheetsHandler();
     };
 
@@ -85,13 +92,8 @@ const AdminTable = observer(
       setChangableTitles((prev) =>
         prev.filter((oldRow) => oldRow.sequence !== sequence),
       );
-      await tableStore.removeSpreadsheetContentHandler(false, sequence);
+      await spreadsheet.removeSpreadsheetContentHandler(false, sequence);
       // await tableStore.getSpreadSheetsHandler();
-    };
-
-    const onSelectCellHandler = (data: Cell) => {
-      cellStore.setCurrentCellId(data.id);
-      cellStore.setCurrentCell(data);
     };
 
     return (
@@ -153,10 +155,10 @@ const AdminTable = observer(
                     </div>
                     {row.cells?.map((cell: Cell, colIndex: number) => (
                       <AdminCell
-                        onSelectCell={onSelectCellHandler}
                         color={row.color || "#FFFFFF"}
                         key={colIndex}
                         data={cell}
+                        onClick={onCellClick}
                       />
                     ))}
                   </div>

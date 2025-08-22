@@ -10,39 +10,60 @@ import { addCellDocument, updateCellVariant } from "../api/spreadsheetCell";
 import type { Cell } from "../types";
 import type { LocalFileMedia } from "../pages/CellEditPage/hooks";
 
-export class CellStore {
-  currentCellId: number | null = null;
-
-  currentCell: Cell | null = null;
+export class CellEntity {
+  constructor(cell: Cell) {
+    this.raw = cell;
+    makeAutoObservable(this);
+  }
 
   isLoading = false;
 
-  constructor() {
-    makeAutoObservable(this, {
-      updateCellVariantHandler: action,
-      setCurrentCellId: action,
-      setCurrentCell: action,
-      addCellImageHandler: action,
-      updateCellLocal: action,
-      setLoading: action,
-    });
+  raw: Cell;
+
+  get id() {
+    return this.raw.id;
   }
+
+  get title() {
+    return this.raw.title;
+  }
+
+  get description() {
+    return this.raw.description;
+  }
+
+  get type() {
+    return this.raw.type;
+  }
+
+  get images() {
+    return this.raw.images;
+  }
+
+  get files() {
+    return this.raw.files;
+  }
+
+  get spreadsheetParentId() {
+    return this.raw.children?.id;
+  }
+
+  update = (cell: Cell) => {
+    this.raw = cell;
+  };
+
+  assignUpdate = (cell: Partial<Cell>) => {
+    this.raw = { ...this.raw, ...cell };
+  };
 
   setLoading = (value: boolean) => (this.isLoading = value);
 
-  setCurrentCellId(id: number | null) {
-    this.currentCellId = id;
-  }
-
-  updateCellVariantHandler = async (variant: Cell["type"]) => {
-    if (!this.currentCell) return;
+  updateType = async (variant: Cell["type"]) => {
     this.isLoading = true;
     try {
-      const res = await updateCellVariant(this.currentCell.id, variant);
-      this.currentCell.type = res.cell.type;
-
+      const res = await updateCellVariant(this.id, variant);
       if (!res) return;
-
+      this.assignUpdate(res.cell);
       return true;
     } finally {
       runInAction(() => {
@@ -51,19 +72,15 @@ export class CellStore {
     }
   };
 
-  updateCellLocal = () => {};
-
   updateCellTextContentHandler = async (data: {
     title: string;
     description: string;
   }) => {
     // this.isLoading = true;
-    console.log(`output->this.currentCell?.id`, this.currentCell);
     try {
-      if (!this.currentCell) return;
-      const res = await updateCellContent(this.currentCell?.id, data);
+      const res = await updateCellContent(this.id, data);
       if (!res) return;
-      this.currentCell.title = data.title;
+      this.assignUpdate(data);
       return true;
     } finally {
       runInAction(() => {
@@ -75,7 +92,7 @@ export class CellStore {
   addCellImageHandler = async (media: LocalFileMedia) => {
     this.isLoading = true;
     try {
-      const result = await addCellImage(media, this.currentCell?.id);
+      const result = await addCellImage(media, this.id);
       return result;
     } finally {
       runInAction(() => {
@@ -87,7 +104,7 @@ export class CellStore {
   addCellDocumentHandler = async (media: LocalFileMedia) => {
     this.isLoading = true;
     try {
-      const result = await addCellDocument(media, this.currentCell?.id);
+      const result = await addCellDocument(media, this.id);
       return result;
     } finally {
       runInAction(() => {
@@ -95,18 +112,6 @@ export class CellStore {
       });
     }
   };
-
-  setCurrentCell = (cell: Cell) => {
-    console.log(`setCurrentCell->from`, cell);
-    this.currentCell = cell;
-  };
-  async addSpreadsheetForCurrentCell() {
-    if (!this.currentCellId) {
-      throw new Error("currentCellId is null");
-    }
-    const result = await postSpreadsheet(this.currentCellId);
-    if (!result) return;
-  }
 
   deleteCellImageHandler = async (mediaId: number): Promise<boolean> => {
     this.isLoading = true;
@@ -137,8 +142,4 @@ export class CellStore {
       });
     }
   };
-
-  //   get currentCell(){
-
-  //   }
 }

@@ -2,12 +2,13 @@ import type { LocalFileMedia } from "../pages/CellEditPage/hooks";
 import type { Cell, FileType } from "../types";
 import { base64ToBlob } from "../utils/fileTypeConversion";
 import apiClient, { API_URL } from "./client";
+import type { UpdateCellVariantResponse } from "./types";
 
 export const updateCellVariant = async (
   cellId: number,
   variant: Cell["type"],
-): Promise<any> => {
-  const res = await apiClient.post<any>(
+): Promise<UpdateCellVariantResponse> => {
+  const res = await apiClient.post<UpdateCellVariantResponse>(
     `/cell/edit-type`,
     {
       type: variant,
@@ -97,7 +98,6 @@ export const addCellImage = async (
     return null;
   }
 };
-
 
 export const deleteCellDocument = async (
   fileId: number,

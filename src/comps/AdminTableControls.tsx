@@ -1,30 +1,26 @@
 import type { Spreadsheet } from "../types";
 import arrIcon from "../assets/icons/grayArrIcon.svg";
 import addIcon from "../assets/icons/addIcon.svg";
+import type { SpreadsheetEntity } from "../store/SpreadsheetEntity";
 
 type Props = {
-  current: { columns: number; rows: number };
-  addContent: (isRow: boolean) => void;
   onTimelineAdd?: () => void;
+  spreadsheet: SpreadsheetEntity;
 };
 
-export const AdminTableControls = ({
-  current,
-  addContent,
-  onTimelineAdd,
-}: Props) => {
+export const AdminTableControls = ({ spreadsheet, onTimelineAdd }: Props) => {
   return (
     <div className="flex w-full h-[88px] my-[16px] gap-[16px]">
       <button
         onClick={() => {
-          addContent(false);
+          spreadsheet.addSpreadsheetContentHandler(false);
         }}
         className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]"
       >
         <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
           Колонки
           <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-            {current.columns}
+            {spreadsheet.columnsAndRows.columns}
             <img src={arrIcon} alt="cols" className="size-[32px]" />
           </div>
         </div>
@@ -34,14 +30,14 @@ export const AdminTableControls = ({
       </button>
       <button
         onClick={() => {
-          addContent(true);
+          spreadsheet.addSpreadsheetContentHandler(true);
         }}
         className="w-[218px] h-[88px] bg-white rounded-[24px] px-[24px] py-[16px] flex gap-[16px]"
       >
         <div className="w-[98px] h-[56px] text-[16px] text-accent font-bold text-left">
           Строки
           <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
-            {current.rows}
+            {spreadsheet.columnsAndRows.rows}
             <img src={arrIcon} alt="rows" className="size-[32px] rotate-270" />
           </div>
         </div>

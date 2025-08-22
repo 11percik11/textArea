@@ -5,30 +5,27 @@ import {
   useState,
   type ChangeEvent,
 } from "react";
-import exitIcon from "../assets/icons/exitIcon.svg";
-import ExitModal from "../comps/modals/ExitModal";
+import exitIcon from "../../assets/icons/exitIcon.svg";
+import ExitModal from "../../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
-import arrIcon from "../assets/icons/arrSimple.svg";
-import ChooseTemplate from "../comps/ChooseTemplate";
-import { CellEditDocuments } from "./CellEditPage/CellEditDocuments/CellEditDocuments";
-import addIcon from "../assets/icons/addIcon.svg";
-import type { Cell } from "../types";
-import { CellEditMedia } from "./CellEditPage/CellEditMedia/CellEditMedia";
-import { CellEditTable } from "./CellEditPage/CellEditTable/CellEditTable";
-import { cellStore } from "../store/root";
-import CellEditConfirmModal from "./CellEditPage/CellEditConfirmModal/CellEditConfirmModal";
-import OverlayLoader from "../comps/OverlayLoader/OverlayLoader";
+import arrIcon from "../../assets/icons/arrSimple.svg";
+import ChooseTemplate from "../../comps/ChooseTemplate";
+import { CellEditDocuments } from "./CellEditDocuments/CellEditDocuments";
+import addIcon from "../../assets/icons/addIcon.svg";
+import type { Cell } from "../../types";
+import { CellEditMedia } from "./CellEditMedia/CellEditMedia";
+import { CellEditTable } from "./CellEditTable/CellEditTable";
+import CellEditConfirmModal from "./CellEditConfirmModal/CellEditConfirmModal";
+import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 import { observer } from "mobx-react-lite";
+import { useGetCurrentCell } from "./hooks/useGetCurrentCell";
+import { tableStore } from "../AdminPage/SpreadsheetStore";
+import { toJS } from "mobx";
+import type { CellEntity } from "../../store/CellEntity";
 
-type Props = {
-  data: Cell | null;
-};
+type Props = { data: CellEntity };
 
 const CellEditPage = ({ data }: Props) => {
-  //@ts-ignore
-  const mediaFilesRef = useRef(null);
-  const documentFilesRef = useRef(null);
-
   const [timelineValue, setTimelineValue] = useState("");
   const handleTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTimelineValue(event.target.value);
@@ -46,7 +43,7 @@ const CellEditPage = ({ data }: Props) => {
     }
 
     debounceRef.current = setTimeout(() => {
-      cellStore.updateCellTextContentHandler({
+      data.updateCellTextContentHandler({
         title: titleValue,
         description: textBlockValue,
       });
@@ -72,16 +69,10 @@ const CellEditPage = ({ data }: Props) => {
   const handleBack = () => {
     navigate(-1);
   };
-  const [selectedTemplate, setSelectedTemplate] = useState<Cell["type"] | null>(
-    data?.type || null,
-  ); //text, images, text-media, table
+  // const [data.type, setSelectedTemplate] = useState<Cell["type"] | null>(
+  //   data?.type || null,
+  // ); //text, images, text-media, table
   const [isTimeline] = useState();
-
-  // useEffect(() => {
-  //   if (selectedTemplate === "table") {
-  //     spreadsheetStore.addSpreadsheetForCurrentCell();
-  //   }
-  // }, [selectedTemplate]);
 
   const [currentCellVariantModal, setCurrentCellVariantModal] = useState<
     Cell["type"] | null
@@ -90,16 +81,10 @@ const CellEditPage = ({ data }: Props) => {
   const onSelectTemplate = (type: Cell["type"]) =>
     setCurrentCellVariantModal(type);
 
-  useEffect(() => {
-    console.log("wtf", cellStore.currentCell);
-  }, [cellStore.currentCell]);
-
   const onCellVariantModalCancel = () => setCurrentCellVariantModal(null);
   const onCellVariantModalConfirm = async (variant: Cell["type"]) => {
     setCurrentCellVariantModal(null);
-    const res = await cellStore.updateCellVariantHandler(variant);
-    if (!res) return;
-    setSelectedTemplate(variant);
+    await data.updateType(variant);
   };
 
   const Modals = (
@@ -134,7 +119,7 @@ const CellEditPage = ({ data }: Props) => {
   return (
     <div className="animate-appear w-full h-full p-[32px]">
       {Modals}
-      <OverlayLoader isLoading={cellStore.isLoading} />
+      <OverlayLoader isLoading={data.isLoading} />
       <div className="flex items-center gap-[16px]">
         <button
           onClick={() => setExitModalOpen(true)}
@@ -154,15 +139,15 @@ const CellEditPage = ({ data }: Props) => {
       </div>
       <div className="flex gap-[16px] mt-[16px]">
         <ChooseTemplate
-          selectedTemplate={selectedTemplate}
+          selectedTemplate={data.type}
           setSelectedTemplate={onSelectTemplate}
         />
 
-        {selectedTemplate && (
+        {data.type && (
           <>
             <div
               style={{
-                width: `${selectedTemplate == "table" ? 1544 : 1232}px`,
+                width: `${data.type == "table" ? 1544 : 1232}px`,
               }}
               className={`h-[928px]`}
             >
@@ -195,22 +180,14 @@ const CellEditPage = ({ data }: Props) => {
                 </div>
               </div>
               <div
-                hidden={
-                  selectedTemplate !== "text-media" &&
-                  selectedTemplate !== "media"
-                }
+                hidden={data.type !== "text-media" && data.type !== "media"}
                 className="w-[1232px] min-h-[160px] max-h-[600px] rounded-[24px] bg-white mt-[16px] p-[24px]"
               >
-                {data && (
-                  <CellEditMedia images={data.images} ref={mediaFilesRef} />
-                )}
+                {data && <CellEditMedia images={data.images} />}
               </div>
               <div
-                hidden={
-                  selectedTemplate !== "text" &&
-                  selectedTemplate !== "text-media"
-                }
-                className={`w-[1232px] mt-[16px] ${selectedTemplate === "text" ? "h-[820px]" : "h-[644px]"} min-h-[516px] rounded-[24px] bg-white p-[24px]`}
+                hidden={data.type !== "text" && data.type !== "text-media"}
+                className={`w-[1232px] mt-[16px] ${data.type === "text" ? "h-[820px]" : "h-[644px]"} min-h-[516px] rounded-[24px] bg-white p-[24px]`}
               >
                 <span className="text-[16px] text-accent font-bold w-[1184px] h-[16px]">
                   Текст
@@ -224,13 +201,10 @@ const CellEditPage = ({ data }: Props) => {
                 />
               </div>
 
-              {selectedTemplate === "table" && <CellEditTable />}
+              {data.type === "table" && <CellEditTable data={data} />}
             </div>
 
-            <div
-              className="w-[296px] h-[928px]"
-              hidden={selectedTemplate === "table"}
-            >
+            <div className="w-[296px] h-[928px]" hidden={data.type === "table"}>
               <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
                 <div className="text-center mx-auto text-accent text-[32px] font-bold">
                   Таблица
@@ -246,10 +220,7 @@ const CellEditPage = ({ data }: Props) => {
                   Сначала создайте ячейку
                 </div>
               </div>
-              <CellEditDocuments
-                files={data?.files || []}
-                ref={documentFilesRef}
-              />
+              <CellEditDocuments files={data?.files || []} />
             </div>
           </>
         )}

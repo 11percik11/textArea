@@ -10,6 +10,9 @@ import { AdminTableControls } from "../../comps/AdminTableControls";
 import { tableStore } from "./SpreadsheetStore";
 import { observer } from "mobx-react-lite";
 import { API_CONFIG } from "../../assets/config";
+import { cancelRequest } from "../../api/shared/requestCancel";
+import { spreadsheetManager } from "../../store/root";
+import { toJS } from "mobx";
 
 type Props = {};
 
@@ -18,15 +21,19 @@ const AdminPage = observer(({}: Props) => {
 
   //@ts-ignore
   const apiUrl = API_CONFIG.apiUrl;
-  const { getSpreadSheetsHandler, addSpreadsheetContentHandler } = tableStore;
 
-  const onAddContent = async (isRow: boolean) => {
-    await addSpreadsheetContentHandler(isRow);
-  };
+  const current = spreadsheetManager.currentMainSpreadsheet;
 
   useEffect(() => {
-    getSpreadSheetsHandler();
+    return () => {
+      cancelRequest("getSpreadsheets");
+    };
   }, []);
+
+  useEffect(() => {
+    console.log("currentMainSpreadsheet", current);
+  }, [current]);
+
 
   const navigate = useNavigate();
   return (
@@ -43,20 +50,19 @@ const AdminPage = observer(({}: Props) => {
         </div>
       </div>
 
-      <AdminTableControls
-        addContent={onAddContent}
-        current={tableStore.spreadSheetColumnsAndRowsLength}
-      />
-
-      <AdminTable
-        spreadsheetId={tableStore.table?.id || -1}
-        onEdit={(editedRows) => {
-          console.log("editedRows", editedRows);
-          // setRows(editedRows);
-        }}
-        content={tableStore.rows}
-      />
-      {/* <MenuSwipe onSelect={() => {}} /> */}
+      {current && (
+        <>
+          <AdminTableControls spreadsheet={current} />
+          <AdminTable
+            spreadsheet={current}
+            onEdit={(editedRows) => {
+              console.log("editedRows", editedRows);
+              // setRows(editedRows);
+            }}
+          />
+          <MenuSwipe />
+        </>
+      )}
       {isExitModalOpen && (
         <ExitModal
           onNo={() => setExitModalOpen(false)}

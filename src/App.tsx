@@ -3,12 +3,13 @@ import MainPage from "./pages/MainPage";
 import PasswordModal from "./comps/modals/PasswordModal";
 import { useEffect, useState } from "react";
 import AdminPage from "./pages/AdminPage/AdminPage";
-import CellEditPage from "./pages/CellEditPage";
+import CellEditPage from "./pages/CellEditPage/CellEditPage";
 import type { Cell } from "./types";
 import { TablePage } from "./pages/TablePage/TablePage";
 import { LvlSelectModal } from "./comps/modals/LvlSelectModal/LvlSelectModal";
 import { cellStore } from "./store/root";
 import { observer } from "mobx-react-lite";
+import { CellEditPageWrapper } from "./pages/CellEditPage/CellEditPageWrapper";
 
 const App = () => {
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
@@ -38,10 +39,7 @@ const App = () => {
           <Route path="/table" element={<MainPage />} />
           <Route path="/admin/table" element={<TablePage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route
-            path="/celledit"
-            element={<CellEditPage data={cellStore.currentCell} />}
-          />
+          <Route path="/celledit" element={<CellEditPageWrapper />} />
         </Routes>
       </Router>
     </div>

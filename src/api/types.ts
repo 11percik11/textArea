@@ -1,4 +1,4 @@
-import type { Spreadsheet } from "../types";
+import type { Cell, Spreadsheet } from "../types";
 
 export interface ApiResponse<T> {
   status: "success" | "error";
@@ -7,3 +7,10 @@ export interface ApiResponse<T> {
 }
 
 export type UpdateContentResponse = ApiResponse<Spreadsheet>;
+
+export type UpdateCellVariantResponse = {
+  cell: {
+    id: number;
+    type: Cell["type"];
+  };
+};
