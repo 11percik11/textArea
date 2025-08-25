@@ -46,9 +46,9 @@ export const useInitFileLoad = <T extends { id: number }>(
   files: T[],
   onLocalLoadEnd: (media: LocalFileMedia) => Promise<{
     id: number;
-    sequence: number;
+    sequence?: number;
     url: string;
-  }>,
+  } | null>,
   onDelete: (mediaId: number) => Promise<boolean>,
 ) => {
   const [initFiles, setInitFiles] = useState(files || []);

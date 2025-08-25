@@ -15,20 +15,20 @@ import type { MediaData } from "../types";
 import { isLocalAddedMedia } from "../../../utils/isLocalAddedMedia";
 import { getFileExtensionFromPath } from "../../../utils/getFileExtensionFromPath";
 import { cellStore } from "../../../store/root";
+import type { CellEntity } from "../../../store/CellEntity";
 type Props = {
-  images: ImageType[];
-  ref: Ref<{ getAllFiles: (files: any) => MediaData }>;
+  cell: CellEntity;
 };
 
-export const CellEditMedia = ({ ref, images }: Props) => {
+export const CellEditMedia = ({ cell }: Props) => {
   const { handleInitFileDelete, initFiles, reorderFiles, onLocalFileLoad } =
     useInitFileLoad(
-      images,
-      cellStore.addCellImageHandler,
-      cellStore.deleteCellImageHandler,
+      cell.images,
+      cell.addCellImageHandler,
+      cell.deleteCellImageHandler,
     );
 
-  console.log("images", images);
+  console.log("images", cell.images);
 
   const resolveBackgroundImage = (url: string) => {
     return `http://table-of-time.test.itlabs.top/${url}`;

@@ -11,15 +11,17 @@ export const useGetCurrentCell = () => {
   const searchParamsSpreadsheetId = Number(searchParams.get("spreadsheetId"));
 
   const getCell = () => {
-    const eixstSpreadsheet = spreadsheetManager.spreadsheets.find(
-      (spreadsheet) => spreadsheet.id === searchParamsSpreadsheetId,
+    const spreadsheet = spreadsheetManager.spreadsheets.find(
+      (s) => s.id === searchParamsSpreadsheetId,
     );
-    if (!eixstSpreadsheet) return null;
+    if (!spreadsheet) return null;
 
-    return (
-      eixstSpreadsheet.cells.find((cell) => cell.id === searchParamsCellId) ||
-      null
-    );
+    for (const row of spreadsheet.rows) {
+      const cell = row.cells.find((c) => c.id === searchParamsCellId);
+      if (cell) return cell;
+    }
+
+    return null;
   };
 
   const data = getCell();

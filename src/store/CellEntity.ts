@@ -102,10 +102,12 @@ export class CellEntity {
   };
 
   addCellDocumentHandler = async (media: LocalFileMedia) => {
+    console.log(`addCellDocumentHandler->`, media, this.id, this.raw);
     this.isLoading = true;
     try {
       const result = await addCellDocument(media, this.id);
-      return result;
+      if (!result) return null;
+      return result?.file;
     } finally {
       runInAction(() => {
         this.isLoading = false;

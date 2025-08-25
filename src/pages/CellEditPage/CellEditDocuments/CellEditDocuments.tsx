@@ -9,23 +9,20 @@ import { useAllFiles, useInitFileLoad, useLocalFileLoad } from "../hooks";
 import type { MediaData } from "../types";
 import { observer } from "mobx-react-lite";
 import { cellStore } from "../../../store/root";
+import type { CellEntity } from "../../../store/CellEntity";
+import { toJS } from "mobx";
 
 type Props = {
-  files: FileType[];
-  ref: Ref<{ getAllFiles: (files: any) => MediaData }>;
+  cell: CellEntity;
 };
 
-export const CellEditDocuments = observer(({ files, ref }: Props) => {
+export const CellEditDocuments = observer(({ cell }: Props) => {
   const { handleInitFileDelete, initFiles, reorderFiles, onLocalFileLoad } =
     useInitFileLoad(
-      files,
-      cellStore.addCellDocumentHandler,
-      cellStore.deleteCellDocumentHandler,
+      cell.files,
+      cell.addCellDocumentHandler,
+      cell.deleteCellDocumentHandler,
     );
-
-  useEffect(() => {
-    console.log("initFiles", files, initFiles);
-  }, [files, initFiles]);
 
   return (
     <div className="w-[296px] h-[740px] bg-white rounded-[24px] mt-[16px] p-[16px]">

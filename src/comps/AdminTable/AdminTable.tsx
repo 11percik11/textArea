@@ -1,20 +1,24 @@
-import dragIcon from "../assets/icons/dragIcon.svg";
-import deleteIcon from "../assets/icons/deleteIcon.svg";
-import type { Cell, Spreadsheet } from "../types";
+import dragIcon from "../../assets/icons/dragIcon.svg";
+import deleteIcon from "../../assets/icons/deleteIcon.svg";
+import type { Cell, Spreadsheet } from "../../types";
 import { ReactSortable } from "react-sortablejs";
 import { useEffect, useRef, useState } from "react";
-import { SortableList } from "./modals/SortableList";
-import AdminCell from "./AdminCell/AdminCell";
+import { SortableList } from "../modals/SortableList";
+import AdminCell from "../AdminCell/AdminCell";
 import { observer } from "mobx-react-lite";
 import {
   moveSpreadsheetContentPositions,
   removeSpreadsheetContent,
-} from "../api/spreadsheet";
-import { tableStore } from "../pages/AdminPage/SpreadsheetStore";
-import OverlayLoader from "./OverlayLoader/OverlayLoader";
-import { cellStore } from "../store/root";
-import type { SpreadsheetEntity } from "../store/SpreadsheetEntity";
+} from "../../api/spreadsheet";
+import { tableStore } from "../../pages/AdminPage/SpreadsheetStore";
+import OverlayLoader from "../OverlayLoader/OverlayLoader";
+import { cellStore } from "../../store/root";
+import type { SpreadsheetEntity } from "../../store/SpreadsheetEntity";
 import { useNavigate } from "react-router-dom";
+import EditableText from "../EditableText/EditableText";
+import { RowColorPicker } from "./RowColorPicker/RowColorPicker";
+import ColorPickModal from "../modals/ColorPickModal/ColorPickModal";
+import type { SpreadsheetRowEntity } from "../../store/SpreadsheetRow";
 
 type Props = {
   spreadsheet: SpreadsheetEntity;
@@ -26,9 +30,9 @@ type Props = {
 const AdminTable = observer(
   ({ spreadsheet, onEdit, widthPx = 1856 }: Props) => {
     const content = spreadsheet.rows;
-    const [changableRows, setChangableRows] = useState(content);
+    // const [changableRows, setChangableRows] = useState(content);
     const [test, setTest] = useState(true);
-    const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
+    // const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
     const finishedTable = useRef(content);
 
     const navigate = useNavigate();
@@ -36,16 +40,14 @@ const AdminTable = observer(
       navigate(`/celledit?id=${cellId}&spreadsheetId=${spreadsheet.id}`);
     };
 
-    useEffect(() => {
-      setChangableRows(content);
-      setChangableTitles(content[0]?.cells || undefined);
-    }, [content]);
+    // useEffect(() => {
+    //   setChangableRows(content);
+    //   setChangableTitles(content[0]?.cells || undefined);
+    // }, [spreadsheet, content]);
 
-    useEffect(() => {
-      onEdit(finishedTable.current);
-    }, [finishedTable.current]);
-
-    setChangableRows;
+    // useEffect(() => {
+    //   onEdit(finishedTable.current);
+    // }, [finishedTable.current]);
 
     const updateRows = async (
       table: Spreadsheet["rows"],
@@ -54,59 +56,53 @@ const AdminTable = observer(
     ) => {
       const firstSequence = activeIndex + 1;
       const secondsSequence = overIndex + 1;
-      // await tableStore.updateSpreadsheetColumns(firstSequence, secondsSequence);
-      setChangableRows(table);
-      setChangableTitles(table[0]?.cells || undefined);
-
-      // finishedTable.current = table;
+      await spreadsheet.updateSpreadsheetRows(firstSequence, secondsSequence);
     };
 
-    const updateColumns = (newlyArrangedContent: Cell) => {
-      console.log("update cols");
-      return;
-      const newTitleCells: Spreadsheet["rows"] = JSON.parse(
-        JSON.stringify(newlyArrangedContent),
+    const updateColumns = async (
+      table: Spreadsheet["rows"],
+      activeIndex: number,
+      overIndex: number,
+    ) => {
+      const firstSequence = activeIndex + 1;
+      const secondsSequence = overIndex + 1;
+      await spreadsheet.updateSpreadsheetColumns(
+        firstSequence,
+        secondsSequence,
       );
-      console.log("header", newTitleCells);
-      console.log(
-        "rows",
-        changableRows.map((row) => row.cells),
-      );
-
-      // const newRowsCells = {}
-
-      setChangableTitles(newTitleCells);
-      // setChangableRows(newRowsCells)
-      // finishedTable.current = resultData;
     };
 
     const onRowDelete = async (sequence: number) => {
-      setChangableRows((prev) =>
-        prev.filter((oldRow) => oldRow.sequence !== sequence),
-      );
       await spreadsheet.removeSpreadsheetContentHandler(true, sequence);
-      // await tableStore.getSpreadSheetsHandler();
     };
 
     const onColumnDelete = async (sequence: number) => {
-      setChangableTitles((prev) =>
-        prev.filter((oldRow) => oldRow.sequence !== sequence),
-      );
       await spreadsheet.removeSpreadsheetContentHandler(false, sequence);
-      // await tableStore.getSpreadSheetsHandler();
     };
+
+    const onTitleEdit = async () => {};
+
+    const [currentRow, setCurrentRow] = useState<SpreadsheetRowEntity | null>(
+      null,
+    );
+
+    const onColorPickModalClose = () => setCurrentRow(null);
 
     return (
       <div
         className={`w-[${widthPx}px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
       >
-        <OverlayLoader isLoading={tableStore.isLoading} />
+        <ColorPickModal
+          row={currentRow}
+          onClose={onColorPickModalClose}
+        />
+        <OverlayLoader isLoading={spreadsheet.isLoading} />
         <div className="h-[40px] pl-[40px] flex">
           <div className="min-w-[232px] h-[40px] bg-[#0000000D] border-[1px] border-stroke" />
-          {changableTitles != undefined && test && (
+          {
             <SortableList
               className="flex"
-              items={changableTitles}
+              items={spreadsheet.rows}
               onChange={updateColumns}
               renderItem={(item) => (
                 <SortableList.Item id={item.id}>
@@ -123,15 +119,15 @@ const AdminTable = observer(
                 </SortableList.Item>
               )}
             />
-          )}
+          }
         </div>
-        {test && (
+        {
           <div className="w-full h-full">
             <SortableList
               className=""
-              items={changableRows}
+              items={spreadsheet.rows}
               onChange={updateRows}
-              renderItem={(row: any) => (
+              renderItem={(row) => (
                 <SortableList.Item id={row.id}>
                   <div
                     style={{ backgroundColor: row.color }}
@@ -140,8 +136,9 @@ const AdminTable = observer(
                   >
                     <div className="dragHandle relative min-w-[40px] h-[152px] bg-[#F6F6F6] border-[1px] border-stroke p-[7px]">
                       <SortableList.DragHandle />
-                      <div
-                        className={`size-[20px] mt-[32px] mx-auto outline-[1px] rounded-[4px] bg-table-yellow outline-offset-[1px] outline-accent`}
+                      <RowColorPicker
+                        row={row}
+                        onClick={() => setCurrentRow(row)}
                       />
                       <button
                         className="absolute bottom-[0] left-[0] w-[30px] h-[30px] z-[10]"
@@ -151,7 +148,10 @@ const AdminTable = observer(
                       </button>
                     </div>
                     <div className="p-[8px] text-wrap border-[1px] border-stroke w-[232px] h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
-                      {row.title} + {row.color}
+                      <EditableText
+                        value={row.title}
+                        onFinish={row.updateTitle}
+                      />
                     </div>
                     {row.cells?.map((cell: Cell, colIndex: number) => (
                       <AdminCell
@@ -166,7 +166,7 @@ const AdminTable = observer(
               )}
             />
           </div>
-        )}
+        }
       </div>
     );
   },

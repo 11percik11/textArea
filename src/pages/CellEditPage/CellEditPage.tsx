@@ -183,7 +183,7 @@ const CellEditPage = ({ data }: Props) => {
                 hidden={data.type !== "text-media" && data.type !== "media"}
                 className="w-[1232px] min-h-[160px] max-h-[600px] rounded-[24px] bg-white mt-[16px] p-[24px]"
               >
-                {data && <CellEditMedia images={data.images} />}
+                {data && <CellEditMedia cell={data} />}
               </div>
               <div
                 hidden={data.type !== "text" && data.type !== "text-media"}
@@ -220,7 +220,7 @@ const CellEditPage = ({ data }: Props) => {
                   Сначала создайте ячейку
                 </div>
               </div>
-              <CellEditDocuments files={data?.files || []} />
+              <CellEditDocuments cell={data} />
             </div>
           </>
         )}

@@ -1,5 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from "react";
-import AdminTable from "../../../comps/AdminTable";
+import AdminTable from "../../../comps/AdminTable/AdminTable";
 import { AdminTableControls } from "../../../comps/AdminTableControls";
 import type { Cell, Spreadsheet } from "../../../types";
 import { MOCK_SPREADSHEET } from "./mocks";

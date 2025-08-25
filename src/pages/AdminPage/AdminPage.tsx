@@ -1,4 +1,4 @@
-import AdminTable from "../../comps/AdminTable";
+import AdminTable from "../../comps/AdminTable/AdminTable";
 import MenuSwipe from "../../comps/MenuSwipe";
 import exitIcon from "../../assets/icons/exitIcon.svg";
 import { useEffect, useRef, useState } from "react";

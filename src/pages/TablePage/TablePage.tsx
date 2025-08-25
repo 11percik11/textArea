@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AdminTable from "../../comps/AdminTable";
+import AdminTable from "../../comps/AdminTable/AdminTable";
 import { AdminTableControls } from "../../comps/AdminTableControls";
 
 export const TablePage = () => {

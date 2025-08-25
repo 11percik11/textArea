@@ -24,17 +24,19 @@ export interface ImageType {
   image: string;
 }
 
+export interface SpreadsheetRow {
+  id: number;
+  title: string;
+  color: string;
+  sequence: number;
+  isTimeScale: boolean;
+  cells: Cell[];
+}
+
 export interface Spreadsheet {
   id: number;
   title: string;
-  rows: {
-    id: number | null;
-    title: string;
-    color: string;
-    sequence: number;
-    isTimeScale: boolean;
-    cells: Cell[];
-  }[];
+  rows: SpreadsheetRow[];
   parentCell: {
     id: number;
     title: string;

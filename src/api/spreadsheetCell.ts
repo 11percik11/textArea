@@ -42,7 +42,9 @@ export const updateCellContent = async (
 export const addCellDocument = async (
   media: LocalFileMedia,
   cellId: number,
-): Promise<any> => {
+): Promise<{
+  file: { id: number; url: string; sequence?: number };
+} | null> => {
   console.log(`output->'media'`, media);
   const formData = new FormData();
   const blobFile = base64ToBlob(media.url);

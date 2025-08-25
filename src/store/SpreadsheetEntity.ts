@@ -1,21 +1,20 @@
 import { action, computed, makeAutoObservable, runInAction } from "mobx";
-import type { Spreadsheet } from "../types";
+import type { Spreadsheet, SpreadsheetRow } from "../types";
 import {
   addSpreadsheetContent,
   moveSpreadsheetContentPositions,
   removeSpreadsheetContent,
 } from "../api/spreadsheet";
 import { CellEntity } from "./CellEntity";
+import { SpreadsheetRowEntity } from "./SpreadsheetRow";
 
 export class SpreadsheetEntity {
   constructor(table: Spreadsheet) {
     this.table = table;
-    this.initCells(table);
+    this.initRows(table);
 
     makeAutoObservable(this, {
       id: computed,
-      cells: computed,
-      rows: computed,
       columnsAndRows: computed,
       addSpreadsheetContentHandler: action,
       updateSpreadsheetColumns: action,
@@ -24,7 +23,8 @@ export class SpreadsheetEntity {
       update: action,
     });
   }
-  private cellMap = new Map<number, CellEntity>();
+
+  rows: SpreadsheetRowEntity[] = [];
 
   table: Spreadsheet;
 
@@ -32,14 +32,6 @@ export class SpreadsheetEntity {
 
   get id() {
     return this.table.id;
-  }
-
-  get rows() {
-    return this.table.rows;
-  }
-
-  get cells() {
-    return Array.from(this.cellMap.values());
   }
 
   update = (table: Spreadsheet) => {
@@ -50,16 +42,12 @@ export class SpreadsheetEntity {
     this.table = { ...this.table, ...table };
   };
 
-  private initCells(table: Spreadsheet) {
+  private initRows(table: Spreadsheet) {
+    const newRows: SpreadsheetRowEntity[] = [];
     table.rows.forEach((row) => {
-      row.cells.forEach((cell) => {
-        if (!this.cellMap.has(cell.id)) {
-          this.cellMap.set(cell.id, new CellEntity(cell));
-        } else {
-          this.cellMap.get(cell.id)!.update(cell);
-        }
-      });
+      newRows.push(new SpreadsheetRowEntity(row));
     });
+    this.rows = newRows;
   }
 
   addSpreadsheetContentHandler = async (isRow: boolean) => {
@@ -68,6 +56,7 @@ export class SpreadsheetEntity {
       const res = await addSpreadsheetContent(this.id, isRow);
       if (!res) return;
       this.assignUpdate(res.data);
+      this.initRows(res.data);
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -84,6 +73,7 @@ export class SpreadsheetEntity {
       const res = await removeSpreadsheetContent(this.id, isRow, sequence);
       if (!res) return;
       this.assignUpdate(res.data);
+      this.initRows(res.data);
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -100,11 +90,34 @@ export class SpreadsheetEntity {
       const res = await moveSpreadsheetContentPositions({
         first: firstSequence,
         second: secondsSequence,
+        isRow: false,
+        spreadsheetId: this.id,
+      });
+      if (!res) return;
+      this.assignUpdate(res.data);
+      this.initRows(res.data);
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  };
+
+  updateSpreadsheetRows = async (
+    firstSequence: number,
+    secondsSequence: number,
+  ) => {
+    this.isLoading = true;
+    try {
+      const res = await moveSpreadsheetContentPositions({
+        first: firstSequence,
+        second: secondsSequence,
         isRow: true,
         spreadsheetId: this.id,
       });
       if (!res) return;
       this.assignUpdate(res.data);
+      this.initRows(res.data);
     } finally {
       runInAction(() => {
         this.isLoading = false;
@@ -119,3 +132,5 @@ export class SpreadsheetEntity {
     };
   }
 }
+
+const getCellById = (spreadsheetId: number, cellId: number) => {};
