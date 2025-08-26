@@ -4,6 +4,8 @@ import videoIcon from "../../assets/icons/videoIcon.svg";
 
 import documentIcon from "../../assets/icons/Document Text.svg";
 import imagesIcon from "../../assets/icons/AlbumIcon.svg";
+import tableIcon from "../../assets/icons/tableIcon.svg";
+import textIcon from "../../assets/icons/textIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { cellStore, spreadsheetStore } from "../../store/root";
 import { TableLinkButton } from "./TableLinkButton/TableLinkButton";
@@ -26,28 +28,16 @@ const AdminCell = ({ data, color, onClick }: Props) => {
         hidden={!data.id}
         className="w-[376px] h-[56px] flex gap-[8px] justify-left items-center"
       >
-        {data.images &&
-          data.images.length <= 5 &&
+        {data.images && data.images.length <= 5 ? (
           data.images?.map((media: any, index: number) => (
             <div
               key={index}
               className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center"
             >
-              <img
-                hidden={media.type !== "image"}
-                src={imageIcon}
-                alt="image"
-                className="size-[24px]"
-              />
-              <img
-                hidden={media.type !== "video"}
-                src={videoIcon}
-                alt="video"
-                className="size-[24px]"
-              />
+              <img src={imageIcon} alt="image" className="size-[24px]" />
             </div>
-          ))}
-        {data.images && data.images.length > 5 && (
+          ))
+        ) : (
           <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
             <img src={imagesIcon} alt="image" className="size-[24px]" />
           </div>
@@ -61,14 +51,20 @@ const AdminCell = ({ data, color, onClick }: Props) => {
             <img src={documentIcon} alt="document" className="size-[24px]" />
           </div>
         ))}
-        {/*         {!!data.tableId // узнать как будут цепляться таблицы
-         && (
-          <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
-            <img src={tableIcon} alt="table" className="size-[24px]" />
-          </div>
-        )} */}
+
         {data.type === "table" && (
-          <TableLinkButton spreadsheetId={data.spreadsheetParentId || null} />
+          <div className="flex justify-between w-full">
+            <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
+              <img src={tableIcon} alt="table" className="size-[24px]" />
+            </div>
+            <TableLinkButton spreadsheetId={data.spreadsheetParentId || null} />
+          </div>
+        )}
+
+        {data.title && (
+          <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
+            <img src={textIcon} alt="table" className="size-[24px]" />
+          </div>
         )}
       </div>
       <div
