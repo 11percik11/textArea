@@ -1,23 +1,29 @@
 import { useEffect, useState } from "react";
-import MenuSwipe from "../comps/MenuSwipe";
-import MainTable from "../comps/MainTable";
-import PdfReader from "../comps/modals/PdfReader";
-import axios from "axios";
-import type { Cell, Spreadsheet } from "../types";
-import InfoModal from "../comps/modals/InfoModal/InfoModal";
-import { getSpreadsheets } from "../api/spreadsheet";
-import { API_CONFIG } from "../assets/config";
-import { spreadsheetManager } from "../store/root";
-import { observer } from "mobx-react-lite";
-import type { CellEntity } from "../store/CellEntity";
 
-const MainPage = () => {
-  const current = spreadsheetManager.currentMainSpreadsheet;
+import { observer } from "mobx-react-lite";
+
+import { useGetSpreadsheetByUrl } from "../TablePage/useGetSpreadsheetByUrl";
+import MainTable from "../../comps/MainTable";
+import InfoModal from "../../comps/modals/InfoModal/InfoModal";
+import type { CellEntity } from "../../store/CellEntity";
+import { spreadsheetManager } from "../../store/root";
+import { Header } from "../shared/Header";
+
+const UserTablePage = () => {
+  const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
+
+  useEffect(() => {
+    spreadsheetManager.getOneSpreadSheetHandler(searchParamsSpreadsheetId);
+  }, [data]);
+
   const [infoModalCell, setInfoModalCell] = useState<CellEntity | null>(null);
   const isLoading = false;
 
+  const pageTitle = data ? data.title : "";
+
   return (
     <div className="w-full h-full p-[32px]">
+      <Header title={pageTitle} />
       {infoModalCell !== null && (
         <InfoModal
           cell={infoModalCell}
@@ -31,16 +37,15 @@ const MainPage = () => {
         hidden={isLoading}
         className="w-[1856px] h-[896px] overflow-scroll hide-scroll"
       >
-        {current && (
+        {data && (
           <MainTable
-            content={current}
+            content={data}
             onCellInfoOpen={(cell) => setInfoModalCell(cell)}
           />
         )}
       </div>
-      <MenuSwipe />
     </div>
   );
 };
 
-export default observer(MainPage);
+export default observer(UserTablePage);

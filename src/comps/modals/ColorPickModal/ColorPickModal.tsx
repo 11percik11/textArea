@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import style from "./ColorPickModal.module.scss";
 import clsx from "clsx";
-import type { SpreadsheetRowEntity } from "../../../store/SpreadsheetRow";
+import type { SpreadsheetRowEntity } from "../../../store/SpreadsheetRowEntity";
 
 const palette = [
   { color: "rgba(255, 255, 255, 1)" },
@@ -14,15 +14,16 @@ const palette = [
   { color: "rgba(212, 237, 218, 1)" },
 ];
 type Props = {
-  row?: SpreadsheetRowEntity;
+  row: SpreadsheetRowEntity | null;
   onClose: VoidFunction;
 };
 const ColorPickModal = ({ row, onClose }: Props) => {
+
   const onNo = () => {
     onClose();
   };
   const onYes = async () => {
-    await row?.updateColor(currentColor);
+    row?.updateColor(currentColor);
     onClose();
   };
 

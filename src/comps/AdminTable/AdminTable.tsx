@@ -1,24 +1,17 @@
-import dragIcon from "../../assets/icons/dragIcon.svg";
 import deleteIcon from "../../assets/icons/deleteIcon.svg";
 import type { Cell, Spreadsheet } from "../../types";
-import { ReactSortable } from "react-sortablejs";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { SortableList } from "../modals/SortableList";
 import AdminCell from "../AdminCell/AdminCell";
 import { observer } from "mobx-react-lite";
-import {
-  moveSpreadsheetContentPositions,
-  removeSpreadsheetContent,
-} from "../../api/spreadsheet";
-import { tableStore } from "../../pages/AdminPage/SpreadsheetStore";
 import OverlayLoader from "../OverlayLoader/OverlayLoader";
-import { cellStore } from "../../store/root";
 import type { SpreadsheetEntity } from "../../store/SpreadsheetEntity";
 import { useNavigate } from "react-router-dom";
 import EditableText from "../EditableText/EditableText";
 import { RowColorPicker } from "./RowColorPicker/RowColorPicker";
+import { AdminTableRow } from "./AdminTableRow/AdminTableRow";
+import type { SpreadsheetRowEntity } from "../../store/SpreadsheetRowEntity";
 import ColorPickModal from "../modals/ColorPickModal/ColorPickModal";
-import type { SpreadsheetRowEntity } from "../../store/SpreadsheetRow";
 
 type Props = {
   spreadsheet: SpreadsheetEntity;
@@ -31,9 +24,8 @@ const AdminTable = observer(
   ({ spreadsheet, onEdit, widthPx = 1856 }: Props) => {
     const content = spreadsheet.rows;
     // const [changableRows, setChangableRows] = useState(content);
-    const [test, setTest] = useState(true);
+
     // const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
-    const finishedTable = useRef(content);
 
     const navigate = useNavigate();
     const onCellClick = (cellId: number) => {
@@ -80,43 +72,46 @@ const AdminTable = observer(
       await spreadsheet.removeSpreadsheetContentHandler(false, sequence);
     };
 
-    const onTitleEdit = async () => {};
-
     const [currentRow, setCurrentRow] = useState<SpreadsheetRowEntity | null>(
       null,
     );
 
     const onColorPickModalClose = () => setCurrentRow(null);
 
+    const rowsWithoutTimeline = spreadsheet.rows.filter(
+      (row) => !row.isTimeline,
+    );
+
+    const timelineRow = spreadsheet.rows.find((row) => row.isTimeline);
+
     return (
       <div
         className={`w-[${widthPx}px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
       >
-        <ColorPickModal
-          row={currentRow}
-          onClose={onColorPickModalClose}
-        />
+        <ColorPickModal row={currentRow} onClose={onColorPickModalClose} />
         <OverlayLoader isLoading={spreadsheet.isLoading} />
         <div className="h-[40px] pl-[40px] flex">
           <div className="min-w-[232px] h-[40px] bg-[#0000000D] border-[1px] border-stroke" />
           {
             <SortableList
               className="flex"
-              items={spreadsheet.rows}
+              items={spreadsheet.rows[0].cells}
               onChange={updateColumns}
               renderItem={(item) => (
-                <SortableList.Item id={item.id}>
-                  <div className="dragHandleVert relative bg-[#F6F6F6] px-[8px] w-[426px] h-[40px] border-[1px] border-stroke flex justify-between items-center">
-                    <SortableList.DragHandle />
-                    <button
-                      className="absolute bottom-[0] left-[50%] w-[30px] h-[30px] z-[10]"
-                      onClick={() => onColumnDelete(item.sequence)}
-                    >
-                      <img src={deleteIcon} alt="" className="size-[24px]" />
-                    </button>
-                    <div style={{ color: "red" }}>{item.sequence}</div>
-                  </div>
-                </SortableList.Item>
+                <div>
+                  <SortableList.Item id={item.id}>
+                    <div className="dragHandleVert relative bg-[#F6F6F6] px-[8px] w-[426px] h-[40px] border-[1px] border-stroke flex justify-between items-center">
+                      <SortableList.DragHandle />
+                      <button
+                        className="absolute bottom-[0] left-[50%] w-[30px] h-[30px] z-[10]"
+                        onClick={() => onColumnDelete(item.sequence)}
+                      >
+                        <img src={deleteIcon} alt="" className="size-[24px]" />
+                      </button>
+                      {/* <div style={{ color: "red" }}>{item.sequence}</div> */}
+                    </div>
+                  </SortableList.Item>
+                </div>
               )}
             />
           }
@@ -125,46 +120,59 @@ const AdminTable = observer(
           <div className="w-full h-full">
             <SortableList
               className=""
-              items={spreadsheet.rows}
+              items={rowsWithoutTimeline}
               onChange={updateRows}
-              renderItem={(row) => (
-                <SortableList.Item id={row.id}>
-                  <div
-                    style={{ backgroundColor: row.color }}
-                    key={row.sequence}
-                    className={`flex h-[152px]`}
-                  >
-                    <div className="dragHandle relative min-w-[40px] h-[152px] bg-[#F6F6F6] border-[1px] border-stroke p-[7px]">
-                      <SortableList.DragHandle />
-                      <RowColorPicker
-                        row={row}
-                        onClick={() => setCurrentRow(row)}
-                      />
-                      <button
-                        className="absolute bottom-[0] left-[0] w-[30px] h-[30px] z-[10]"
-                        onClick={() => onRowDelete(row.sequence)}
-                      >
-                        <img src={deleteIcon} alt="" className="size-[24px]" />
-                      </button>
-                    </div>
-                    <div className="p-[8px] text-wrap border-[1px] border-stroke w-[232px] h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
-                      <EditableText
-                        value={row.title}
-                        onFinish={row.updateTitle}
-                      />
-                    </div>
-                    {row.cells?.map((cell: Cell, colIndex: number) => (
-                      <AdminCell
-                        color={row.color || "#FFFFFF"}
-                        key={colIndex}
-                        data={cell}
-                        onClick={onCellClick}
-                      />
-                    ))}
-                  </div>
-                </SortableList.Item>
-              )}
+              renderItem={(row) => {
+                return (
+                  <SortableList.Item id={row.id}>
+                    <AdminTableRow
+                      row={row}
+                      onCellClick={onCellClick}
+                      onRowDelete={onRowDelete}
+                      setCurrentRow={() => setCurrentRow(row)}
+                    />
+                  </SortableList.Item>
+                );
+              }}
             />
+            {timelineRow && (
+              <div
+                style={{
+                  backgroundColor: timelineRow.color,
+                  opacity: 0.3,
+                }}
+                className={`flex h-[152px]`}
+              >
+                <div className="dragHandle relative min-w-[40px] h-[152px] bg-[#F6F6F6] border-[1px] border-stroke p-[7px]">
+                  <RowColorPicker
+                    row={timelineRow}
+                    isLoading={timelineRow.loading.isColorLoading}
+                    onClick={() => setCurrentRow(timelineRow)}
+                  />
+                  <button
+                    className="absolute bottom-[0] left-[0] w-[30px] h-[30px] z-[10]"
+                    onClick={() => onRowDelete(timelineRow.sequence)}
+                  >
+                    <img src={deleteIcon} alt="" className="size-[24px]" />
+                  </button>
+                </div>
+                <div className="flex items-center justify-center p-[8px] text-wrap border-[1px] border-stroke w-[232px] h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
+                  <EditableText
+                    isLoading={timelineRow.loading.isTitleLoading}
+                    value={timelineRow.title}
+                    onFinish={timelineRow.updateTitle}
+                  />
+                </div>
+                {timelineRow.cells?.map((cell, colIndex: number) => (
+                  <AdminCell
+                    color={timelineRow.color || "#FFFFFF"}
+                    key={colIndex}
+                    data={cell}
+                    onClick={onCellClick}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         }
       </div>

@@ -1,30 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AdminTable from "../../comps/AdminTable/AdminTable";
 import { AdminTableControls } from "../../comps/AdminTableControls";
+import { useGetCurrentCell } from "../CellEditPage/hooks/useGetCurrentCell";
+import { spreadsheetManager } from "../../store/root";
+import { CellEditTable } from "../CellEditPage/CellEditTable/CellEditTable";
+import { observer } from "mobx-react-lite";
+import { useGetSpreadsheetByUrl } from "./useGetSpreadsheetByUrl";
 
-export const TablePage = () => {
-  const [currTable, setCurrTable] = useState();
+export const TablePage = observer(() => {
+  const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
 
+  useEffect(() => {
+    spreadsheetManager.getOneSpreadSheetHandler(searchParamsSpreadsheetId);
+  }, [data]);
 
-  
-
-  if (!currTable) return null;
-
-  return (
-    <div>
-      <AdminTableControls
-        onAddRow={() => {}}
-        onAddColumn={() => {}}
-        current={currTable}
-      />
-
-      <AdminTable
-        onSelectCell={(data) => {}}
-        onEdit={(editedTable) => {
-          //   setCurrTable(editedTable);
-        }}
-        content={currTable}
-      />
-    </div>
-  );
-};
+  return data && <CellEditTable data={data} key={searchParamsSpreadsheetId} />;
+});

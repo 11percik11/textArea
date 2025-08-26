@@ -1,3 +1,4 @@
+import { addSpreadsheetTimeline } from "./../api/spreadsheet";
 import { action, computed, makeAutoObservable, runInAction } from "mobx";
 import type { Spreadsheet, SpreadsheetRow } from "../types";
 import {
@@ -6,7 +7,7 @@ import {
   removeSpreadsheetContent,
 } from "../api/spreadsheet";
 import { CellEntity } from "./CellEntity";
-import { SpreadsheetRowEntity } from "./SpreadsheetRow";
+import { SpreadsheetRowEntity } from "./SpreadsheetRowEntity";
 
 export class SpreadsheetEntity {
   constructor(table: Spreadsheet) {
@@ -32,6 +33,10 @@ export class SpreadsheetEntity {
 
   get id() {
     return this.table.id;
+  }
+
+  get title() {
+    return this.table.title;
   }
 
   update = (table: Spreadsheet) => {
@@ -125,6 +130,19 @@ export class SpreadsheetEntity {
     }
   };
 
+  addSpreadsheetTimelineHandler = async () => {
+    this.isLoading = true;
+    try {
+      const res = await addSpreadsheetTimeline(this.id);
+      if (!res) return;
+      this.assignUpdate(res.data);
+      this.initRows(res.data);
+    } finally {
+      runInAction(() => {
+        this.isLoading = false;
+      });
+    }
+  };
   get columnsAndRows() {
     return {
       columns: this.rows[0]?.cells.length || 0,

@@ -17,6 +17,7 @@ import {
 import "./SortableList.css";
 
 import { DragHandle, SortableItem, SortableOverlay } from "./components";
+import { observer } from "mobx-react-lite";
 
 interface BaseItem {
   id: UniqueIdentifier;
@@ -29,17 +30,19 @@ interface Props<T extends BaseItem> {
   className: string;
 }
 
-export function SortableList<T extends BaseItem>({
+const SortableList = function SortableList<T extends BaseItem>({
   items,
   onChange,
   renderItem,
   className,
 }: Props<T>) {
   const [active, setActive] = useState<Active | null>(null);
+
   const activeItem = useMemo(
     () => items.find((item) => item.id === active?.id),
     [active, items],
   );
+
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -84,7 +87,9 @@ export function SortableList<T extends BaseItem>({
       </SortableOverlay>
     </DndContext>
   );
-}
+};
 
 SortableList.Item = SortableItem;
 SortableList.DragHandle = DragHandle;
+
+export default observer(SortableList);

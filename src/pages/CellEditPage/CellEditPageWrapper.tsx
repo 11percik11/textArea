@@ -9,8 +9,6 @@ export const CellEditPageWrapper = observer(() => {
 
   useEffect(() => {
     if (!data || data?.type !== "table") return;
-
-    console.log('data from page',data)
     spreadsheetManager.getOneSpreadSheetHandler(data.spreadsheetParentId);
   }, [data, data?.type]);
 

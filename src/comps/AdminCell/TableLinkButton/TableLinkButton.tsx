@@ -3,15 +3,15 @@ import styles from "./TableLinkButton.module.css";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
-  cellId: number;
+  spreadsheetId: number | null;
 };
 
-export const TableLinkButton = ({ cellId }: Props) => {
+export const TableLinkButton = ({ spreadsheetId }: Props) => {
   const navigate = useNavigate();
 
   const onClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.stopPropagation();
-    navigate(`/admin/table?cell_id=${cellId}`);
+    navigate(`/admin/table?id=${spreadsheetId}`);
   };
 
   return (

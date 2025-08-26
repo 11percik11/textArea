@@ -18,10 +18,6 @@ type Props = {};
 
 const AdminPage = observer(({}: Props) => {
   const [isExitModalOpen, setExitModalOpen] = useState(false);
-
-  //@ts-ignore
-  const apiUrl = API_CONFIG.apiUrl;
-
   const current = spreadsheetManager.currentMainSpreadsheet;
 
   useEffect(() => {
@@ -29,11 +25,6 @@ const AdminPage = observer(({}: Props) => {
       cancelRequest("getSpreadsheets");
     };
   }, []);
-
-  useEffect(() => {
-    console.log("currentMainSpreadsheet", current);
-  }, [current]);
-
 
   const navigate = useNavigate();
   return (

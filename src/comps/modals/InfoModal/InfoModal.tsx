@@ -7,6 +7,7 @@ import { ModalGallery } from "./ModalGallery/ModalGallery";
 import { ModalFiles } from "./ModalFiles/ModalFiles";
 import { ModalMediaContent } from "./ModalMediaContent/ModalMediaContent";
 import { Icons } from "../../icons";
+import type { CellEntity } from "../../../store/CellEntity";
 
 enum ContentVariant {
   OneVideoOnly = "VideoOnly",
@@ -33,7 +34,7 @@ const ContainerPxSize: Record<ContentVariant, string> = {
 };
 
 const getLayoutVariant = (
-  cell: Cell,
+  cell: CellEntity,
   documentSelected: boolean,
 ): ContentVariant => {
   if (documentSelected) return ContentVariant.Document;
@@ -42,16 +43,16 @@ const getLayoutVariant = (
   if (cell.type === "media" && cell.images.length === 1)
     return ContentVariant.OneImageOnly;
   if (cell.type === "text") return ContentVariant.TextOnly;
-  if (cell.type === "m&t" && cell.images.length > 1)
+  if (cell.type === "text-media" && cell.images.length > 1)
     return ContentVariant.TextAndMultipleImage;
-  if (cell.type === "m&t" && cell.images.length === 1)
+  if (cell.type === "text-media" && cell.images.length === 1)
     return ContentVariant.TextAndOneImage;
   //todo add TextAndOneVideo/VideoOnly
   return ContentVariant.TextOnly;
 };
 
 type Props = {
-  cell: Cell;
+  cell: CellEntity;
   onClose: () => void;
 };
 

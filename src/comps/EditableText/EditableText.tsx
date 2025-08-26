@@ -1,12 +1,18 @@
 import React, { useState, useRef } from "react";
 import styles from "./EditableText.module.scss";
+import OverlayLoader from "../OverlayLoader/OverlayLoader";
 
 type EditableTextProps = {
   value: string;
+  isLoading: boolean;
   onFinish: (nextValue: string) => Promise<void>;
 };
 
-const EditableText: React.FC<EditableTextProps> = ({ value, onFinish }) => {
+const EditableText: React.FC<EditableTextProps> = ({
+  value,
+  isLoading,
+  onFinish,
+}) => {
   const [editing, setEditing] = useState(false);
   const [localValue, setLocalValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,6 +28,17 @@ const EditableText: React.FC<EditableTextProps> = ({ value, onFinish }) => {
     setEditing(true);
     setTimeout(() => inputRef.current?.focus(), 0);
   };
+
+  if (isLoading) {
+    return (
+      <OverlayLoader
+        isLoading={isLoading}
+        fullscreen={false}
+        spinnerSizePx={30}
+        overlayColor="transparent"
+      />
+    );
+  }
 
   return (
     <div className={styles.wrapper}>

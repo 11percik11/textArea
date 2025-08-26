@@ -7,9 +7,10 @@ import imagesIcon from "../../assets/icons/AlbumIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { cellStore, spreadsheetStore } from "../../store/root";
 import { TableLinkButton } from "./TableLinkButton/TableLinkButton";
+import type { CellEntity } from "../../store/CellEntity";
 
 type Props = {
-  data: Cell;
+  data: CellEntity;
   color: string;
   onClick: (cellId: number) => void;
 };
@@ -66,7 +67,9 @@ const AdminCell = ({ data, color, onClick }: Props) => {
             <img src={tableIcon} alt="table" className="size-[24px]" />
           </div>
         )} */}
-        {data.type === "table" && <TableLinkButton cellId={data.id} />}
+        {data.type === "table" && (
+          <TableLinkButton spreadsheetId={data.spreadsheetParentId || null} />
+        )}
       </div>
       <div
         hidden={!data.id}

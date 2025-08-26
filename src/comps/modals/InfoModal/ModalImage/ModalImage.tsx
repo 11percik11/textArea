@@ -1,8 +1,9 @@
+import clsx from "clsx";
 import styles from "./ModalImage.module.css";
 
-export const ModalImage = ({ height = "463px", src = "" }) => {
+export const ModalImage = ({ height = "463px", src = "", className = "" }) => {
   return (
-    <div className={styles.wrapper} style={{ height }}>
+    <div className={clsx([styles.wrapper, className])} style={{ height }}>
       {/* Background layer with overlay */}
       <div
         className={styles.background}

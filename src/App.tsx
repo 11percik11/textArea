@@ -10,11 +10,15 @@ import { LvlSelectModal } from "./comps/modals/LvlSelectModal/LvlSelectModal";
 import { cellStore } from "./store/root";
 import { observer } from "mobx-react-lite";
 import { CellEditPageWrapper } from "./pages/CellEditPage/CellEditPageWrapper";
+import { getSpreadsheetsNavigation } from "./api/spreadsheet";
+import UserTablePage from "./pages/UserTablePage/UserTablePage";
 
 const App = () => {
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
 
   useEffect(() => {
+    // getSpreadsheetsNavigation(14)
+
     console.log("wtf APP", cellStore.currentCell);
   }, [cellStore.currentCell]);
 
@@ -38,6 +42,7 @@ const App = () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/table" element={<MainPage />} />
           <Route path="/admin/table" element={<TablePage />} />
+          <Route path="/inner-table" element={<UserTablePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/celledit" element={<CellEditPageWrapper />} />
         </Routes>

@@ -33,6 +33,17 @@ export const getOneSpreadsheet = async (spreadsheetId: number) => {
   } catch (error) {}
 };
 
+export const getSpreadsheetsNavigation = async (spreadsheetId: number) => {
+  try {
+    const res = await apiClient.get(`/spreadsheets/navigate`, {
+      params: {
+        spreadsheetId,
+      },
+    });
+    return res.data as Spreadsheet;
+  } catch (error) {}
+};
+
 interface MoveSpreadsheetContentPositionsParams {
   spreadsheetId: number;
   isRow: boolean; // true → move rows, false → move columns
@@ -95,6 +106,22 @@ export const addSpreadsheetContent = async (
       params: {
         spreadsheetId,
         isRow,
+      },
+    },
+  );
+
+  return res.data;
+};
+
+export const addSpreadsheetTimeline = async (
+  spreadsheetId: number,
+): Promise<UpdateContentResponse> => {
+  const res = await apiClient.post<UpdateContentResponse>(
+    `/spreadsheets/add-timeline`,
+    {},
+    {
+      params: {
+        spreadsheetId,
       },
     },
   );

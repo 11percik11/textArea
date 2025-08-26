@@ -9,3 +9,13 @@ export const updateRowColor = async (
   });
   return res.data;
 };
+
+export const updateRowTitle = async (
+  rowId: number,
+  title: string,
+): Promise<any> => {
+  const res = await apiClient.post<any>(`/cell/edit-tit;e`, null, {
+    params: { rowId, title },
+  });
+  return res.data;
+};

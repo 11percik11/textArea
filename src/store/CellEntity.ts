@@ -48,6 +48,10 @@ export class CellEntity {
     return this.raw.children?.id;
   }
 
+  get sequence(){
+    return this.raw.sequence
+  }
+
   update = (cell: Cell) => {
     this.raw = cell;
   };
