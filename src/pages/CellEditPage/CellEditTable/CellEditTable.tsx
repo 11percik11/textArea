@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import AdminTable from "../../../comps/AdminTable/AdminTable";
-import { AdminTableControls } from "../../../comps/AdminTableControls";
+import { AdminTableControls } from "../../../comps/AdminTable/AdminTableControls";
 import type { Cell, Spreadsheet } from "../../../types";
 import { MOCK_SPREADSHEET } from "./mocks";
 import { useNavigate } from "react-router-dom";
@@ -13,19 +13,19 @@ import {
 } from "../../../api/spreadsheet";
 import type { SpreadsheetStore } from "../../../store/SpreadsheetStore";
 import { SpreadsheetEntity } from "../../../store/SpreadsheetEntity";
-import { CellEntity } from "../../../store/CellEntity";
+import { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 
 // const baseSpreadshit: Spreadsheet = MOCK_SPREADSHEET;
 
 type Props = {
-  data: CellEntity | SpreadsheetEntity;
+  data: SpreadsheetCellEntity | SpreadsheetEntity;
 };
 
 export const CellEditTable = observer(({ data }: Props) => {
   const getTable = () => {
     let table: SpreadsheetEntity | undefined;
 
-    if (data instanceof CellEntity) {
+    if (data instanceof SpreadsheetCellEntity) {
       table = spreadsheetManager.spreadsheets.find(
         (spreadsheet) => spreadsheet.id === data.spreadsheetParentId,
       );

@@ -1,11 +1,11 @@
-import type { CellEntity } from "../../../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../../../store/SpreadsheetCellEntity";
 import type { Cell, FileType } from "../../../../types";
 import { getServerMediaUrl } from "../../../../utils/getServerMediaUrl";
 import PdfReader from "../../PdfReader";
 import { ModalGallery } from "../ModalGallery/ModalGallery";
 import { ModalImage } from "../ModalImage/ModalImage";
 type Props = {
-  cell: CellEntity;
+  cell: SpreadsheetCellEntity;
   selectedDocument: FileType | null;
 };
 export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {

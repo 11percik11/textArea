@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 
 import { useGetSpreadsheetByUrl } from "../TablePage/useGetSpreadsheetByUrl";
-import MainTable from "../../comps/MainTable";
+import UserTable from "../../comps/UserTable/UserTable";
 import InfoModal from "../../comps/modals/InfoModal/InfoModal";
-import type { CellEntity } from "../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 import { spreadsheetManager } from "../../store/root";
 import { Header } from "../shared/Header";
 
@@ -16,7 +16,7 @@ const UserTablePage = () => {
     spreadsheetManager.getOneSpreadSheetHandler(searchParamsSpreadsheetId);
   }, [data]);
 
-  const [infoModalCell, setInfoModalCell] = useState<CellEntity | null>(null);
+  const [infoModalCell, setInfoModalCell] = useState<SpreadsheetCellEntity | null>(null);
   const isLoading = false;
 
   const pageTitle = data ? data.title : "";
@@ -38,7 +38,7 @@ const UserTablePage = () => {
         className="w-[1856px] h-[896px] overflow-scroll hide-scroll"
       >
         {data && (
-          <MainTable
+          <UserTable
             content={data}
             onCellInfoOpen={(cell) => setInfoModalCell(cell)}
           />

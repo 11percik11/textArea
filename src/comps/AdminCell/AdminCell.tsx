@@ -9,10 +9,10 @@ import textIcon from "../../assets/icons/textIcon.svg";
 import { useNavigate } from "react-router-dom";
 import { cellStore, spreadsheetStore } from "../../store/root";
 import { TableLinkButton } from "./TableLinkButton/TableLinkButton";
-import type { CellEntity } from "../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 
 type Props = {
-  data: CellEntity;
+  data: SpreadsheetCellEntity;
   color: string;
   onClick: (cellId: number) => void;
 };

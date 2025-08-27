@@ -15,9 +15,9 @@ import type { MediaData } from "../types";
 import { isLocalAddedMedia } from "../../../utils/isLocalAddedMedia";
 import { getFileExtensionFromPath } from "../../../utils/getFileExtensionFromPath";
 import { cellStore } from "../../../store/root";
-import type { CellEntity } from "../../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 type Props = {
-  cell: CellEntity;
+  cell: SpreadsheetCellEntity;
 };
 
 export const CellEditMedia = ({ cell }: Props) => {

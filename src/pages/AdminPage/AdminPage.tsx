@@ -6,7 +6,7 @@ import ExitModal from "../../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
 import type { Cell, Spreadsheet } from "../../types";
 import axios from "axios";
-import { AdminTableControls } from "../../comps/AdminTableControls";
+import { AdminTableControls } from "../../comps/AdminTable/AdminTableControls";
 import { tableStore } from "./SpreadsheetStore";
 import { observer } from "mobx-react-lite";
 import { API_CONFIG } from "../../assets/config";

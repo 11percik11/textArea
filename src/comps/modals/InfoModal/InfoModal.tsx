@@ -7,7 +7,7 @@ import { ModalGallery } from "./ModalGallery/ModalGallery";
 import { ModalFiles } from "./ModalFiles/ModalFiles";
 import { ModalMediaContent } from "./ModalMediaContent/ModalMediaContent";
 import { Icons } from "../../icons";
-import type { CellEntity } from "../../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 
 enum ContentVariant {
   OneVideoOnly = "VideoOnly",
@@ -34,7 +34,7 @@ const ContainerPxSize: Record<ContentVariant, string> = {
 };
 
 const getLayoutVariant = (
-  cell: CellEntity,
+  cell: SpreadsheetCellEntity,
   documentSelected: boolean,
 ): ContentVariant => {
   if (documentSelected) return ContentVariant.Document;
@@ -52,7 +52,7 @@ const getLayoutVariant = (
 };
 
 type Props = {
-  cell: CellEntity;
+  cell: SpreadsheetCellEntity;
   onClose: () => void;
 };
 

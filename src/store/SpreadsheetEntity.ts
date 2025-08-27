@@ -6,7 +6,7 @@ import {
   moveSpreadsheetContentPositions,
   removeSpreadsheetContent,
 } from "../api/spreadsheet";
-import { CellEntity } from "./CellEntity";
+import { SpreadsheetCellEntity } from "./SpreadsheetCellEntity";
 import { SpreadsheetRowEntity } from "./SpreadsheetRowEntity";
 
 export class SpreadsheetEntity {

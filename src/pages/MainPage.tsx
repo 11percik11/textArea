@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import MenuSwipe from "../comps/MenuSwipe";
-import MainTable from "../comps/MainTable";
+import UserTable from "../comps/UserTable/UserTable";
 import PdfReader from "../comps/modals/PdfReader";
 import axios from "axios";
 import type { Cell, Spreadsheet } from "../types";
@@ -9,11 +9,11 @@ import { getSpreadsheets } from "../api/spreadsheet";
 import { API_CONFIG } from "../assets/config";
 import { spreadsheetManager } from "../store/root";
 import { observer } from "mobx-react-lite";
-import type { CellEntity } from "../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../store/SpreadsheetCellEntity";
 
 const MainPage = () => {
   const current = spreadsheetManager.currentMainSpreadsheet;
-  const [infoModalCell, setInfoModalCell] = useState<CellEntity | null>(null);
+  const [infoModalCell, setInfoModalCell] = useState<SpreadsheetCellEntity | null>(null);
   const isLoading = false;
 
   return (
@@ -32,7 +32,7 @@ const MainPage = () => {
         className="w-[1856px] h-[896px] overflow-scroll hide-scroll"
       >
         {current && (
-          <MainTable
+          <UserTable
             content={current}
             onCellInfoOpen={(cell) => setInfoModalCell(cell)}
           />

@@ -3,14 +3,14 @@ import {
   deleteCellDocument,
   deleteCellImage,
   updateCellContent,
-} from "./../api/spreadsheetCell";
+} from "../api/spreadsheetCell";
 import { action, computed, makeAutoObservable, runInAction } from "mobx";
 import { postSpreadsheet } from "../api/spreadsheet";
 import { addCellDocument, updateCellVariant } from "../api/spreadsheetCell";
 import type { Cell } from "../types";
 import type { LocalFileMedia } from "../pages/CellEditPage/hooks";
 
-export class CellEntity {
+export class SpreadsheetCellEntity {
   constructor(cell: Cell) {
     this.raw = cell;
     makeAutoObservable(this);

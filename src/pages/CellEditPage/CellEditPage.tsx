@@ -9,7 +9,7 @@ import exitIcon from "../../assets/icons/exitIcon.svg";
 import ExitModal from "../../comps/modals/ExitModal";
 import { useNavigate } from "react-router-dom";
 import arrIcon from "../../assets/icons/arrSimple.svg";
-import ChooseTemplate from "../../comps/ChooseTemplate";
+import ChooseTemplate from "../../comps/AdminTable/ChooseTemplate/ChooseTemplate";
 import { CellEditDocuments } from "./CellEditDocuments/CellEditDocuments";
 import addIcon from "../../assets/icons/addIcon.svg";
 import type { Cell } from "../../types";
@@ -21,9 +21,9 @@ import { observer } from "mobx-react-lite";
 import { useGetCurrentCell } from "./hooks/useGetCurrentCell";
 import { tableStore } from "../AdminPage/SpreadsheetStore";
 import { toJS } from "mobx";
-import type { CellEntity } from "../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 
-type Props = { data: CellEntity };
+type Props = { data: SpreadsheetCellEntity };
 
 const CellEditPage = ({ data }: Props) => {
   const [timelineValue, setTimelineValue] = useState("");

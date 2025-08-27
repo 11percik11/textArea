@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
-import type { CellEntity } from "../../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 import { getServerMediaUrl } from "../../../utils/getServerMediaUrl";
 import { ModalImage } from "../../modals/InfoModal/ModalImage/ModalImage";
 import style from "./UserTableCell.module.scss";
 
 type Props = {
-  onOpen: (cell: CellEntity) => void;
-  data: CellEntity;
+  onOpen: (cell: SpreadsheetCellEntity) => void;
+  data: SpreadsheetCellEntity;
 };
 
 const UserTableCell = ({ data, onOpen }: Props) => {

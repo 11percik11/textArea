@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
-import type { Cell, Spreadsheet } from "../types";
-import UserTableCell from "./UserTable/UserTableCell/UserTableCell";
-import type { SpreadsheetEntity } from "../store/SpreadsheetEntity";
-import type { CellEntity } from "../store/CellEntity";
+import UserTableCell from "./UserTableCell/UserTableCell";
+import type { SpreadsheetEntity } from "../../store/SpreadsheetEntity";
+import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 
 type Props = {
   content: SpreadsheetEntity | null;
-  onCellInfoOpen: (cell: CellEntity) => void;
+  onCellInfoOpen: (cell: SpreadsheetCellEntity) => void;
 };
 
-const MainTable = ({ onCellInfoOpen, content }: Props) => {
+const UserTable = ({ onCellInfoOpen, content }: Props) => {
   return (
     <div className="w-[1856px] border-[2px] border-stroke rounded-[24px] overflow-auto">
       {content?.rows.map((row, index: number) => (
@@ -43,4 +41,4 @@ const MainTable = ({ onCellInfoOpen, content }: Props) => {
   );
 };
 
-export default MainTable;
+export default UserTable;

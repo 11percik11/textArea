@@ -9,11 +9,11 @@ import { useAllFiles, useInitFileLoad, useLocalFileLoad } from "../hooks";
 import type { MediaData } from "../types";
 import { observer } from "mobx-react-lite";
 import { cellStore } from "../../../store/root";
-import type { CellEntity } from "../../../store/CellEntity";
+import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 import { toJS } from "mobx";
 
 type Props = {
-  cell: CellEntity;
+  cell: SpreadsheetCellEntity;
 };
 
 export const CellEditDocuments = observer(({ cell }: Props) => {

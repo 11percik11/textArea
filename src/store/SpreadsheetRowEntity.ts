@@ -1,10 +1,10 @@
 import { computed, makeAutoObservable, runInAction } from "mobx";
 import type { Spreadsheet, SpreadsheetRow } from "../types";
-import { CellEntity } from "./CellEntity";
+import { SpreadsheetCellEntity } from "./SpreadsheetCellEntity";
 import { updateRowColor, updateRowTitle } from "../api/spreadsheetRow";
 
 export class SpreadsheetRowEntity {
-  cells: CellEntity[] = [];
+  cells: SpreadsheetCellEntity[] = [];
   private raw: SpreadsheetRow;
   loading: RowLoadingState;
 
@@ -16,7 +16,7 @@ export class SpreadsheetRowEntity {
   }
 
   private initCells(row: SpreadsheetRow) {
-    this.cells = row.cells.map((cell) => new CellEntity(cell));
+    this.cells = row.cells.map((cell) => new SpreadsheetCellEntity(cell));
   }
 
   get id() {
@@ -45,7 +45,7 @@ export class SpreadsheetRowEntity {
       if (this.cells[index] && this.cells[index].id === cell.id) {
         this.cells[index].update(cell);
       } else {
-        this.cells[index] = new CellEntity(cell);
+        this.cells[index] = new SpreadsheetCellEntity(cell);
       }
     });
     if (this.cells.length > row.cells.length) {

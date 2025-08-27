@@ -1,9 +1,9 @@
 import clsx from "clsx";
-import mediaImg from "../assets/images/template image media.svg";
-import tableImg from "../assets/images/template image table.svg";
-import tmImg from "../assets/images/template image text and media.svg";
-import textImg from "../assets/images/template image text.svg";
-import type { Cell } from "../types";
+import mediaImg from "../../../assets/images/template image media.svg";
+import tableImg from "../../../assets/images/template image table.svg";
+import tmImg from "../../../assets/images/template image text and media.svg";
+import textImg from "../../../assets/images/template image text.svg";
+import type { Cell } from "../../../types";
 import style from "./ChooseTemplate.module.scss";
 import { observer } from "mobx-react-lite";
 

@@ -1,7 +1,7 @@
-import type { Spreadsheet } from "../types";
-import arrIcon from "../assets/icons/grayArrIcon.svg";
-import addIcon from "../assets/icons/addIcon.svg";
-import type { SpreadsheetEntity } from "../store/SpreadsheetEntity";
+import type { Spreadsheet } from "../../types";
+import arrIcon from "../../assets/icons/grayArrIcon.svg";
+import addIcon from "../../assets/icons/addIcon.svg";
+import type { SpreadsheetEntity } from "../../store/SpreadsheetEntity";
 import { observer } from "mobx-react-lite";
 
 type Props = {
