@@ -31,12 +31,10 @@ const MainPage = () => {
       {isLoading && (
         <div className="fixed mx-auto left-0 right-0 \my-auto top-0 bottom-0 size-[100px] rounded-full border-[17px] border-dotted border-accent animate-spin" />
       )}
-      <div
-        hidden={isLoading}
-        className="h-full overflow-scroll hide-scroll"
-      >
+      <div hidden={isLoading} className="h-full overflow-scroll hide-scroll">
         {current && (
           <UserTable
+            key={current.id}
             content={current}
             onCellInfoOpen={(cell) => setInfoModalCell(cell)}
           />

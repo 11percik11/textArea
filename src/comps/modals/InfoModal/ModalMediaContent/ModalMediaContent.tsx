@@ -27,7 +27,7 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
       )}
       {cell.type === "media" && cell.images.length === 1 ? (
         <ModalImage
-          height="830px"
+          height="700px"
           src={getServerMediaUrl(cell.images[0].image)}
         />
       ) : null}

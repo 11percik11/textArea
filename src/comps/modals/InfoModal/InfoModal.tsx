@@ -100,7 +100,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
         setSelected={setSelectedDocument}
       />
       <div
-        className="mt-[32px] max-h-[1016px] p-[32px] rounded-[32px] bg-white mx-auto my-auto"
+        className="mt-[32px] max-h-[900px] p-[32px] rounded-[32px] bg-white mx-auto my-auto"
         style={{ width: ContainerPxSize[currentLayoutVariant] + "px" }}
       >
         <div className="w-full mb-[46px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
