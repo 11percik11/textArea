@@ -8,30 +8,35 @@ import InfoModal from "../../comps/modals/InfoModal/InfoModal";
 import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 import { spreadsheetManager } from "../../store/root";
 import { Header } from "../shared/Header";
+import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 
 const UserTablePage = () => {
   const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
 
-  useEffect(() => {
-    spreadsheetManager.getOneSpreadSheetHandler(searchParamsSpreadsheetId);
-  }, [data]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [infoModalCell, setInfoModalCell] = useState<SpreadsheetCellEntity | null>(null);
-  const isLoading = false;
+  useEffect(() => {
+    setInfoModalCell(null);
+    setIsLoading(true);
+    spreadsheetManager
+      .getOneSpreadSheetHandler(searchParamsSpreadsheetId)
+      .finally(() => setIsLoading(false));
+  }, [searchParamsSpreadsheetId]);
+
+  const [infoModalCell, setInfoModalCell] =
+    useState<SpreadsheetCellEntity | null>(null);
 
   const pageTitle = data ? data.title : "";
 
   return (
-    <div className="w-full h-full p-[32px]">
+    <div className="w-full h-full p-[32px]" key={searchParamsSpreadsheetId}>
       <Header title={pageTitle} />
+      <OverlayLoader isLoading={isLoading} />
       {infoModalCell !== null && (
         <InfoModal
           cell={infoModalCell}
           onClose={() => setInfoModalCell(null)}
         />
-      )}
-      {isLoading && (
-        <div className="fixed mx-auto left-0 right-0 my-auto top-0 bottom-0 size-[100px] rounded-full border-[17px] border-dotted border-accent animate-spin" />
       )}
       <div
         hidden={isLoading}

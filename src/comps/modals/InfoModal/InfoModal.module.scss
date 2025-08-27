@@ -1,0 +1,12 @@
+.toTableButton {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 18px;
+  border: 2px solid var(--color-accent);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}

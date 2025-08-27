@@ -6,13 +6,24 @@ import { spreadsheetManager } from "../../store/root";
 import { CellEditTable } from "../CellEditPage/CellEditTable/CellEditTable";
 import { observer } from "mobx-react-lite";
 import { useGetSpreadsheetByUrl } from "./useGetSpreadsheetByUrl";
+import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 
 export const TablePage = observer(() => {
   const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
 
-  useEffect(() => {
-    spreadsheetManager.getOneSpreadSheetHandler(searchParamsSpreadsheetId);
-  }, [data]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  return data && <CellEditTable data={data} key={searchParamsSpreadsheetId} />;
+  useEffect(() => {
+    setIsLoading(true);
+    spreadsheetManager
+      .getOneSpreadSheetHandler(searchParamsSpreadsheetId)
+      .finally(() => setIsLoading(false));
+  }, [searchParamsSpreadsheetId]);
+
+  return (
+    <div className="p-[32px]">
+      {<OverlayLoader isLoading={isLoading} />}
+      {data && <CellEditTable data={data} key={searchParamsSpreadsheetId} />}
+    </div>
+  );
 });

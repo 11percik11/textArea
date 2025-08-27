@@ -13,7 +13,7 @@ export class SpreadsheetEntity {
   constructor(table: Spreadsheet) {
     this.table = table;
     this.initRows(table);
-
+ 
     makeAutoObservable(this, {
       id: computed,
       columnsAndRows: computed,

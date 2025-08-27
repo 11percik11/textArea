@@ -7,14 +7,15 @@ import style from "./UserTableCell.module.scss";
 type Props = {
   onOpen: (cell: SpreadsheetCellEntity) => void;
   data: SpreadsheetCellEntity;
+  isTimeline: boolean;
 };
 
-const UserTableCell = ({ data, onOpen }: Props) => {
+const UserTableCell = ({ data, onOpen, isTimeline }: Props) => {
   const navigate = useNavigate();
 
   const onCellClick = () => {
     if (data.type === "table") {
-      navigate(`/inner-table?id=${data.spreadsheetParentId}`);
+      navigate(`/user-inner-table?id=${data.spreadsheetParentId}`);
       return;
     }
     onOpen(data);
@@ -46,7 +47,17 @@ const UserTableCell = ({ data, onOpen }: Props) => {
         </>
       )}
 
-      {data.type === "text" && <div className="text-center">{data.title}</div>}
+      {data.type === "text" && !isTimeline && (
+        <div className="text-center">{data.title}</div>
+      )}
+
+      {isTimeline && (
+        <div className="flex flex-col items-center justify-center gap-2">
+          <div className="text-center">{data.title}</div>
+          <div className="text-center text-[24px]">{data.description}</div>
+        </div>
+      )}
+
       {data.type === "table" && (
         <div className="text-center" onClick={onCellClick}>
           {data.title} (таблица)

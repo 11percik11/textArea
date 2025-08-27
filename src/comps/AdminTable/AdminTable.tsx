@@ -141,9 +141,9 @@ const AdminTable = observer(
                   backgroundColor: timelineRow.color,
                   opacity: 0.3,
                 }}
-                className={`flex h-[152px]`}
+                className={`flex items-stretch`}
               >
-                <div className="dragHandle relative min-w-[40px] h-[152px] bg-[#F6F6F6] border-[1px] border-stroke p-[7px]">
+                <div className="dragHandle relative min-w-[40px] min-h-[152px] bg-[#F6F6F6] border-[1px] border-stroke p-[7px]">
                   <RowColorPicker
                     row={timelineRow}
                     isLoading={timelineRow.loading.isColorLoading}
@@ -156,7 +156,7 @@ const AdminTable = observer(
                     <img src={deleteIcon} alt="" className="size-[24px]" />
                   </button>
                 </div>
-                <div className="flex items-center justify-center p-[8px] text-wrap border-[1px] border-stroke w-[232px] h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
+                <div className="flex items-center justify-center p-[8px] text-wrap border-[1px] border-stroke w-[232px] min-h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
                   <EditableText
                     isLoading={timelineRow.loading.isTitleLoading}
                     value={timelineRow.title}

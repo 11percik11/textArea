@@ -22,7 +22,7 @@ const AdminCell = ({ data, color, onClick }: Props) => {
     <div
       onClick={onClickHandler}
       style={{ backgroundColor: color }}
-      className={`border-[1px] border-stroke  min-w-[424px] h-[152px] p-[24px] relative`}
+      className={`border-[1px] border-stroke  w-[424px] min-h-[152px] p-[24px] relative`}
     >
       <div
         hidden={!data.id}
@@ -67,14 +67,17 @@ const AdminCell = ({ data, color, onClick }: Props) => {
           </div>
         )}
       </div>
-      <div
-        hidden={!data.id}
-        className="absolute bottom-[24px] text-[24px] text-accent font-semibold"
-      >
-        {data.title || (
-          <span className="text-text opacity-[60%]">Без названия</span>
-        )}
-      </div>
+      {
+        <div
+          hidden={!data.id}
+          // className="absolute bottom-[24px] text-[24px] text-accent font-semibold"
+          className="text-[24px] text-accent font-semibold"
+        >
+          {data.title || (
+            <span className="text-text opacity-[60%]">Без названия</span>
+          )}
+        </div>
+      }
     </div>
   );
 };

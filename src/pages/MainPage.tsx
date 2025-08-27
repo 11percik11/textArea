@@ -10,14 +10,17 @@ import { API_CONFIG } from "../assets/config";
 import { spreadsheetManager } from "../store/root";
 import { observer } from "mobx-react-lite";
 import type { SpreadsheetCellEntity } from "../store/SpreadsheetCellEntity";
+import OverlayLoader from "../comps/OverlayLoader/OverlayLoader";
 
 const MainPage = () => {
   const current = spreadsheetManager.currentMainSpreadsheet;
-  const [infoModalCell, setInfoModalCell] = useState<SpreadsheetCellEntity | null>(null);
+  const [infoModalCell, setInfoModalCell] =
+    useState<SpreadsheetCellEntity | null>(null);
   const isLoading = false;
 
   return (
     <div className="w-full h-full p-[32px]">
+      <OverlayLoader isLoading={spreadsheetManager.isLoading} />
       {infoModalCell !== null && (
         <InfoModal
           cell={infoModalCell}

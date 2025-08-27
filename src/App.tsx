@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/table" element={<MainPage />} />
           <Route path="/admin/table" element={<TablePage />} />
-          <Route path="/inner-table" element={<UserTablePage />} />
+          <Route path="/user-inner-table" element={<UserTablePage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/celledit" element={<CellEditPageWrapper />} />
         </Routes>

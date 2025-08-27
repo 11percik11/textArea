@@ -22,9 +22,9 @@ export const AdminTableRow = observer(
           backgroundColor: row.color,
         }}
         key={row.sequence}
-        className={`flex h-[152px]`}
+        className={`flex items-stretch`}
       >
-        <div className="dragHandle relative min-w-[40px] h-[152px] bg-[#F6F6F6] border-[1px] border-stroke p-[7px]">
+        <div className="dragHandle relative min-w-[40px] min-h-[152px] bg-[#F6F6F6] border-[1px] border-stroke p-[7px]">
           <SortableList.DragHandle />
           <RowColorPicker
             row={row}
@@ -38,7 +38,7 @@ export const AdminTableRow = observer(
             <img src={deleteIcon} alt="" className="size-[24px]" />
           </button>
         </div>
-        <div className="p-[8px] flex items-center justify-center text-wrap border-[1px] border-stroke w-[232px] h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
+        <div className="p-[8px] flex items-center justify-center text-wrap border-[1px] border-stroke w-[232px] min-h-[152px] bg-[#0000000D] text-text text-[20px] font-bold ">
           <EditableText
             isLoading={loadingState.isTitleLoading}
             value={row.title}

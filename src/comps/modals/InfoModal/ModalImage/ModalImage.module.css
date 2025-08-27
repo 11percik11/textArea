@@ -16,7 +16,8 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.7); /* Overlay */
+  background-color: rgba(0, 0, 0, 0.75); /* Overlay */
+  backdrop-filter: blur(5px);
 }
 
 .foreground {

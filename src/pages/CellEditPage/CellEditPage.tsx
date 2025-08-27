@@ -116,6 +116,21 @@ const CellEditPage = ({ data }: Props) => {
     </>
   );
 
+  const toTable = () => {
+    const cellIdToSpreadsheet: Record<string, number> = {
+      ["177"]: -1,
+      ["-10"]: -2,
+      ["-11"]: -3,
+      ["-12"]: -4,
+    };
+    const spreadsheetId = cellIdToSpreadsheet[data.id.toString()];
+    navigate(`/admin/table?id=${spreadsheetId}`);
+  };
+
+  const hasMockButton = ["177", "-10", "-11", "-12"].some(
+    (value) => value === data.id.toString(),
+  );
+
   return (
     <div className="animate-appear w-full h-full p-[32px]">
       {Modals}
@@ -210,15 +225,19 @@ const CellEditPage = ({ data }: Props) => {
                   Таблица
                 </div>
                 <button
-                  disabled={!isTableCellExist}
+                  onClick={toTable}
+                  disabled={!hasMockButton}
                   className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
                 >
-                  <img src={addIcon} alt="add" className="size-[32px]" />
-                  Добавить
+                  {hasMockButton ? (
+                    <>Перейти</>
+                  ) : (
+                    <>
+                      <img src={addIcon} alt="add" className="size-[32px]" />
+                      Добавить
+                    </>
+                  )}
                 </button>
-                <div className="mt-[16px] text-center mx-auto text-[16px] text-stroke font-bold">
-                  Сначала создайте ячейку
-                </div>
               </div>
               <CellEditDocuments cell={data} />
             </div>

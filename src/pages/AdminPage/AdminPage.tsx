@@ -13,6 +13,7 @@ import { API_CONFIG } from "../../assets/config";
 import { cancelRequest } from "../../api/shared/requestCancel";
 import { spreadsheetManager } from "../../store/root";
 import { toJS } from "mobx";
+import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 
 type Props = {};
 
@@ -29,6 +30,7 @@ const AdminPage = observer(({}: Props) => {
   const navigate = useNavigate();
   return (
     <div className="animate-appear w-full h-full p-[32px]">
+      <OverlayLoader isLoading={spreadsheetManager.isLoading} />
       <div className="flex items-center gap-[16px]">
         <button
           onClick={() => setExitModalOpen(true)}
