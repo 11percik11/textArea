@@ -9,7 +9,7 @@ type Props = {
 
 const UserTable = ({ onCellInfoOpen, content }: Props) => {
   return (
-    <div className="w-[1856px] border-[2px] border-stroke rounded-[24px] overflow-auto">
+    <div className="border-[2px] border-stroke rounded-[24px] overflow-auto">
       {content?.rows.map((row, index: number) => (
         <div
           key={index}
@@ -28,7 +28,7 @@ const UserTable = ({ onCellInfoOpen, content }: Props) => {
                 backgroundColor: row.isTimeline ? "#C7DEE6" : row.color,
               }}
               key={cellIndex}
-              className={`border-[1px] border-stroke p-[24px] w-[406px] flex justify-center items-center`}
+              className={`border-[1px] border-stroke p-[18px] w-[406px] flex justify-center items-center`}
             >
               {!!cell && (
                 <UserTableCell

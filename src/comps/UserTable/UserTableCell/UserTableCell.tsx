@@ -29,7 +29,7 @@ const UserTableCell = ({ data, onOpen, isTimeline }: Props) => {
       {data.type === "media" && data.images.length && (
         <ModalImage
           className={style.UserTableCell__singleImage}
-          height="188px"
+          height="175px"
           src={getServerMediaUrl(data.images[0].image)}
         />
       )}

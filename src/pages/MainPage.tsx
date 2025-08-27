@@ -11,6 +11,7 @@ import { spreadsheetManager } from "../store/root";
 import { observer } from "mobx-react-lite";
 import type { SpreadsheetCellEntity } from "../store/SpreadsheetCellEntity";
 import OverlayLoader from "../comps/OverlayLoader/OverlayLoader";
+import style from "./MainPage.module.scss";
 
 const MainPage = () => {
   const current = spreadsheetManager.currentMainSpreadsheet;
@@ -19,7 +20,7 @@ const MainPage = () => {
   const isLoading = false;
 
   return (
-    <div className="w-full h-full p-[32px]">
+    <div className={style.UserPage}>
       <OverlayLoader isLoading={spreadsheetManager.isLoading} />
       {infoModalCell !== null && (
         <InfoModal
@@ -28,11 +29,11 @@ const MainPage = () => {
         />
       )}
       {isLoading && (
-        <div className="fixed mx-auto left-0 right-0 my-auto top-0 bottom-0 size-[100px] rounded-full border-[17px] border-dotted border-accent animate-spin" />
+        <div className="fixed mx-auto left-0 right-0 \my-auto top-0 bottom-0 size-[100px] rounded-full border-[17px] border-dotted border-accent animate-spin" />
       )}
       <div
         hidden={isLoading}
-        className="w-[1856px] h-[896px] overflow-scroll hide-scroll"
+        className="h-full overflow-scroll hide-scroll"
       >
         {current && (
           <UserTable

@@ -83,3 +83,7 @@
 input {
   outline: none;
 }
+
+body{
+  overflow: hidden;
+}
