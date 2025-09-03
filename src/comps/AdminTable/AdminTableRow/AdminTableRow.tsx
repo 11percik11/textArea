@@ -32,7 +32,7 @@ export const AdminTableRow = observer(
             isLoading={loadingState.isColorLoading}
           />
           <button
-            className="absolute bottom-[0] left-[0] w-[30px] h-[30px] z-[10]"
+            className="absolute bottom-[0] mx-auto w-[30px] h-[30px] z-[10]"
             onClick={() => onRowDelete(row.sequence)}
           >
             <img src={deleteIcon} alt="" className="size-[24px]" />

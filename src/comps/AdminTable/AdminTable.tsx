@@ -1,6 +1,6 @@
 import deleteIcon from "../../assets/icons/deleteIcon.svg";
-import type { Cell, Spreadsheet } from "../../types";
-import { useRef, useState } from "react";
+import type { Spreadsheet } from "../../types";
+import { useState } from "react";
 import { SortableList } from "../modals/SortableList";
 import AdminCell from "../AdminCell/AdminCell";
 import { observer } from "mobx-react-lite";
@@ -100,10 +100,10 @@ const AdminTable = observer(
               renderItem={(item) => (
                 <div>
                   <SortableList.Item id={item.id}>
-                    <div className="dragHandleVert relative bg-[#F6F6F6] px-[8px] w-[426px] h-[40px] border-[1px] border-stroke flex justify-between items-center">
+                    <div className="dragHandleVert relative bg-[#F6F6F6] px-[8px] w-[424px] h-[40px] border-[1px] border-stroke flex justify-between items-center">
                       <SortableList.DragHandle />
                       <button
-                        className="absolute bottom-[0] left-[50%] w-[30px] h-[30px] z-[10]"
+                        className="w-[30px] h-[30px] z-[10]"
                         onClick={() => onColumnDelete(item.sequence)}
                       >
                         <img src={deleteIcon} alt="" className="size-[24px]" />

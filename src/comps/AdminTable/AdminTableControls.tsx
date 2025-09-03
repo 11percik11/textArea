@@ -24,7 +24,7 @@ export const AdminTableControls = observer(
             Колонки
             <div className="mt-[8px] gap-[8px] w-[59px] h-[32px] text-[32px] text-[#C9C9C9] font-bold flex justify-left items-center">
               {spreadsheet.columnsAndRows.columns}
-              <img src={arrIcon} alt="cols" className="size-[32px]" />
+              <img src={arrIcon} alt="cols" className="size-[32px] rotate-270" />
             </div>
           </div>
           <div className="size-[56px] bg-accent rounded-[16px] p-[12px]">
@@ -44,7 +44,7 @@ export const AdminTableControls = observer(
               <img
                 src={arrIcon}
                 alt="rows"
-                className="size-[32px] rotate-270"
+                className="size-[32px]"
               />
             </div>
           </div>
