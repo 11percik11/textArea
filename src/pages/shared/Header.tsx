@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
 import exitIcon from "../../assets/icons/exitIcon.svg";
-import arrIcon from "../../assets/icons/backspaceIcon.svg";
+import arrIcon from "../../assets/icons/arrSimple.svg";
 
-export const Header = ({ title }) => {
+export const Header = ({ title }: {title: string}) => {
   const navigate = useNavigate();
 
   const handleBack = () => {

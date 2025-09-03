@@ -14,9 +14,10 @@ import { toJS } from "mobx";
 
 type Props = {
   cell: SpreadsheetCellEntity;
+  height: string;
 };
 
-export const CellEditDocuments = observer(({ cell }: Props) => {
+export const CellEditDocuments = observer(({ cell, height }: Props) => {
   const { handleInitFileDelete, initFiles, reorderFiles, onLocalFileLoad } =
     useInitFileLoad(
       cell.files,
@@ -25,7 +26,7 @@ export const CellEditDocuments = observer(({ cell }: Props) => {
     );
 
   return (
-    <div className="w-[296px] h-[740px] bg-white rounded-[24px] mt-[16px] p-[16px]">
+    <div className={`w-[296px] ${height} bg-white rounded-[24px] mt-[16px] p-[16px] relative`}>
       <div className="text-[32px] text-accent font-bold text-center">Файлы</div>
       <div className="w-[264px] h-[556px] overflow-y-auto overflow-x-hidden">
         <SortableList
@@ -73,7 +74,8 @@ export const CellEditDocuments = observer(({ cell }: Props) => {
           )}
         />
       </div>
-      <div className="mt-[16px] w-[264px] h-[16px] text-[16px] text-[#C9C9C9] font-bold text-center flex gap-[12px] items-center justify-center">
+      <div className="absolute bottom-0 mb-[16px] ">
+        <div className="mt-[16px] w-[264px] h-[16px] text-[16px] text-[#C9C9C9] font-bold text-center flex gap-[12px] items-center justify-center">
         <div>.doc</div>
         <div>.docx</div>
         <div>.xlsx</div>
@@ -84,6 +86,7 @@ export const CellEditDocuments = observer(({ cell }: Props) => {
         accept=".doc, .docx, .xlsx, .xls, .pdf"
         onFileLoad={onLocalFileLoad}
       />
+      </div>
     </div>
   );
 });

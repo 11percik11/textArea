@@ -7,6 +7,7 @@ import { CellEditTable } from "../CellEditPage/CellEditTable/CellEditTable";
 import { observer } from "mobx-react-lite";
 import { useGetSpreadsheetByUrl } from "./useGetSpreadsheetByUrl";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
+import { Header } from "../shared/Header";
 
 export const TablePage = observer(() => {
   const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
@@ -23,6 +24,7 @@ export const TablePage = observer(() => {
   return (
     <div className="p-[32px]">
       {<OverlayLoader isLoading={isLoading} />}
+      <Header title={data?.title || "Новая таблица"}/>
       {data && <CellEditTable data={data} key={searchParamsSpreadsheetId} />}
     </div>
   );

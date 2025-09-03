@@ -1,6 +1,5 @@
 import {
   useCallback,
-  useEffect,
   useRef,
   useState,
   type ChangeEvent,
@@ -18,9 +17,9 @@ import { CellEditTable } from "./CellEditTable/CellEditTable";
 import CellEditConfirmModal from "./CellEditConfirmModal/CellEditConfirmModal";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 import { observer } from "mobx-react-lite";
-import { useGetCurrentCell } from "./hooks/useGetCurrentCell";
-import { tableStore } from "../AdminPage/SpreadsheetStore";
-import { toJS } from "mobx";
+//import { useGetCurrentCell } from "./hooks/useGetCurrentCell";
+//import { tableStore } from "../AdminPage/SpreadsheetStore";
+//import { toJS } from "mobx";
 import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 
 type Props = { data: SpreadsheetCellEntity };
@@ -35,6 +34,7 @@ const CellEditPage = ({ data }: Props) => {
   const [textBlockValue, setTextBlockValue] = useState(data?.description || "");
 
   // keep a ref to the timeout
+  //@ts-ignore
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   const debouncedOnBlur = useCallback(() => {
@@ -60,7 +60,7 @@ const CellEditPage = ({ data }: Props) => {
   };
 
   const [isExitModalOpen, setExitModalOpen] = useState(false);
-  const [isTableCellExist] = useState(false);
+  //const [isTableCellExist] = useState(false);
 
   //const [isKeyboardOpen, setKeyboardOpen] = useState(false);
 
@@ -220,17 +220,17 @@ const CellEditPage = ({ data }: Props) => {
             </div>
 
             <div className="w-[296px] h-[928px]" hidden={data.type === "table"}>
-              <div className="w-[296px] h-[172px] bg-white rounded-[24px] p-[16px]">
+              <div className={`w-[296px] ${!hasMockButton ? "h-[124px]" : `${titleValue!=="" ? "h-[136px]" : "h-[172px]"}`} bg-white rounded-[24px] p-[16px]`}>
                 <div className="text-center mx-auto text-accent text-[32px] font-bold">
                   Таблица
                 </div>
                 <button
                   onClick={toTable}
-                  disabled={!hasMockButton}
+                  disabled={titleValue==="" && !hasMockButton}
                   className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
                 >
-                  {hasMockButton ? (
-                    <>Перейти</>
+                  {!hasMockButton ? (
+                    <div>Перейти</div>
                   ) : (
                     <>
                       <img src={addIcon} alt="add" className="size-[32px]" />
@@ -238,8 +238,11 @@ const CellEditPage = ({ data }: Props) => {
                     </>
                   )}
                 </button>
+                <div>
+
+                </div>
               </div>
-              <CellEditDocuments cell={data} />
+              <CellEditDocuments cell={data} height={`${!hasMockButton ? "h-[740px]" : `${titleValue!=="" ? "h-[776px]" : "h-[740px]"}`}`}/>
             </div>
           </>
         )}
