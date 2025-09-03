@@ -1,9 +1,9 @@
 import { useState } from "react";
-import closeIcon from "../../../assets/icons/closeIcon.svg";
-import type { Cell, FileType } from "../../../types";
-import { ModalImage } from "./ModalImage/ModalImage";
-import { getServerMediaUrl } from "../../../utils/getServerMediaUrl";
-import { ModalGallery } from "./ModalGallery/ModalGallery";
+//import closeIcon from "../../../assets/icons/closeIcon.svg";
+import type { FileType } from "../../../types";
+//import { ModalImage } from "./ModalImage/ModalImage";
+//import { getServerMediaUrl } from "../../../utils/getServerMediaUrl";
+//import { ModalGallery } from "./ModalGallery/ModalGallery";
 import { ModalFiles } from "./ModalFiles/ModalFiles";
 import { ModalMediaContent } from "./ModalMediaContent/ModalMediaContent";
 import { Icons } from "../../icons";
@@ -11,6 +11,8 @@ import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity
 import style from "./InfoModal.module.scss";
 import { useNavigate } from "react-router-dom";
 
+
+//@ts-ignore
 enum ContentVariant {
   OneVideoOnly = "VideoOnly",
   OneImageOnly = "ImageOnly",
@@ -104,7 +106,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
         style={{ width: ContainerPxSize[currentLayoutVariant] + "px" }}
       >
         <div className="w-full mb-[46px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
-          {cell.title}
+          <div>{cell.title}</div>
           <div className="flex justify-between items-center gap-[12px]">
             {["177", "-10", "-11", "-12"].some(
               (value) => value === cell.id.toString(),
