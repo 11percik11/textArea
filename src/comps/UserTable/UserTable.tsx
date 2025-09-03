@@ -9,7 +9,7 @@ type Props = {
 
 const UserTable = ({ onCellInfoOpen, content }: Props) => {
   return (
-    <div className="border-[2px] border-stroke rounded-[24px] overflow-auto">
+    <div className="border-[2px] border-stroke rounded-[24px] overflow-auto h-[894px]">
       {content?.rows.map((row, index: number) => (
         <div
           key={index}
