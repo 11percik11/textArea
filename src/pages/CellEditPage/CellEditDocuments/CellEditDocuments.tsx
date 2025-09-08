@@ -1,16 +1,16 @@
-import { useEffect, useImperativeHandle, type Ref } from "react";
-import refreshIcon from "../../../assets/icons/Refresh.svg";
+//import { useEffect, useImperativeHandle, type Ref } from "react";
+//import refreshIcon from "../../../assets/icons/Refresh.svg";
 import deleteIcon from "../../../assets/icons/deleteIcon.svg";
 import { SortableList } from "../../../comps/modals/SortableList";
 import { DragHandleContainer } from "../../../comps/modals/SortableList/components/SortableItem/SortableItem";
-import type { FileType } from "../../../types";
+//import type { FileType } from "../../../types";
 import CellEditAddFileButton from "../CellEditAddFileButton/CellEditAddFileButton";
-import { useAllFiles, useInitFileLoad, useLocalFileLoad } from "../hooks";
-import type { MediaData } from "../types";
+import { /*useAllFiles, useLocalFileLoad,*/ useInitFileLoad } from "../hooks";
+//import type { MediaData } from "../types";
 import { observer } from "mobx-react-lite";
-import { cellStore } from "../../../store/root";
+//import { cellStore } from "../../../store/root";
 import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
-import { toJS } from "mobx";
+//import { toJS } from "mobx";
 
 type Props = {
   cell: SpreadsheetCellEntity;
@@ -33,7 +33,7 @@ export const CellEditDocuments = observer(({ cell, height }: Props) => {
           className="flex gap-[5px] flex-col"
           items={initFiles}
           onChange={reorderFiles}
-          renderItem={({ id, file, format }, index) => (
+          renderItem={({ id, file, /*format*/ }, index) => (
             <SortableList.Item id={id}>
               <div
                 key={id}

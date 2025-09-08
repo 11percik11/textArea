@@ -53,7 +53,7 @@ const AdminTable = observer(
     };
 
     const updateColumns = async (
-      table: Spreadsheet["rows"],
+      //table: Spreadsheet["rows"],
       activeIndex: number,
       overIndex: number,
     ) => {
@@ -98,6 +98,7 @@ const AdminTable = observer(
             <SortableList
               className="flex"
               items={spreadsheet.rows[0].cells}
+              //@ts-ignore
               onChange={updateColumns}
               renderItem={(item) => (
                 <div>
@@ -123,6 +124,7 @@ const AdminTable = observer(
             <SortableList
               className=""
               items={rowsWithoutTimeline}
+              //@ts-ignore
               onChange={updateRows}
               renderItem={(row) => {
                 return (
