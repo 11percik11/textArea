@@ -8,9 +8,10 @@ type Props = {
   onOpen: (cell: SpreadsheetCellEntity) => void;
   data: SpreadsheetCellEntity;
   isTimeline: boolean;
+  color: string;
 };
 
-const UserTableCell = ({ data, onOpen, isTimeline }: Props) => {
+const UserTableCell = ({ data, onOpen, isTimeline, color }: Props) => {
   const navigate = useNavigate();
 
   const onCellClick = () => {
@@ -31,6 +32,7 @@ const UserTableCell = ({ data, onOpen, isTimeline }: Props) => {
           className={style.UserTableCell__singleImage}
           height="175px"
           src={getServerMediaUrl(data.images[0].image)}
+          color={color}
         />
       )}
 
@@ -41,6 +43,7 @@ const UserTableCell = ({ data, onOpen, isTimeline }: Props) => {
               className={style.UserTableCell__imageWhenText}
               height="121px"
               src={getServerMediaUrl(data.images[0].image)}
+              color={color}
             />
           )}
           <div className="text-center">{data.title}</div>

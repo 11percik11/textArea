@@ -35,6 +35,7 @@ const UserTable = ({ onCellInfoOpen, content }: Props) => {
                   isTimeline={row.isTimeline}
                   onOpen={(openedCell) => onCellInfoOpen(openedCell)}
                   data={cell}
+                  color={row.color}
                 />
               )}
             </div>
