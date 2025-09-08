@@ -1,4 +1,4 @@
-import type { Spreadsheet } from "../../types";
+//import type { Spreadsheet } from "../../types";
 import arrIcon from "../../assets/icons/grayArrIcon.svg";
 import addIcon from "../../assets/icons/addIcon.svg";
 import type { SpreadsheetEntity } from "../../store/SpreadsheetEntity";

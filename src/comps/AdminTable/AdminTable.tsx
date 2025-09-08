@@ -18,11 +18,12 @@ type Props = {
   onEdit: (table: Spreadsheet["rows"]) => void;
   // onSelectCell: (data: Cell) => void;
   widthPx?: number;
+  ref: any;
 };
 
 const AdminTable = observer(
-  ({ spreadsheet, onEdit, widthPx = 1856 }: Props) => {
-    const content = spreadsheet.rows;
+  ({ spreadsheet, /*onEdit,*/ widthPx = 1856, ref }: Props) => {
+    //const content = spreadsheet.rows;
     // const [changableRows, setChangableRows] = useState(content);
 
     // const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
@@ -42,7 +43,7 @@ const AdminTable = observer(
     // }, [finishedTable.current]);
 
     const updateRows = async (
-      table: Spreadsheet["rows"],
+      //table: Spreadsheet["rows"],
       activeIndex: number,
       overIndex: number,
     ) => {
@@ -88,6 +89,7 @@ const AdminTable = observer(
       <div
         className={`w-[${widthPx}px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
       >
+      <div ref = {ref}>
         <ColorPickModal row={currentRow} onClose={onColorPickModalClose} />
         <OverlayLoader isLoading={spreadsheet.isLoading} />
         <div className="h-[40px] pl-[40px] flex">
@@ -175,6 +177,7 @@ const AdminTable = observer(
             )}
           </div>
         }
+        </div>
       </div>
     );
   },

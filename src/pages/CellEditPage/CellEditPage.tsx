@@ -29,7 +29,7 @@ const CellEditPage = ({ data }: Props) => {
   const handleTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTimelineValue(event.target.value);
   };
-
+  console.log(data);
   const [titleValue, setTitleValue] = useState(data?.title || "");
   const [textBlockValue, setTextBlockValue] = useState(data?.description || "");
 

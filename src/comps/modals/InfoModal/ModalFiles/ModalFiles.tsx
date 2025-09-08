@@ -46,7 +46,7 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
               )}
               key={document.id}
             >
-              <div className={styles["modal-files-content-item__format-label"]}>
+              <div className={`${styles["modal-files-content-item__format-label"]}`}>
                 {/* .{getFileExtensionFromPath(document.file)} */}
                 .pdf
               </div>

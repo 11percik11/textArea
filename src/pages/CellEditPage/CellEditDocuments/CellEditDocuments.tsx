@@ -42,25 +42,18 @@ export const CellEditDocuments = observer(({ cell, height }: Props) => {
                 <DragHandleContainer>
                   <div className="absolute inset-0 w-full h-full"></div>
                 </DragHandleContainer>
-                <div className="flex w-full justify-between font-normal text-text text-[16px] mb-[8px]">
-                  {id}
-                  <div className="text-[12px] font-bold w-[49px] h-[32px] rounded-[17px] bg-[#FFFFFF80] flex text-center justify-center items-center">
-                    Документ {index}
+                <div className="flex w-full justify-between font-normal text-text text-[16px] mb-[8px] items-center">
+                  <div className="size-[32px] bg-[#FFFFFF80] rounded-full flex justify-center items-center">
+                    #{index!+1 || ""}
                   </div>
-                </div>
-                <div className="flex w-full justify-between font-normal text-text text-[16px] mb-[8px]">
-                  <button className="size-[34px] rounded-[6px] bg-white flex items-center justify-center">
-                    <img
-                      src={refreshIcon}
-                      alt="refresh"
-                      className="size-[24px]"
-                    />
-                  </button>
+                  <div className="ml-[8px] text-[12px] font-bold w-[49px] h-[32px] rounded-[17px] bg-[#FFFFFF80] flex text-center justify-center items-center">
+                    .{file?.split(".")[1] || ""}
+                  </div>
                   <button
                     onClick={() => {
                       handleInitFileDelete(id);
                     }}
-                    className="size-[34px] rounded-[6px] bg-white flex items-center justify-center"
+                    className="ml-[87px] size-[34px] rounded-[6px] bg-white flex items-center justify-center"
                   >
                     <img
                       src={deleteIcon}
@@ -69,6 +62,9 @@ export const CellEditDocuments = observer(({ cell, height }: Props) => {
                     />
                   </button>
                 </div>
+                <div className="mt-[8px] w-[228px] h-[32px] text-[#464646] text-wrap overflow-hidden">
+                    {file?.split("/")[1] || ""}
+                  </div>
               </div>
             </SortableList.Item>
           )}
