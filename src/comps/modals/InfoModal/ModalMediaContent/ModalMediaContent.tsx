@@ -15,7 +15,7 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
 
   if (selectedDocument) {
     const url = getServerMediaUrl(selectedDocument.file);
-    return <PdfReader src={url} />;
+    return <PdfReader src={url}/>;
   }
 
   return (

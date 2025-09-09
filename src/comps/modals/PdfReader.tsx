@@ -1,14 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePdf } from "@mikecousins/react-pdf";
 import closeIcon from "../../assets/icons/closeIcon.svg";
 
 type Props = {
-  onClose: () => void;
-  title: string;
   src: string;
 };
 
-const PdfReader = ({ onClose, title, src }: Props) => {
+const PdfReader = ({ src }: Props) => {
   const [page, setPage] = useState(1);
   console.log(src);
   const [page2, setPage2] = useState(2);
@@ -25,10 +23,14 @@ const PdfReader = ({ onClose, title, src }: Props) => {
     page: page2,
     canvasRef: canvasRef2,
   });
+
+  useEffect(()=>{
+    setPage(1);
+    setPage2(2);
+  }, [src])
   return (
     <>
-      <div className="mx-auto bg-white rounded-[32px] p-[32px] mt-[32px]">
-        <div className="w-[1168px] h-[752px] flex gap-[32px] mt-[32px] justify-center items-center">
+        <div className="w-[1168px] h-[752px] flex gap-[32px] mt-[-16px] justify-center items-center">
           {!pdfDocument && <span className={"text-black"}>Loading...</span>}
           <canvas
             className="w-[531px] h-[752px] rounded-[12px]"
@@ -41,7 +43,6 @@ const PdfReader = ({ onClose, title, src }: Props) => {
             />
           )}
         </div>
-      </div>
       <div className="z-100 p-[8px] w-[608px] h-[96px] rounded-[32px] bg-white fixed bottom-[32px] left-0 right-0 mx-auto flex gap-[8px]">
         <button
           className="disabled:opacity-[20%] size-[80px] bg-accent p-[24px] rounded-[24px]"
