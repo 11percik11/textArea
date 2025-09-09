@@ -68,14 +68,12 @@ const InfoModal = ({ onClose, cell }: Props) => {
     null,
   );
 
-  console.log("selectedDocument", selectedDocument);
-
-  const documents: FileType[] = [
+/*   const documents: FileType[] = [
     {
       file: "/",
       id: 1,
     },
-  ];
+  ]; */
 
   const currentLayoutVariant = getLayoutVariant(cell, !!selectedDocument);
 
@@ -97,7 +95,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
       className={`${preClosed && "opacity-0"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10`}
     >
       <ModalFiles
-        documents={documents}
+        documents={cell.files}
         selected={selectedDocument}
         setSelected={setSelectedDocument}
       />

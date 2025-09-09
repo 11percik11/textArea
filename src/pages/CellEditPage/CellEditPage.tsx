@@ -225,6 +225,7 @@ const CellEditPage = ({ data }: Props) => {
                   Таблица
                 </div>
                 <button
+                hidden={true}
                 onClick={toTable}
                 disabled={titleValue==="" && !hasMockButton}
                 >

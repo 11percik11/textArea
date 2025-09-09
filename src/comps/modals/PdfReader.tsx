@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import test from "../../assets/test4.pdf";
 import { usePdf } from "@mikecousins/react-pdf";
 import closeIcon from "../../assets/icons/closeIcon.svg";
 
@@ -11,17 +10,18 @@ type Props = {
 
 const PdfReader = ({ onClose, title, src }: Props) => {
   const [page, setPage] = useState(1);
+  console.log(src);
   const [page2, setPage2] = useState(2);
   const canvasRef = useRef(null);
   const canvasRef2 = useRef(null);
   const { pdfDocument } = usePdf({
-    file: test,
+    file: `http://localhost:4000/proxy?url=${src}`,    //change if server is local
     // file: src,
     page,
     canvasRef,
   });
   const {} = usePdf({
-    file: test,
+    file: `http://localhost:4000/proxy?url=${src}`,       //change if server is local
     page: page2,
     canvasRef: canvasRef2,
   });

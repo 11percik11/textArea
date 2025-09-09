@@ -19,9 +19,9 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
     setOpen(false);
     setSelected(null);
   };
-
+  console.log(documents)
   return (
-    <div className={styles["modal-files-container"]}>
+    <div className={`shadow-2xl ${styles["modal-files-container"]}`}>
       <button
         className={styles["modal-files-open-button"]}
         hidden={open}
