@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePdf } from "@mikecousins/react-pdf";
-import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
-
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import "@cyntler/react-doc-viewer/dist/index.css";
 
 type Props = {
   src: string;
@@ -9,12 +9,10 @@ type Props = {
 
 const PdfReader = ({ src }: Props) => {
 
-/*   const docs = [
-    { uri: `https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf` },
+   const docs = [
+    { uri: `http://localhost:4000/proxy?url=${src}` },
   ];
 
-
-  console.log(`http://localhost:4000/proxy?url=${src}`); */
   const [page, setPage] = useState(1);
   console.log(src);
   const [page2, setPage2] = useState(2);
@@ -51,8 +49,8 @@ const PdfReader = ({ src }: Props) => {
             />
           )}
 
-{/*         <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} />
- */}        </div>
+       <DocViewer className={"w-[531px] h-[752px]"} documents={docs} />
+       </div>
       <div className="z-100 p-[8px] w-[608px] h-[96px] rounded-[32px] bg-white fixed bottom-[32px] left-0 right-0 mx-auto flex gap-[8px]">
         <button
           className="disabled:opacity-[20%] size-[80px] bg-accent p-[24px] rounded-[24px]"
