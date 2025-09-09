@@ -1,12 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { usePdf } from "@mikecousins/react-pdf";
-import closeIcon from "../../assets/icons/closeIcon.svg";
+import DocViewer, { DocViewerRenderers } from "react-doc-viewer";
+
 
 type Props = {
   src: string;
 };
 
 const PdfReader = ({ src }: Props) => {
+
+/*   const docs = [
+    { uri: `https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf` },
+  ];
+
+
+  console.log(`http://localhost:4000/proxy?url=${src}`); */
   const [page, setPage] = useState(1);
   console.log(src);
   const [page2, setPage2] = useState(2);
@@ -31,9 +39,9 @@ const PdfReader = ({ src }: Props) => {
   return (
     <>
         <div className="w-[1168px] h-[752px] flex gap-[32px] mt-[-16px] justify-center items-center">
-          {!pdfDocument && <span className={"text-black"}>Loading...</span>}
+           {!pdfDocument && <span className={"text-black"}>Loading...</span>}
           <canvas
-            className="w-[531px] h-[752px] rounded-[12px]"
+            className="w-[531px] h-[752px] rounded-[12px] shadow-[0px_0px_10px_rgba(0,_0,_0,_0.2)]"
             ref={canvasRef}
           />
           {pdfDocument && pdfDocument.numPages >= page2 && (
@@ -42,7 +50,9 @@ const PdfReader = ({ src }: Props) => {
               ref={canvasRef2}
             />
           )}
-        </div>
+
+{/*         <DocViewer pluginRenderers={DocViewerRenderers} documents={docs} />
+ */}        </div>
       <div className="z-100 p-[8px] w-[608px] h-[96px] rounded-[32px] bg-white fixed bottom-[32px] left-0 right-0 mx-auto flex gap-[8px]">
         <button
           className="disabled:opacity-[20%] size-[80px] bg-accent p-[24px] rounded-[24px]"
