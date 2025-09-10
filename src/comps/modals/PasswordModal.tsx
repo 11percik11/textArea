@@ -3,7 +3,7 @@ import backspaceIcon from "../../assets/icons/backspaceIcon.svg";
 import arrIcon from "../../assets/icons/arrIcon.svg";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API_CONFIG } from "../../assets/config";
+
 
 type Props = {
   onBack: () => void;
@@ -13,7 +13,7 @@ const PasswordModal = ({ onBack }: Props) => {
   const navigate = useNavigate();
   const [password, setPassword] = useState<string>('1234');
   //@ts-ignore
-  const apiUrl = API_CONFIG.apiUrl;
+  const apiUrl = window.__API_CONFIG__.apiUrl;
   // useEffect(() => {
   //   axios
   //     .get(apiUrl + `api/settings`)

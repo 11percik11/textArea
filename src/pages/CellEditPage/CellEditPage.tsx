@@ -17,10 +17,12 @@ import { CellEditTable } from "./CellEditTable/CellEditTable";
 import CellEditConfirmModal from "./CellEditConfirmModal/CellEditConfirmModal";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 import { observer } from "mobx-react-lite";
+import printIcon from "../../assets/icons/printIcon.svg"
 //import { useGetCurrentCell } from "./hooks/useGetCurrentCell";
 //import { tableStore } from "../AdminPage/SpreadsheetStore";
 //import { toJS } from "mobx";
 import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
+import { useReactToPrint } from "react-to-print";
 
 type Props = { data: SpreadsheetCellEntity };
 
@@ -86,6 +88,14 @@ const CellEditPage = ({ data }: Props) => {
     setCurrentCellVariantModal(null);
     await data.updateType(variant);
   };
+  const printRef = useRef(null);
+  const onPrint = useReactToPrint({
+    contentRef: printRef,
+    documentTitle: "Редактирование ячейки",
+    //onAfterPrint: handleAfterPrint,
+    //onBeforePrint: handleBeforePrint,
+        pageStyle: "{ size: 0 }"
+  });
 
   const Modals = (
     <>
@@ -117,25 +127,24 @@ const CellEditPage = ({ data }: Props) => {
   );
 
   const toTable = () => {
-    const cellIdToSpreadsheet: Record<string, number> = {
-      ["177"]: -1,
-      ["-10"]: -2,
-      ["-11"]: -3,
-      ["-12"]: -4,
-    };
-    const spreadsheetId = cellIdToSpreadsheet[data.id.toString()];
-    navigate(`/admin/table?id=${spreadsheetId}`);
+    if (!!data.children) navigate(`/admin/table?id=${data.children.id}`);
+    else console.log("error")
+  };
+  const deleteTable = () => {
+    console.log("cant delete")
+  };
+  const createTable = () => {
+    setHasChildTable(true);
+    
   };
 
-  const hasMockButton = ["177", "-10", "-11", "-12"].some(
-    (value) => value === data.id.toString(),
-  );
-
+  const [hasChildTable, setHasChildTable] = useState(!!data.children);
+  console.log(data)
   return (
-    <div className="animate-appear w-full h-full p-[32px]">
+    <div  className="animate-appear w-full h-full p-[32px]">
       {Modals}
       <OverlayLoader isLoading={data.isLoading} />
-      <div className="flex items-center gap-[16px]">
+      <div className="flex items-center gap-[16px] relative">
         <button
           onClick={() => setExitModalOpen(true)}
           className="size-[72px] rounded-[24px] bg-white flex justify-center items-center"
@@ -151,8 +160,13 @@ const CellEditPage = ({ data }: Props) => {
         <div className="w-[1456px] h-[32px] text-accent text-[32px] font-bold">
           Редактирование ячейки
         </div>
+        <button 
+          onClick={onPrint}
+          className="size-[72px] rounded-[24px] bg-white absolute right-0 flex items-center justify-center">
+            <img src={printIcon} className="size-[32px]"/>
+        </button>
       </div>
-      <div className="flex gap-[16px] mt-[16px]">
+      <div ref={printRef} className="flex gap-[16px] mt-[16px] bg-[#F6E9DE]">
         <ChooseTemplate
           selectedTemplate={data.type}
           setSelectedTemplate={onSelectTemplate}
@@ -220,36 +234,37 @@ const CellEditPage = ({ data }: Props) => {
             </div>
 
             <div className="w-[296px] h-[928px]" hidden={data.type === "table"}>
-              <div className={`w-[296px] ${!hasMockButton ? "h-[124px]" : `${titleValue!=="" ? "h-[136px]" : "h-[172px]"}`} bg-white rounded-[24px] p-[16px]`}>
+              <div className={`w-[296px] ${hasChildTable ? "h-[124px]" : "h-[136px]"} bg-white rounded-[24px] p-[16px]`}>
                 <div className="text-center mx-auto text-accent text-[32px] font-bold">
                   Таблица
                 </div>
+                <div 
+                  hidden={!hasChildTable}
+                  className="w-[264px] h-[44px] mt-[16px] gap-[8px] flex justify-center items-center">
+                  <button 
+                    onClick={deleteTable}
+                    className="w-[128px] h-[44px] border-[2px] border-[#FF9797] rounded-[12px] text-[#FF9797] text-[20px] font-semibold flex justify-center items-center text-center">
+                    Удалить
+                  </button>
+                  <button 
+                    onClick={toTable}
+                    className="w-[128px] h-[44px] bg-accent rounded-[12px] text-white text-[20px] font-semibold flex justify-center items-center text-center">
+                    Перейти
+                  </button>
+                </div>
                 <button
-                hidden={true}
-                onClick={toTable}
-                disabled={titleValue==="" && !hasMockButton}
-                >
-
-                </button>
-                <button
-                  onClick={toTable}
-                  disabled={titleValue==="" && !hasMockButton}
+                  onClick={createTable}
+                  hidden={hasChildTable}
                   className="disabled:opacity-[20%] mt-[16px] mx-auto w-[264px] h-[56px] rounded-[12px] bg-accent text-[20px] text-white font-semibold flex gap-[12px] items-center justify-center"
                 >
-                  {!hasMockButton ? (
-                    <div>Перейти</div>
-                  ) : (
-                    <>
                       <img src={addIcon} alt="add" className="size-[32px]" />
                       Добавить
-                    </>
-                  )}
                 </button>
                 <div>
 
                 </div>
               </div>
-              <CellEditDocuments cell={data} height={`${!hasMockButton ? "h-[740px]" : `${titleValue!=="" ? "h-[776px]" : "h-[740px]"}`}`}/>
+              <CellEditDocuments cell={data} height={`${!hasChildTable ? "h-[740px]" : `${titleValue!=="" ? "h-[776px]" : "h-[740px]"}`}`}/>
             </div>
           </>
         )}

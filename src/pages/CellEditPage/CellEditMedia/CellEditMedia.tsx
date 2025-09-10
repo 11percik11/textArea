@@ -1,21 +1,22 @@
-import { useEffect, useImperativeHandle, useState, type Ref } from "react";
-import type { Cell, ImageType } from "../../../types";
+//import { useEffect, useImperativeHandle, useState, type Ref } from "react";
+//import type { Cell, ImageType } from "../../../types";
 import deleteIcon from "../../../assets/icons/deleteIcon.svg";
 
 import { SortableList } from "../../../comps/modals/SortableList";
 import { DragHandleContainer } from "../../../comps/modals/SortableList/components/SortableItem/SortableItem";
 import CellEditAddFileButton from "../CellEditAddFileButton/CellEditAddFileButton";
 import {
-  useLocalFileLoad,
+  //useLocalFileLoad,
   useInitFileLoad,
-  type ImageMedia,
-  useAllFiles,
+  //type ImageMedia,
+  //useAllFiles,
 } from "../hooks";
-import type { MediaData } from "../types";
-import { isLocalAddedMedia } from "../../../utils/isLocalAddedMedia";
+//import type { MediaData } from "../types";
+//import { isLocalAddedMedia } from "../../../utils/isLocalAddedMedia";
 import { getFileExtensionFromPath } from "../../../utils/getFileExtensionFromPath";
-import { cellStore } from "../../../store/root";
 import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
+//import { cellStore } from "../../../store/root";
+//import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 type Props = {
   cell: SpreadsheetCellEntity;
 };
@@ -27,11 +28,12 @@ export const CellEditMedia = ({ cell }: Props) => {
       cell.addCellImageHandler,
       cell.deleteCellImageHandler,
     );
-
+  //@ts-ignore
+    const apiUrl = window.__API_CONFIG__.apiUrl;
   console.log("images", cell.images);
 
   const resolveBackgroundImage = (url: string) => {
-    return `http://table-of-time.test.itlabs.top/${url}`;
+    return (apiUrl + url);
   };
 
   return (

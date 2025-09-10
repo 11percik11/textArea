@@ -11,11 +11,12 @@ import { observer } from "mobx-react-lite";
 //import { cellStore } from "../../../store/root";
 import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 //import { toJS } from "mobx";
-
+import printIcon from "../../../assets/icons/printIcon.svg"
 type Props = {
   cell: SpreadsheetCellEntity;
   height: string;
 };
+
 
 export const CellEditDocuments = observer(({ cell, height }: Props) => {
   const { handleInitFileDelete, initFiles, reorderFiles, onLocalFileLoad } =
@@ -25,6 +26,58 @@ export const CellEditDocuments = observer(({ cell, height }: Props) => {
       cell.deleteCellDocumentHandler,
     );
 
+    //@ts-ignore
+    const apiUrl = window.__API_CONFIG__.apiUrl;
+    const handlePrint = async (pdfUrl: string) => {
+      //setIsLoading(true);
+      const pdfPath = "http://localhost:4000/proxy?url=" + apiUrl + pdfUrl;
+      try {
+        // Используем абсолютный URL через прокси
+        const proxyUrl = `${pdfPath}`;
+        
+        // Скачиваем через fetch (это точно работает с прокси)
+        const response = await fetch(proxyUrl, {
+          headers: {
+            'Accept': 'application/pdf'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        
+        // Создаем iframe с blob URL (без CORS)
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = blobUrl;
+        
+        document.body.appendChild(iframe);
+        
+        iframe.onload = () => {
+          const iframeWindow = iframe.contentWindow;
+          setTimeout(() => {
+            iframeWindow!.print();
+            // Очистка
+            setTimeout(() => {
+              URL.revokeObjectURL(blobUrl);
+              document.body.removeChild(iframe);
+              //setIsLoading(false);
+            }, 1000000);
+          }, 500);
+        };
+        
+      } catch (error) {
+        console.error('Ошибка печати:', error);
+        //setIsLoading(false);
+        // Fallback: открываем через прокси в новой вкладке
+        window.open(`${pdfPath}`, '_blank');
+      }
+    };
+
+    
   return (
     <div className={`w-[296px] ${height} bg-white rounded-[24px] mt-[16px] p-[16px] relative`}>
       <div className="text-[32px] text-accent font-bold text-center">Файлы</div>
@@ -53,10 +106,22 @@ export const CellEditDocuments = observer(({ cell, height }: Props) => {
                     onClick={() => {
                       handleInitFileDelete(id);
                     }}
-                    className="ml-[87px] size-[34px] rounded-[6px] bg-white flex items-center justify-center"
+                    className="ml-[71px] size-[34px] rounded-[6px] bg-white flex items-center justify-center"
                   >
                     <img
                       src={deleteIcon}
+                      alt="refresh"
+                      className="size-[24px] z-10"
+                    />
+                  </button>
+                  <button
+                    onClick={() => {
+                      handlePrint(file);
+                    }}
+                    className="ml-[16px] z-10 size-[34px] rounded-[6px] bg-white flex items-center justify-center"
+                  >
+                    <img
+                      src={printIcon}
                       alt="refresh"
                       className="size-[24px] z-10"
                     />

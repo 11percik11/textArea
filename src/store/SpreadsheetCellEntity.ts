@@ -36,6 +36,10 @@ export class SpreadsheetCellEntity {
     return this.raw.type;
   }
 
+  get children() {
+    return this.raw.children;
+  }
+
   get images() {
     return this.raw.images;
   }

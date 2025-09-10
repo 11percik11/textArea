@@ -15,6 +15,8 @@ import { spreadsheetManager } from "../../store/root";
 //import { toJS } from "mobx";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 import { useReactToPrint } from "react-to-print";
+import printIcon from "../../assets/icons/printIcon.svg"
+
 
 type Props = {};
 
@@ -52,8 +54,8 @@ const AdminPage = observer(({}: Props) => {
         </div>
         <button 
           onClick={onPrint}
-          className="size-[72px] rounded-[24px] bg-white absolute right-0">
-
+          className="size-[72px] rounded-[24px] bg-white absolute right-0 flex items-center justify-center">
+            <img src={printIcon} className="size-[32px]"/>
         </button>
       </div>
 
