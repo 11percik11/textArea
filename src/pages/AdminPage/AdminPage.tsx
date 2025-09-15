@@ -3,7 +3,7 @@ import MenuSwipe from "../../comps/MenuSwipe";
 import exitIcon from "../../assets/icons/exitIcon.svg";
 import { useEffect, useRef, useState } from "react";
 import ExitModal from "../../comps/modals/ExitModal";
-import { useNavigate } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 //import type { Cell, Spreadsheet } from "../../types";
 //import axios from "axios";
 import { AdminTableControls } from "../../comps/AdminTable/AdminTableControls";
@@ -38,7 +38,7 @@ const AdminPage = observer(({}: Props) => {
     //onBeforePrint: handleBeforePrint,
     pageStyle: "{ size: 0 }"
   });
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   return (
     <div className="animate-appear w-full h-full p-[32px]">
       <OverlayLoader isLoading={spreadsheetManager.isLoading} />
