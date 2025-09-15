@@ -1,5 +1,4 @@
-import { makeAutoObservable } from "mobx";
-import { postSpreadsheet } from "../api/spreadsheet";
+
 
 export class SpreadsheetStore {
   // currentCellId: number | null = null;

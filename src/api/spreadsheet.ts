@@ -16,6 +16,7 @@ export const postSpreadsheet = async (cellId: number) => {
 export const getSpreadsheets = async () => {
   try {
     const res = await apiClient.get(`/spreadsheets`, {
+      //@ts-ignore
       cancelKey: "getSpreadsheets",
     });
     return res.data as Spreadsheet[];

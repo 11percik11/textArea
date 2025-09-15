@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import styles from "./EditableText.module.scss";
 import OverlayLoader from "../OverlayLoader/OverlayLoader";
+//import Keyboard from "../modals/Keyboard/Keyboard";
 
 type EditableTextProps = {
   value: string;
@@ -16,7 +17,7 @@ const EditableText: React.FC<EditableTextProps> = ({
   const [editing, setEditing] = useState(false);
   const [localValue, setLocalValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  //const [isKeyboardOpen, setKeyboardOpen] = useState(false);
   const handleBlur = async () => {
     setEditing(false);
     if (localValue !== value) {
@@ -43,13 +44,16 @@ const EditableText: React.FC<EditableTextProps> = ({
   return (
     <div className={styles.wrapper}>
       {editing ? (
+        <div
+          onBlur={handleBlur}
+          >
         <input
           ref={inputRef}
           className={styles.input}
           value={localValue}
           onChange={(e) => setLocalValue(e.target.value)}
-          onBlur={handleBlur}
         />
+        </div>
       ) : (
         <span>{value}</span>
       )}

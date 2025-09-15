@@ -8,8 +8,6 @@ import {
 } from "../../api/spreadsheet";
 import type { Spreadsheet } from "../../types";
 
-const NATURE_SPREADSHEET_ID = 1;
-const HISTORY_SPREADSHEET_ID = 2;
 
 class TableStore {
   constructor() {

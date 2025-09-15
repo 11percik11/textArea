@@ -4,6 +4,7 @@ import {
   deleteCellImage,
   updateCellContent,
 } from "./../api/spreadsheetCell";
+//@ts-ignore
 import { action, computed, makeAutoObservable, runInAction } from "mobx";
 import { postSpreadsheet } from "../api/spreadsheet";
 import { addCellDocument, updateCellVariant } from "../api/spreadsheetCell";
@@ -75,6 +76,7 @@ export class CellStore {
   addCellImageHandler = async (media: LocalFileMedia) => {
     this.isLoading = true;
     try {
+      //@ts-ignore
       const result = await addCellImage(media, this.currentCell?.id);
       return result;
     } finally {
@@ -87,6 +89,7 @@ export class CellStore {
   addCellDocumentHandler = async (media: LocalFileMedia) => {
     this.isLoading = true;
     try {
+      //@ts-ignore
       const result = await addCellDocument(media, this.currentCell?.id);
       return result;
     } finally {

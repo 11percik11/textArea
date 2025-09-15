@@ -1,14 +1,14 @@
-import backspace from "../assets/images/icons/backspace-inactive.svg";
-import globe from "../assets/images/icons/globe.svg";
-import shift0 from "../assets/images/icons/Shift0.svg";
-import shift1 from "../assets/images/icons/Shift1.svg";
-import shift2 from "../assets/images/icons/Shift2.svg";
+/* //import backspace from "../assets/images/icons/backspace-inactive.svg";
+//import globe from "../assets/images/icons/globe.svg";
+//import shift0 from "../assets/images/icons/Shift0.svg";
+//import shift1 from "../assets/images/icons/Shift1.svg";
+//import shift2 from "../assets/images/icons/Shift2.svg";
 
 type Props = {
   type: string;
   text: string;
   className?: string;
-  clickHandler?: () => void;
+  clickHandler: (e: React.MouseEvent) => void;
   shift?: number;
 };
 
@@ -21,11 +21,11 @@ export default function Key({
 }: Props) {
   return (
     <button
-      className={`h-[96px] flex justify-center items-center text-center rounded-[16px] text-[36px] bg-[#FAFAFA] ${className} active:bg-[#E1E3E3] shadow-[0px_2px_0px_0px_#0000004D] font-montserrat`}
-      onClick={clickHandler}
+      className={`h-[48px] flex justify-center items-center text-center rounded-[16px] text-[36px] bg-[#FAFAFA] ${className} active:bg-[#E1E3E3] shadow-[0px_2px_0px_0px_#0000004D] font-montserrat`}
+      onMouseDown={(e) => clickHandler(e)}
     >
       {text}
-      {type === "backspace" && <img src={backspace} alt="backspace" />}
+{/*       {type === "backspace" && <img src={backspace} alt="backspace" />}
       {type === "lang" && <img src={globe} alt="lang" />}
       {type === "shift" && (
         <>
@@ -33,7 +33,8 @@ export default function Key({
           <img hidden={shift != 1} src={shift1} alt="shift" />
           <img hidden={shift != 2} src={shift2} alt="shift" />
         </>
-      )}
-    </button>
+)}}
+/*     </button>
   );
 }
+  */

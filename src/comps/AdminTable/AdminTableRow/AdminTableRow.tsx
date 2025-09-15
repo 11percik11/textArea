@@ -1,4 +1,4 @@
-import { observable } from "mobx";
+//import { observable } from "mobx";
 import type { SpreadsheetRowEntity } from "../../../store/SpreadsheetRowEntity";
 import { SortableList } from "../../modals/SortableList";
 import { RowColorPicker } from "../RowColorPicker/RowColorPicker";
@@ -6,6 +6,7 @@ import EditableText from "../../EditableText/EditableText";
 import AdminCell from "../../AdminCell/AdminCell";
 import deleteIcon from "../../../assets/icons/deleteIcon.svg";
 import { observer } from "mobx-react-lite";
+
 
 type Props = {
   row: SpreadsheetRowEntity;

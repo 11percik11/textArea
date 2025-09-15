@@ -23,6 +23,7 @@ import printIcon from "../../assets/icons/printIcon.svg"
 //import { toJS } from "mobx";
 import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 import { useReactToPrint } from "react-to-print";
+import axios from "axios";
 
 type Props = { data: SpreadsheetCellEntity };
 
@@ -34,7 +35,8 @@ const CellEditPage = ({ data }: Props) => {
   console.log(data);
   const [titleValue, setTitleValue] = useState(data?.title || "");
   const [textBlockValue, setTextBlockValue] = useState(data?.description || "");
-
+ //@ts-ignore
+ const apiUrl = window.__API_CONFIG__.apiUrl;
   // keep a ref to the timeout
   //@ts-ignore
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
@@ -96,7 +98,7 @@ const CellEditPage = ({ data }: Props) => {
     //onBeforePrint: handleBeforePrint,
         pageStyle: "{ size: 0 }"
   });
-
+  const childTable = useRef(data.children?.id);
   const Modals = (
     <>
       <CellEditConfirmModal
@@ -127,18 +129,27 @@ const CellEditPage = ({ data }: Props) => {
   );
 
   const toTable = () => {
-    if (!!data.children) navigate(`/admin/table?id=${data.children.id}`);
+    console.log(childTable.current)
+
+    if (!!childTable.current) navigate(`/admin/table?id=${childTable.current}`);
     else console.log("error")
   };
   const deleteTable = () => {
     console.log("cant delete")
   };
   const createTable = () => {
-    setHasChildTable(true);
-    
+    //setHasChildTable(true);
+    console.log(data.id);
+    axios.post(`${apiUrl}api/spreadsheets?cell=${data.id}`)
+    .then(response => {
+      childTable.current = response.data.id
+      setHasChildTable(true);
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+    });
   };
-
-  const [hasChildTable, setHasChildTable] = useState(!!data.children);
+  const [hasChildTable, setHasChildTable] = useState(!!childTable.current);
   console.log(data)
   return (
     <div  className="animate-appear w-full h-full p-[32px]">

@@ -1,8 +1,7 @@
-import { useEffect, useState, type ChangeEvent } from "react";
+import {  useState, type ChangeEvent } from "react";
 import backspaceIcon from "../../assets/icons/backspaceIcon.svg";
 import arrIcon from "../../assets/icons/arrIcon.svg";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 
 type Props = {
@@ -11,7 +10,7 @@ type Props = {
 
 const PasswordModal = ({ onBack }: Props) => {
   const navigate = useNavigate();
-  const [password, setPassword] = useState<string>('1234');
+  const [password] = useState<string>('1234');
   //@ts-ignore
   const apiUrl = window.__API_CONFIG__.apiUrl;
   // useEffect(() => {

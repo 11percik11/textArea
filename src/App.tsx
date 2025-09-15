@@ -3,19 +3,16 @@ import MainPage from "./pages/MainPage";
 import PasswordModal from "./comps/modals/PasswordModal";
 import { useEffect, useState } from "react";
 import AdminPage from "./pages/AdminPage/AdminPage";
-import CellEditPage from "./pages/CellEditPage/CellEditPage";
-import type { Cell } from "./types";
+
 import { TablePage } from "./pages/TablePage/TablePage";
-import { LvlSelectModal } from "./comps/modals/LvlSelectModal/LvlSelectModal";
 import { cellStore } from "./store/root";
 import { observer } from "mobx-react-lite";
 import { CellEditPageWrapper } from "./pages/CellEditPage/CellEditPageWrapper";
-import { getSpreadsheetsNavigation } from "./api/spreadsheet";
+
 import UserTablePage from "./pages/UserTablePage/UserTablePage";
 
 const App = () => {
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
-
   useEffect(() => {
     // getSpreadsheetsNavigation(14)
 

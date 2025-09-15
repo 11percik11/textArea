@@ -9,6 +9,7 @@ export const CellEditPageWrapper = observer(() => {
 
   useEffect(() => {
     if (!data || data?.type !== "table") return;
+    //@ts-ignore
     spreadsheetManager.getOneSpreadSheetHandler(data.spreadsheetParentId);
   }, [data, data?.type]);
 

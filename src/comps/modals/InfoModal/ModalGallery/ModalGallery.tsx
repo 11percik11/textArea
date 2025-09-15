@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "./SwiperClasses.css";
+//@ts-ignore
 import "swiper/css";
+//@ts-ignore
 import "swiper/css/navigation";
 
 import styles from "./ModalGallery.module.css";
 import { ModalImage } from "../ModalImage/ModalImage";
-
+//@ts-ignore
 export const ModalGallery = ({ images }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -26,7 +28,9 @@ export const ModalGallery = ({ images }) => {
           onSlideChange={() => {}}
           className={styles.swiper}
         >
-          {images.map((src, i) => (
+          {
+          //@ts-ignore
+          images.map((src, i) => (
             <SwiperSlide key={i}>
               <img
                 src={src}

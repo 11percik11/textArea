@@ -1,4 +1,4 @@
-import { autorun, makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import type { Spreadsheet } from "../types";
 import { SpreadsheetEntity } from "./SpreadsheetEntity";
 import { getOneSpreadsheet, getSpreadsheets } from "../api/spreadsheet";

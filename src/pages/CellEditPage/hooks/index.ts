@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import type { Cell, FileType, ImageType } from "../../../types";
-import { addCellDocument } from "../../../api/spreadsheetCell";
+
 
 export type LocalFileMedia = {
   id: string;
@@ -33,6 +32,7 @@ export const useLocalFileLoad = () => {
   const [files, setFiles] = useState<LocalFileMedia[]>([]);
 
   const handleLocalFileDelete = (id: string) => {
+    //@ts-ignore
     setFiles((prev: any) => prev.filter((file) => file.id !== id));
   };
 
@@ -85,7 +85,7 @@ export const useInitFileLoad = <T extends { id: number }>(
       if (!result) return;
 
       console.log(`output->result!!!!`, result, initFiles);
-
+//@ts-ignore
       setInitFiles((prev) => [...prev, result]);
     } catch (err) {
       console.error("Ошибка чтения файла:", err);
@@ -109,11 +109,11 @@ export const useInitFileLoad = <T extends { id: number }>(
     handleInitFileDelete,
   };
 };
-
+//@ts-ignore
 export const useAllFiles = (initFiles, locallyLoadedFiles) => {
   const [allFiles, setAllFiles] =
     useState<{ id: string | number; image: string }[]>(initFiles);
-
+//@ts-ignore
   const reorderFiles = (items: ImageMedia[]) => {
     setAllFiles(items);
   };

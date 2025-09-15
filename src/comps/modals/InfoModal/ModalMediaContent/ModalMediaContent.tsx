@@ -1,5 +1,5 @@
 import type { SpreadsheetCellEntity } from "../../../../store/SpreadsheetCellEntity";
-import type { Cell, FileType } from "../../../../types";
+import type { FileType } from "../../../../types";
 import { getServerMediaUrl } from "../../../../utils/getServerMediaUrl";
 import PdfReader from "../../PdfReader";
 import { ModalGallery } from "../ModalGallery/ModalGallery";

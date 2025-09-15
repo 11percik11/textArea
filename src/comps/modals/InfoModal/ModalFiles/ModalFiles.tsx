@@ -3,7 +3,6 @@ import styles from "./ModalFiles.module.css";
 import type { Cell, FileType } from "../../../../types";
 import { Icons } from "../../../icons";
 import clsx from "clsx";
-import { getFileExtensionFromPath } from "../../../../utils/getFileExtensionFromPath";
 type Props = {
   documents: Cell["files"];
   selected: FileType | null;

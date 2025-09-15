@@ -78,7 +78,7 @@ const AdminPage = observer(({}: Props) => {
           onNo={() => setExitModalOpen(false)}
           onYes={() => {
             setExitModalOpen(false);
-            navigate("/");
+            location.href = "/";
           }}
         />
       )}

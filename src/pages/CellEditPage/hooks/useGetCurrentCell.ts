@@ -1,8 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import { useEffect, useMemo } from "react";
-import { observer } from "mobx-react-lite";
-import { tableStore } from "../../AdminPage/SpreadsheetStore";
-import { toJS } from "mobx";
+
 import { spreadsheetManager } from "../../../store/root";
 
 export const useGetCurrentCell = () => {

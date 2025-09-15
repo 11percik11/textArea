@@ -1,13 +1,10 @@
-import type { Cell, Spreadsheet } from "../../types";
 import imageIcon from "../../assets/icons/imageIcon.svg";
-import videoIcon from "../../assets/icons/videoIcon.svg";
 
 import documentIcon from "../../assets/icons/Document Text.svg";
 import imagesIcon from "../../assets/icons/AlbumIcon.svg";
 import tableIcon from "../../assets/icons/tableIcon.svg";
 import textIcon from "../../assets/icons/textIcon.svg";
-import { useNavigate } from "react-router-dom";
-import { cellStore, spreadsheetStore } from "../../store/root";
+
 import { TableLinkButton } from "./TableLinkButton/TableLinkButton";
 import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 
@@ -29,6 +26,7 @@ const AdminCell = ({ data, color, onClick }: Props) => {
         className="w-[376px] h-[56px] flex gap-[8px] justify-left items-center"
       >
         {data.images && data.images.length <= 5 ? (
+          //@ts-ignore
           data.images?.map((media: any, index: number) => (
             <div
               key={index}

@@ -1,12 +1,12 @@
 import { addSpreadsheetTimeline } from "./../api/spreadsheet";
 import { action, computed, makeAutoObservable, runInAction } from "mobx";
-import type { Spreadsheet, SpreadsheetRow } from "../types";
+import type { Spreadsheet } from "../types";
 import {
   addSpreadsheetContent,
   moveSpreadsheetContentPositions,
   removeSpreadsheetContent,
 } from "../api/spreadsheet";
-import { SpreadsheetCellEntity } from "./SpreadsheetCellEntity";
+//import { SpreadsheetCellEntity } from "./SpreadsheetCellEntity";
 import { SpreadsheetRowEntity } from "./SpreadsheetRowEntity";
 
 export class SpreadsheetEntity {
@@ -151,4 +151,4 @@ export class SpreadsheetEntity {
   }
 }
 
-const getCellById = (spreadsheetId: number, cellId: number) => {};
+//const getCellById = (spreadsheetId: number, cellId: number) => {};

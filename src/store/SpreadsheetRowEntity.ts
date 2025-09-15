@@ -1,5 +1,5 @@
-import { computed, makeAutoObservable, runInAction } from "mobx";
-import type { Spreadsheet, SpreadsheetRow } from "../types";
+import {  makeAutoObservable, runInAction } from "mobx";
+import type {  SpreadsheetRow } from "../types";
 import { SpreadsheetCellEntity } from "./SpreadsheetCellEntity";
 import { updateRowColor, updateRowTitle } from "../api/spreadsheetRow";
 

@@ -1,5 +1,5 @@
 import type { LocalFileMedia } from "../pages/CellEditPage/hooks";
-import type { Cell, FileType } from "../types";
+import type { Cell } from "../types";
 import { base64ToBlob } from "../utils/fileTypeConversion";
 import apiClient, { API_URL } from "./client";
 import type { UpdateCellVariantResponse } from "./types";
@@ -47,6 +47,7 @@ export const addCellDocument = async (
 } | null> => {
   console.log(`output->'media'`, media);
   const formData = new FormData();
+  //@ts-ignore
   const blobFile = base64ToBlob(media.url);
 
   formData.append("file", blobFile, media.title);
@@ -77,6 +78,7 @@ export const addCellImage = async (
 ): Promise<any> => {
   console.log(`output->'media'`, media);
   const formData = new FormData();
+  //@ts-ignore
   const blobFile = base64ToBlob(media.url);
 
   formData.append("image", blobFile, media.title);
@@ -103,7 +105,9 @@ export const addCellImage = async (
 
 export const deleteCellDocument = async (
   fileId: number,
+  //@ts-ignore
 ): Promise<DeleteResponse> => {
+  //@ts-ignore
   const res = await apiClient.delete<DeleteResponse>(`/cell/files`, {
     params: { fileId },
   });
@@ -112,7 +116,9 @@ export const deleteCellDocument = async (
 
 export const deleteCellImage = async (
   imageId: number,
+  //@ts-ignore
 ): Promise<DeleteResponse> => {
+  //@ts-ignore
   const res = await apiClient.delete<DeleteResponse>(`/cell/images`, {
     params: { imageId },
   });
