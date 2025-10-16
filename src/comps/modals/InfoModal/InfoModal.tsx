@@ -78,18 +78,8 @@ const InfoModal = ({ onClose, cell }: Props) => {
   const currentLayoutVariant = getLayoutVariant(cell, !!selectedDocument);
 
   const toTable = () => {
-    const cellIdToSpreadsheet: Record<string, number> = {
-      ["177"]: -1,
-      ["-10"]: -2,
-      ["-11"]: -3,
-      ["-12"]: -4,
-    };
-    const spreadsheetId = cellIdToSpreadsheet[cell.id.toString()];
-    navigate(`/user-inner-table?id=${spreadsheetId}`);
-  };
-
-  console.log('curretn cell modal', cell.id)
-
+    navigate(`/user-inner-table?id=${cell.children?.id}`);
+  }
   return (
     <div
       className={`${preClosed && "opacity-0"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10`}
@@ -106,14 +96,13 @@ const InfoModal = ({ onClose, cell }: Props) => {
         <div className="w-full mb-[46px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
           <div>{cell.title}</div>
           <div className="flex justify-between items-center gap-[12px]">
-            {["177", "-10", "-11", "-12"].some(
-              (value) => value === cell.id.toString(),
-            ) && (
+            {
+              cell.children?.id &&
               <button className={style.toTableButton} onClick={toTable}>
                 Перейти к таблице
                 <Icons.TableLinkIcon color="#004662" className="size-[28px]" />
               </button>
-            )}
+            }
             <button
               onClick={() => {
                 setPreClosed(true);

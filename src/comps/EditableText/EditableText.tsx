@@ -17,7 +17,7 @@ const EditableText: React.FC<EditableTextProps> = ({
   const [editing, setEditing] = useState(false);
   const [localValue, setLocalValue] = useState(value);
   const inputRef = useRef<HTMLInputElement>(null);
-  //const [isKeyboardOpen, setKeyboardOpen] = useState(false);
+  const [isKeyboardOpen, setKeyboardOpen] = useState(false);
   const handleBlur = async () => {
     setEditing(false);
     if (localValue !== value) {

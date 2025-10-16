@@ -14,8 +14,6 @@ import UserTablePage from "./pages/UserTablePage/UserTablePage";
 const App = () => {
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
   useEffect(() => {
-    // getSpreadsheetsNavigation(14)
-
     console.log("wtf APP", cellStore.currentCell);
   }, [cellStore.currentCell]);
 
@@ -25,11 +23,40 @@ const App = () => {
 
   return (
     <div className="w-[1920px] h-[1080px] top-0 left-0">
-      <button
-        hidden={false} //чета придумать, чтобы не было кнопки в админке
-        onClick={() => setPasswordOpen(true)}
-        className="fixed z-100 size-[25px] top-0 right-0 w-[50px] h-[50px]"
-      />
+    <button
+      hidden={false}
+      onMouseDown={() => {
+        const timeout = setTimeout(() => {
+          setPasswordOpen(true);
+        }, 1);
+
+        const handleEnd = () => {
+          clearTimeout(timeout);
+          document.removeEventListener('mouseup', handleEnd);
+          document.removeEventListener('touchend', handleEnd);
+          document.removeEventListener('mouseleave', handleEnd);
+        };
+
+        document.addEventListener('mouseup', handleEnd);
+        document.addEventListener('touchend', handleEnd);
+        document.addEventListener('mouseleave', handleEnd);
+      }}
+        onTouchStart={() => {
+          const timeout = setTimeout(() => {
+            setPasswordOpen(true);
+          }, 1);
+
+        const handleEnd = () => {
+          clearTimeout(timeout);
+          document.removeEventListener('touchend', handleEnd);
+          document.removeEventListener('mouseup', handleEnd);
+        };
+
+        document.addEventListener('touchend', handleEnd);
+        document.addEventListener('mouseup', handleEnd);
+      }}
+      className="fixed z-100 size-[25px] top-0 right-0 w-[50px] h-[50px]"
+    />
       <Router>
         {/* <LvlSelectModal /> */}
         {isPasswordModalOpen && (
@@ -37,7 +64,7 @@ const App = () => {
         )}
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/table" element={<MainPage />} />
+          <Route path="/table" element={<UserTablePage />} />
           <Route path="/admin/table" element={<TablePage />} />
           <Route path="/user-inner-table" element={<UserTablePage />} />
           <Route path="/admin" element={<AdminPage />} />

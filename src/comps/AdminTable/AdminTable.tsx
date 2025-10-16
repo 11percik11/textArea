@@ -43,22 +43,25 @@ const AdminTable = observer(
     // }, [finishedTable.current]);
 
     const updateRows = async (
-      //table: Spreadsheet["rows"],
+      table: Spreadsheet["rows"],
       activeIndex: number,
       overIndex: number,
     ) => {
+      table;
       const firstSequence = activeIndex + 1;
       const secondsSequence = overIndex + 1;
       await spreadsheet.updateSpreadsheetRows(firstSequence, secondsSequence);
     };
 
     const updateColumns = async (
-      //table: Spreadsheet["rows"],
+      table: Spreadsheet["rows"],
       activeIndex: number,
       overIndex: number,
     ) => {
+      table;
       const firstSequence = activeIndex + 1;
       const secondsSequence = overIndex + 1;
+      console.log(overIndex)
       await spreadsheet.updateSpreadsheetColumns(
         firstSequence,
         secondsSequence,

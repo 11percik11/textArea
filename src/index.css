@@ -61,6 +61,10 @@
   }
 }
 
+a {
+  text-decoration: underline;
+}
+
 .hide-scroll {
   scroll-behavior: auto;
   -ms-overflow-style: none;

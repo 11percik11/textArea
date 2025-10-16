@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { SpreadsheetCellEntity } from "../../../../store/SpreadsheetCellEntity";
 import type { FileType } from "../../../../types";
 import { getServerMediaUrl } from "../../../../utils/getServerMediaUrl";
@@ -18,11 +19,19 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
     return <PdfReader src={url}/>;
   }
 
+  useEffect(() => {
+    const desc = document.getElementById("desc");
+    if(desc)
+      desc.innerHTML = cell.description;
+  }, []);
+
   return (
     <>
       {cell.type === "text" && (
-        <div className="text-text font-normal text-[24px] leading-[120%] mt-[32px] w-[1324px] h-[770px] text-wrap">
-          {cell.description}
+        <div id={"desc"} className="text-text font-normal text-[24px] leading-[120%] mt-[32px] w-[1324px] h-[770px] text-wrap">
+         {
+          //сюда вставляется описание на 25ой строке
+         }
         </div>
       )}
       {cell.type === "media" && cell.images.length === 1 ? (
