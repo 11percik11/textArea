@@ -17,7 +17,7 @@ apiClient.interceptors.request.use((config) => {
   config.signal = controller.signal;
 
   const cancelKey = (config as any).cancelKey || "default";
-  console.log(`config->`, config, cancelKey);
+  // console.log(`config->`, config, cancelKey);
   requestManager.add(cancelKey, controller);
   return config;
 });

@@ -14,7 +14,7 @@ export const updateRowTitle = async (
   rowId: number,
   title: string,
 ): Promise<any> => {
-  const res = await apiClient.post<any>(`/cell/edit-tit;e`, null, {
+  const res = await apiClient.post<any>(`/cell/edit-title`, null, {
     params: { rowId, title },
   });
   return res.data;

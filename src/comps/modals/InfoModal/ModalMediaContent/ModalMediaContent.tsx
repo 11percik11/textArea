@@ -28,7 +28,7 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
   return (
     <>
       {cell.type === "text" && (
-        <div id={"desc"} className="text-text font-normal text-[24px] leading-[120%] mt-[32px] w-[1324px] h-[770px] text-wrap">
+        <div id={"desc"} style={{overflow: "auto"}} className="text-text font-normal text-[24px] leading-[120%] w-[1324px] h-[759px] text-wrap">
          {
           //сюда вставляется описание на 25ой строке
          }

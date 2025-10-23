@@ -30,7 +30,7 @@ export const CellEditMedia = ({ cell }: Props) => {
     );
   //@ts-ignore
     const apiUrl = window.__API_CONFIG__.apiUrl;
-  console.log("images", cell.images);
+  // console.log("images", cell.images);
 
   const resolveBackgroundImage = (url: string) => {
     return (apiUrl + url);
@@ -102,7 +102,6 @@ export const CellEditMedia = ({ cell }: Props) => {
             ".avi",
             ".webp",
             ".webm",
-            ".gif",
           ].map((format, index) => (
             <div key={index} className="font-bold text-[16px] text-[#C9C9C9]">
               {format}
@@ -111,7 +110,7 @@ export const CellEditMedia = ({ cell }: Props) => {
         </div>
         <CellEditAddFileButton
           onFileLoad={onLocalFileLoad}
-          accept=".png, .jpeg, .mp4, .mov, .avi, .jpg, .wepb, .webm, .gif"
+          accept=".png, .jpeg, .mp4, .mov, .avi, .jpg, .wepb, .webm"
         />
       </div>
     </>

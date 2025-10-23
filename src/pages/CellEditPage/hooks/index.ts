@@ -65,10 +65,15 @@ export const useInitFileLoad = <T extends { id: number }>(
     const file = event.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 8_388_608) {
-      alert("Слишком большой файл");
-      return;
-    }
+      if (file.type === "image/gif") {
+    // alert("GIF-файлы не поддерживаются. Пожалуйста, выберите другой формат изображения.");
+    event.target.value = ""; // очищаем input
+    return;
+  }
+    // if (file.size > 8_388_608) {
+    //   alert("Слишком большой файл");
+    //   return;
+    // }
 
     try {
       const dataUrl = await readFileAsDataURL(file);
@@ -94,9 +99,9 @@ export const useInitFileLoad = <T extends { id: number }>(
     }
   };
 
-  useEffect(() => {
-    console.log(`INIT FILES->result!!!!`, initFiles);
-  }, [initFiles, initFiles.length]);
+  // useEffect(() => {
+  //   console.log(`INIT FILES->result!!!!`, initFiles);
+  // }, [initFiles, initFiles.length]);
 
   const reorderFiles = (items: any[]) => {
     setInitFiles(items);

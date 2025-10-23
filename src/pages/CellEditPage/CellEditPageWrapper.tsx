@@ -13,6 +13,6 @@ export const CellEditPageWrapper = observer(() => {
     spreadsheetManager.getOneSpreadSheetHandler(data.spreadsheetParentId);
   }, [data, data?.type]);
 
-  console.log("WTF", data);
+  // console.log("WTF", data);
   return data && <CellEditPage data={data} key={searchParamsCellId} />;
 });

@@ -12,15 +12,17 @@ import { observer } from "mobx-react-lite";
 import type { SpreadsheetCellEntity } from "../store/SpreadsheetCellEntity";
 import OverlayLoader from "../comps/OverlayLoader/OverlayLoader";
 import style from "./MainPage.module.scss";
+import { linkStore } from "../store/LinkHref";
 
 const MainPage = () => {
   const current = spreadsheetManager.currentMainSpreadsheet;
   const [infoModalCell, setInfoModalCell] =
     useState<SpreadsheetCellEntity | null>(null);
   const isLoading = false;
+  const PopupShow = linkStore.link.showHeader
 
   return (
-    <div className={style.UserPage}>
+    <div className={style.UserPage} style={{paddingTop: PopupShow ? "100px" : undefined}}>
       <OverlayLoader isLoading={spreadsheetManager.isLoading} />
       {infoModalCell !== null && (
         <InfoModal

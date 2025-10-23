@@ -1,6 +1,8 @@
 import UserTableCell from "./UserTableCell/UserTableCell";
 import type { SpreadsheetEntity } from "../../store/SpreadsheetEntity";
 import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 type Props = {
   content: SpreadsheetEntity | null;
@@ -8,8 +10,30 @@ type Props = {
 };
 
 const UserTable = ({ onCellInfoOpen, content }: Props) => {
+  const [params] = useSearchParams();
+
+  const tableId = params.get("id");
+  const rowIndex = params.get("rowIndex");
+  const cellIndex = params.get("cellIndex");
+
+  useEffect(() => {
+    // console.log("tableId:", tableId);
+    // console.log("rowIndex:", rowIndex);
+    // console.log("cellIndex:", cellIndex);
+
+  if (rowIndex && cellIndex && content) {
+    const row = content.rows[Number(rowIndex)];
+    const cell = row?.cells[Number(cellIndex)];
+
+    if (cell) {
+      // console.log("Открываю ячейку из URL:", cell);
+      onCellInfoOpen(cell);
+    }
+  }
+}, [tableId, rowIndex, cellIndex, content]);
+
   return (
-    <div className="border-[2px] border-stroke rounded-[24px] overflow-auto h-[894px]">
+    <div className="border-[2px] border-stroke rounded-[24px] overflow-auto max-h-[850px]">
       {content?.rows.map((row, index: number) => (
         <div
           key={index}
@@ -32,6 +56,8 @@ const UserTable = ({ onCellInfoOpen, content }: Props) => {
             >
               {!!cell && (
                 <UserTableCell
+                  ссindex={index}
+                  cellIndex={cellIndex}
                   isTimeline={row.isTimeline}
                   onOpen={(openedCell) => onCellInfoOpen(openedCell)}
                   data={cell}

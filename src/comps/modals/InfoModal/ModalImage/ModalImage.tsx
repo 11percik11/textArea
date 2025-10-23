@@ -1,7 +1,21 @@
 import clsx from "clsx";
 import styles from "./ModalImage.module.css";
 
-export const ModalImage = ({ height = "463px", src = "", className = "", color="" }) => {
+interface ModalImageProps {
+  height?: string;
+  src?: string;
+  className?: string;
+  color?: string;
+}
+
+export const ModalImage = ({
+  height = "463px",
+  src = "",
+  className = "",
+  color = "",
+}: ModalImageProps) => {
+  const isVideo = /\.(mp4|mov|avi|webm|gif)$/i.test(src); // Проверяем расширение
+
   return (
     <div className={clsx([styles.wrapper, className])} style={{ height }}>
       {/* Background layer with overlay */}
@@ -10,8 +24,22 @@ export const ModalImage = ({ height = "463px", src = "", className = "", color="
         style={{ backgroundColor: color }}
       ></div>
 
-      {/* Foreground image */}
-      <img className={styles.foreground} src={src} alt="" />
+      {/* Foreground content (изображение или видео) */}
+      {isVideo ? (
+        <video
+          className={styles.foreground}
+          src={src}
+          autoPlay
+          loop
+          playsInline
+          controls
+          disablePictureInPicture
+          controlsList="nodownload noremoteplayback"
+          onContextMenu={(e) => e.preventDefault()}
+        />
+      ) : (
+        <img className={styles.foreground} src={src} alt="" />
+      )}
     </div>
   );
 };

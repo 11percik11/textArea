@@ -9,6 +9,7 @@ import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 import { spreadsheetManager } from "../../store/root";
 import { Header } from "../shared/Header";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
+import { useSearchParams } from "react-router-dom";
 
 const UserTablePage = () => {
   const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
@@ -27,6 +28,8 @@ const UserTablePage = () => {
     useState<SpreadsheetCellEntity | null>(null);
 
   const pageTitle = data ? data.title : "";
+
+
 
   return (
     <div className="w-full h-full p-[32px]" key={searchParamsSpreadsheetId}>

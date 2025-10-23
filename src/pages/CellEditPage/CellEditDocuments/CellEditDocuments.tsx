@@ -79,7 +79,7 @@ export const CellEditDocuments = observer(({ cell, height }: Props) => {
 
     
   return (
-    <div className={`w-[296px] ${height} bg-white rounded-[24px] mt-[16px] p-[16px] relative`}>
+    <div className={`w-[296px] ${height} bg-white rounded-[24px] p-[16px] relative flex-1`}>
       <div className="text-[32px] text-accent font-bold text-center">Файлы</div>
       <div className="w-[264px] h-[556px] overflow-y-auto overflow-x-hidden">
         <SortableList

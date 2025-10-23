@@ -10,6 +10,7 @@ import { Icons } from "../../icons";
 import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 import style from "./InfoModal.module.scss";
 import { useNavigate } from "react-router-dom";
+import { linkStore } from "../../../store/LinkHref";
 
 
 //@ts-ignore
@@ -62,18 +63,12 @@ type Props = {
 
 const InfoModal = ({ onClose, cell }: Props) => {
   const [preClosed, setPreClosed] = useState(false);
-  console.log("cell", cell);
+  // console.log("cell", cell);
   const navigate = useNavigate();
   const [selectedDocument, setSelectedDocument] = useState<FileType | null>(
     null,
   );
-
-/*   const documents: FileType[] = [
-    {
-      file: "/",
-      id: 1,
-    },
-  ]; */
+  const PopupShow = linkStore.link.showHeader;
 
   const currentLayoutVariant = getLayoutVariant(cell, !!selectedDocument);
 
@@ -82,7 +77,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
   }
   return (
     <div
-      className={`${preClosed && "opacity-0"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10`}
+      className={`${preClosed && "opacity-0"} ${PopupShow ? "pt-[100px]" : "pt-[32px]"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10 flex justify-center`}
     >
       <ModalFiles
         documents={cell.files}
@@ -90,7 +85,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
         setSelected={setSelectedDocument}
       />
       <div
-        className="mt-[32px] max-h-[900px] p-[32px] rounded-[32px] bg-white mx-auto my-auto"
+        className="max-h-[900px] p-[32px] rounded-[32px] bg-white"
         style={{ width: ContainerPxSize[currentLayoutVariant] + "px" }}
       >
         <div className="w-full mb-[46px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
@@ -107,6 +102,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
               onClick={() => {
                 setPreClosed(true);
                 setTimeout(onClose, 200);
+                navigate(-1);
               }}
               className="size-[56px] rounded-[12px] bg-accent flex items-center justify-center"
             >

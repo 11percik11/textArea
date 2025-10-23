@@ -1,0 +1,212 @@
+.virtual-keyboard {
+  position: absolute;
+  left: 50%;
+  bottom: 31px;
+  transform: translateX(-50%);
+  z-index: 999;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+
+  &--num {
+    .virtual-keyboard__key {
+      width: 65px;
+
+      &--NUM {
+        &:after {
+          content: "АБВ";
+          font-family: "Montserrat", sans-serif;
+          font-weight: 400;
+          font-size: 18px;
+          text-align: center;
+          color: #ffffff;
+        }
+        width: 140px;
+      }
+      &--SPACE {
+        &:after {
+          content: "Пробел";
+          font-family: "Montserrat", sans-serif;
+          font-weight: 400;
+          font-size: 18px;
+          text-align: center;
+        }
+        width: 430px;
+      }
+
+      &--BACKSPACE {
+        background-image: url("../assets/icons/backspace.svg");
+        width: 140px;
+      }
+    }
+  }
+
+  &--isCaps {
+    .virtual-keyboard__key {
+      text-transform: uppercase;
+
+      &--SPACE,
+      &--GO {
+        text-transform: initial;
+      }
+
+      &--SHIFT {
+        background-color: #004662;
+        background-image: url("../assets/icons/shift-on.svg");
+      }
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: 8px;
+    border-radius: 36px;
+    padding: 24px;
+    background-color: #fafafa;
+    width: 920px;
+  }
+
+  &__row {
+    display: flex;
+    column-gap: 8px;
+  }
+
+  &__key {
+    border-radius: 8px;
+    width: 65px;
+    height: 48px;
+    color: #464646;
+
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.3);
+    background-color: #fff;
+    border: none;
+
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: center;
+    transition: transform 0.1s;
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &--SHIFT,
+    &--BACKSPACE,
+    &--NUM,
+    &--LANG,
+    &--SPACE,
+    &--GO {
+      font-size: 0;
+    }
+
+    &--SHIFT,
+    &--BACKSPACE,
+    &--NUM,
+    &--LANG {
+      background-color: #004662;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    &--SHIFT {
+      background-image: url("../assets/icons/shift-off.svg");
+      width: 104px;
+    }
+
+    &--BACKSPACE {
+      background-image: url("../assets/icons/backspace.svg");
+      width: 104px;
+    }
+
+    &--NUM {
+      &:after {
+        content: "&123";
+        font-family: "Montserrat", sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        text-align: center;
+        color: #ffffff;
+      }
+      width: 140px;
+    }
+
+    &--LANG {
+      background-image: url("../assets/icons/lang.svg");
+      width: 140px;
+    }
+
+    &--SPACE {
+      &:after {
+        content: "Пробел";
+        font-family: "Montserrat", sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        text-align: center;
+      }
+      width: 430px;
+    }
+
+    &--GO {
+      &:after {
+        content: "Найти";
+        font-family: "Montserrat", sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        text-align: center;
+        color: #ffffff;
+      }
+      width: 152px;
+      background-color: #cf3337;
+    }
+  }
+
+  &__close-Container {
+    width: 100%;
+    color: #464646;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 13px;
+
+    &_item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    &_OnShow {
+      margin-bottom: -31px;
+      background-color: #fafafa;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+      width: 920px;
+      padding: 12px 40px;
+      color: #464646;
+      font-size: 18px;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  &__close {
+    width: 88px;
+    height: 56px;
+    background-color: #fafafa;
+    color: #2b2a29;
+    background-image: url("../assets/icons/close.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+  }
+}

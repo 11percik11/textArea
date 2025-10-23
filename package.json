@@ -18,10 +18,12 @@
     "@react-pdf/renderer": "^4.3.0",
     "@svgx/vite-plugin-react": "^1.0.1",
     "@tailwindcss/vite": "^4.1.11",
+    "@types/textarea-caret": "^3.0.4",
     "array-move": "^4.0.0",
     "axios": "^1.11.0",
     "clsx": "^2.1.1",
     "express": "^5.1.0",
+    "framer-motion": "^12.23.24",
     "mobx": "^6.13.7",
     "mobx-react": "^9.2.0",
     "mobx-react-lite": "^4.1.0",
@@ -37,6 +39,7 @@
     "sortablejs": "^1.15.6",
     "swiper": "^11.2.10",
     "tailwindcss": "^4.1.11",
+    "textarea-caret": "^3.1.0",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
