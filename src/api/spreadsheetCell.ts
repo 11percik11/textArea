@@ -26,7 +26,7 @@ export const updateCellVariant = async (
 export const updateCellContent = async (
   cellId: number,
   payload: {
-    title: string;
+    title?: string;
     description: string;
   },
 ): Promise<any> => {

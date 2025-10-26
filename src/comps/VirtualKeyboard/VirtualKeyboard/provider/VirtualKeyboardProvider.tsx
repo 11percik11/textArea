@@ -32,12 +32,14 @@ export const VirtualKeyboardProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   const [showKeyboard, setShowKeyboard] = useState(false);
-  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
   const subscribersRef = useRef(new Set<() => void>());
 
   useEffect(() => {
     const handleFocusIn = (e: FocusEvent) => {
       const target = e.target as HTMLElement;
+
+      
 
       if (isInputSupported(target)) {
         inputRef.current = target as HTMLInputElement;

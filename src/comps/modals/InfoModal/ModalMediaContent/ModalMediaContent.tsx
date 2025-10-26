@@ -46,8 +46,8 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
             height="463px"
             src={getServerMediaUrl(cell.images[0].image)}
           />
-          <div className="text-text font-normal text-[24px] leading-[120%] mt-[32px] text-wrap">
-            {cell.description}
+          <div className="text-text font-normal text-[24px] leading-[120%] mt-[32px] text-wrap" dangerouslySetInnerHTML={{ __html: cell.description }}>
+            {/* {cell.description} */}
           </div>
         </>
       ) : null}

@@ -81,7 +81,7 @@ export class SpreadsheetCellEntity {
   };
 
   updateCellTextContentHandler = async (data: {
-    title: string;
+    title?: string;
     description: string;
   }) => {
     // this.isLoading = true;

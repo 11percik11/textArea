@@ -1,4 +1,4 @@
-import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import PasswordModal from "./comps/modals/PasswordModal";
 import { useState } from "react";
