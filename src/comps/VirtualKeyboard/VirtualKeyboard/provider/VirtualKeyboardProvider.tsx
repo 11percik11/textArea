@@ -45,6 +45,12 @@ export const VirtualKeyboardProvider: FC<PropsWithChildren> = ({
         inputRef.current = target as HTMLInputElement;
         setShowKeyboard(true);
       }
+      // console.log('Target:', target, target.current);
+      
+      // if (true) {
+      //   inputRef.current = target as HTMLInputElement;
+      //   setShowKeyboard(true);
+      // }
     };
 
     const handleFocusOut = () => {
@@ -71,7 +77,10 @@ export const VirtualKeyboardProvider: FC<PropsWithChildren> = ({
 
   function isInputSupported(
     el: HTMLElement,
-  ): el is HTMLInputElement | HTMLTextAreaElement {
+  ): el is HTMLInputElement | HTMLTextAreaElement | HTMLDivElement  {
+      if (el instanceof HTMLDivElement && el.isContentEditable === true) {
+    return true;
+  }
     if (el.tagName === 'TEXTAREA') return true;
     if (el.tagName !== 'INPUT') return false;
 

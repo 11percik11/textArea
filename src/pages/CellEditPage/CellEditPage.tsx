@@ -40,7 +40,7 @@ const CellEditPage = ({ data }: Props) => {
 //   const [indexText, setIndexText] = useState([0, 0]);
 //   const [content, setContent] = useState("");
   const [isSelected, setIsSelected] = useState(false);
-  const [timelineValue, setTimelineValue] = useState("");
+  // const [timelineValue, setTimelineValue] = useState("");
   const [titleValue, setTitleValue] = useState(data?.title || "");
   const [textBlockValue] = useState(data?.description || "");
   const [isExitModalOpen, setExitModalOpen] = useState(false);
@@ -56,9 +56,9 @@ const CellEditPage = ({ data }: Props) => {
 
 
 
-  const handleTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTimelineValue(event.target.value);
-  };
+  // const handleTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //   setTimelineValue(event.target.value);
+  // };
 
   const debouncedOnBlur = useCallback(() => {
     if (debounceRef.current) {
@@ -150,7 +150,7 @@ const CellEditPage = ({ data }: Props) => {
       });
   };
 
-    console.log(linkStore.link.href, linkStore.link.index);
+    // console.log(linkStore.link.href, linkStore.link.index);
 
   const CreateLink = () => {
     linkStore.link.href = linkBack;
@@ -212,7 +212,7 @@ const CellEditPage = ({ data }: Props) => {
                     className="w-full h-[20px] mt-[8px] text-text"
                   />
                 </div>
-                <div className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
+                {/* <div className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
                   <span className="text-[16px] text-accent font-bold">
                     Значение*
                   </span>
@@ -222,7 +222,7 @@ const CellEditPage = ({ data }: Props) => {
                     placeholder="Укажите временной период"
                     className="w-full h-[20px] mt-[8px] text-text"
                   />
-                </div>
+                </div> */}
               </div>
               <div
                 hidden={data.type !== "text-media" && data.type !== "media"}
@@ -248,11 +248,13 @@ const CellEditPage = ({ data }: Props) => {
                 </span>
 
                 <ContentEditable
+                
+                setIsSelected={setIsSelected}
                     data={data}
                   html={data?.description || ""} // важно: эта строка стабильна и не зависит от index
                   onSelect={(info) => {
-                    // Обновляем MobX, но сам ContentEditable не наблюдает index — ререндера редактора нет
-                    console.log(info.start, info.end);
+                    // console.log(info.start, info.end);
+                    // console.log(info.text.trim().length);
                     
                     linkStore.setIndex([info.start, info.end]);
                     setIsSelected(info.text.trim().length > 0); // если надо подсветить кнопку

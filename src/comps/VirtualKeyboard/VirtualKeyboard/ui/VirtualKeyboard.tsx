@@ -14,7 +14,7 @@ import Close_Svg from "../assets/icons/close.svg";
 
 interface IVirtualKeyboardProps {
   show: boolean;
-  inputRef: RefObject<HTMLInputElement | HTMLTextAreaElement | null>;
+  inputRef: RefObject<HTMLInputElement | HTMLTextAreaElement | HTMLDivElement | null>;
 }
 
 export const VirtualKeyboard: FC<IVirtualKeyboardProps> = ({
@@ -32,6 +32,8 @@ export const VirtualKeyboard: FC<IVirtualKeyboardProps> = ({
   }, [show])
 
   useEffect(() => {
+    console.log(inputRef);
+    
     if (inputRef.current) {
       switch (inputRef.current.inputMode) {
         case "numeric":
@@ -44,56 +46,121 @@ export const VirtualKeyboard: FC<IVirtualKeyboardProps> = ({
     }
   }, [inputRef.current]);
 
+  // const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  //   const target = e.target as HTMLElement;
+  //   const { key } = target.dataset;
+  //   const input = inputRef.current;
+
+  //   console.log(input);
+    
+
+  //   if (!input || !key) return;
+
+  //   switch (key) {
+  //     case "SHIFT":
+  //       setIsCaps((prev) => !prev);
+  //       break;
+
+  //     case "BACKSPACE":
+  //       updateInputValueWithCursor(input, (text, start, end) => {
+  //         const newStart = start ? start - 1 : start;
+  //         return {
+  //           value: text.slice(0, newStart) + text.slice(end),
+  //           cursorPosition: newStart,
+  //         };
+  //       });
+  //       break;
+
+  //     case "NUM":
+  //       setKeyboardType((prev) => (prev === "num" ? "rus" : "num"));
+  //       break;
+
+  //     case "LANG":
+  //       setKeyboardType((prev) => (prev === "rus" ? "eng" : "rus"));
+  //       break;
+
+  //     case "SPACE":
+  //       updateInputValueWithCursor(input, (text, start, end) => ({
+  //         value: text.slice(0, start) + " " + text.slice(end),
+  //         cursorPosition: start + 1,
+  //       }));
+  //       break;
+
+  //     case "GO":
+  //       input.blur();
+  //       triggerGo();
+  //       break;
+
+  //     default:
+  //       updateInputValueWithCursor(input, (text, start, end) => ({
+  //         value: text.slice(0, start) + key + text.slice(end),
+  //         cursorPosition: start + key.length,
+  //       }));
+  //       break;
+  //   }
+  // };
+
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const target = e.target as HTMLElement;
-    const { key } = target.dataset;
-    const input = inputRef.current;
+  const target = e.target as HTMLElement;
+  const { key } = target.dataset;
+  const input = inputRef.current;
 
-    if (!input || !key) return;
+  if (!input || !key) return;
 
-    switch (key) {
-      case "SHIFT":
-        setIsCaps((prev) => !prev);
-        break;
+  switch (key) {
+    case "SHIFT":
+      setIsCaps((prev) => !prev);
+      break;
 
-      case "BACKSPACE":
-        updateInputValueWithCursor(input, (text, start, end) => {
-          const newStart = start ? start - 1 : start;
-          return {
-            value: text.slice(0, newStart) + text.slice(end),
-            cursorPosition: newStart,
-          };
-        });
-        break;
+    case "BACKSPACE":
+      
+      updateInputValueWithCursor(input, (text, start, end) => {
+        const newStart = start ? start - 1 : start;
+        return {
+          value: text.slice(0, newStart) + text.slice(end),
+          cursorPosition: newStart,
+        };
+      });
+      break;
 
-      case "NUM":
-        setKeyboardType((prev) => (prev === "num" ? "rus" : "num"));
-        break;
+    case "NUM":
+      setKeyboardType((prev) => (prev === "num" ? "rus" : "num"));
+      break;
 
-      case "LANG":
-        setKeyboardType((prev) => (prev === "rus" ? "eng" : "rus"));
-        break;
+    case "LANG":
+      setKeyboardType((prev) => (prev === "rus" ? "eng" : "rus"));
+      break;
 
-      case "SPACE":
-        updateInputValueWithCursor(input, (text, start, end) => ({
-          value: text.slice(0, start) + " " + text.slice(end),
-          cursorPosition: start + 1,
-        }));
-        break;
+    // case "SPACE":
+    //   updateInputValueWithCursor(input, (text, start, end) => ({
+    //     value: text.slice(0, start) + `&nbsp;` + text.slice(end),
+    //     cursorPosition: start + 1,
+    //   }));
+    //   break;
 
-      case "GO":
-        input.blur();
-        triggerGo();
-        break;
+    case "SPACE":
+  updateInputValueWithCursor(input, (text, start, end) => {
+    const nbsp = "\u00A0"; // неразрывный пробел
+    return {
+      value: text.slice(0, start) + nbsp + text.slice(end),
+      cursorPosition: start + 1,
+    };
+  });
+  break;
 
-      default:
-        updateInputValueWithCursor(input, (text, start, end) => ({
-          value: text.slice(0, start) + key + text.slice(end),
-          cursorPosition: start + key.length,
-        }));
-        break;
-    }
-  };
+    case "GO":
+      (input as any).blur?.();
+      triggerGo();
+      break;
+
+    default:
+      updateInputValueWithCursor(input, (text, start, end) => ({
+        value: text.slice(0, start) + key + text.slice(end),
+        cursorPosition: start + key.length,
+      }));
+      break;
+  }
+};
 
   return createPortal(
     <AnimatePresence>

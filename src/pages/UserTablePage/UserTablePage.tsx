@@ -43,7 +43,7 @@ const UserTablePage = () => {
       )}
       <div
         hidden={isLoading}
-        className="w-[1856px] h-full overflow-scroll hide-scroll"
+        className="max-w-[1856px] w-min h-full overflow-scroll hide-scroll"
       >
         {data && (
           <UserTable

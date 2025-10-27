@@ -10,8 +10,8 @@ type Props = {
 };
 
 export const AdminTableControls = observer(
-  ({ spreadsheet, onTimelineAdd }: Props) => {
-    const timelineButtonShow = !spreadsheet.rows.some((row) => row.isTimeline);
+  ({ spreadsheet }: Props) => {
+    // const timelineButtonShow = !spreadsheet.rows.some((row) => row.isTimeline);
     return (
       <div className="flex w-full h-[88px] my-[16px] gap-[16px]">
         <button
@@ -52,7 +52,7 @@ export const AdminTableControls = observer(
             <img src={addIcon} alt="add" className="" />
           </div>
         </button>
-        {onTimelineAdd && (
+        {/* {onTimelineAdd && (
           <button
             hidden={!timelineButtonShow}
             onClick={() => {
@@ -84,7 +84,7 @@ export const AdminTableControls = observer(
               </div>
             </div>
           </button>
-        )}
+        )} */}
       </div>
     );
   },
