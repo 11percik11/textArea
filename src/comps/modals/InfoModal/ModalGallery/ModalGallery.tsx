@@ -10,15 +10,16 @@ import "swiper/css/navigation";
 import styles from "./ModalGallery.module.css";
 import { ModalImage } from "../ModalImage/ModalImage";
 // @ts-ignore
-export const ModalGallery = ({ images }) => {
+export const ModalGallery = ({ images, description }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log(images);
+  console.log(images.length);
 
   return (
     <div className={styles.gallery}>
-      <ModalImage src={images[activeIndex]} height="568px" />
+      <ModalImage src={images[activeIndex]} height={description ? '447px' : '552px'} />
 
-      <div className={styles.thumbsWrapper}>
+
+      {images.length > 1 && <div className={styles.thumbsWrapper}>
         <Swiper
           modules={[Navigation]}
           navigation
@@ -44,7 +45,7 @@ export const ModalGallery = ({ images }) => {
                   <img
                     src={src}
                     alt=""
-                    className={`${styles.thumb} ${i === activeIndex ? styles.active : ""}`}
+                    className={`${styles.thumb} ${i === activeIndex ? styles.active : ""} rounded-[16px]`}
                     onClick={() => setActiveIndex(i)}
                   />
                 )}
@@ -52,7 +53,7 @@ export const ModalGallery = ({ images }) => {
             );
           })}
         </Swiper>
-      </div>
+      </div>}
     </div>
   );
 };

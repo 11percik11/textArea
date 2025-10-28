@@ -1,0 +1,6 @@
+.custom-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 7; /* количество строк */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

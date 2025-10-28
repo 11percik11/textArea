@@ -27,15 +27,15 @@ enum ContentVariant {
 }
 
 const ContainerPxSize: Record<ContentVariant, string> = {
-  [ContentVariant.OneVideoOnly]: "1544",
-  [ContentVariant.OneImageOnly]: "1544",
-  [ContentVariant.TextOnly]: "1388",
+  [ContentVariant.OneVideoOnly]: "1076",
+  [ContentVariant.OneImageOnly]: "1076",
+  [ContentVariant.TextOnly]: "1232",
   [ContentVariant.TextAndOneImage]: "920",
   [ContentVariant.TextAndMultipleImage]: "920",
   [ContentVariant.TextAndOneVideo]: "920",
   [ContentVariant.MultipleImage]: "1076",
   [ContentVariant.MultipleVideo]: "1076",
-  [ContentVariant.Document]: "1232",
+  [ContentVariant.Document]: "1076",
 };
 
 const getLayoutVariant = (
@@ -85,12 +85,12 @@ const InfoModal = ({ onClose, cell }: Props) => {
         setSelected={setSelectedDocument}
       />
       <div
-        className="max-h-[900px] p-[32px] rounded-[32px] bg-white"
+        className={`${cell.description ? "max-h-[1016px]" : cell.images.length > 1 ? "max-h-[1016px]" : "max-h-[931px]"} h-fit p-[32px] rounded-[32px] bg-white flex flex-col`}
         style={{ width: ContainerPxSize[currentLayoutVariant] + "px" }}
       >
-        <div className="w-full mb-[46px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
+        <div className="w-full mb-[32px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
           <div>{cell.title}</div>
-          <div className="flex justify-between items-center gap-[12px]">
+          <div className="flex justify-between items-center gap-[12px] mb-auto">
             {
               cell.children?.id &&
               <button className={style.toTableButton} onClick={toTable}>

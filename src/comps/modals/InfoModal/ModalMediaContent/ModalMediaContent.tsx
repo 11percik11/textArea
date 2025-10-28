@@ -16,47 +16,21 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
 
   if (selectedDocument) {
     const url = getServerMediaUrl(selectedDocument.file);
-    return <PdfReader src={url}/>;
+    return <PdfReader src={url} />;
   }
 
   useEffect(() => {
     const desc = document.getElementById("desc");
-    if(desc)
-      desc.innerHTML = cell.description;
+    if (desc) desc.innerHTML = cell.description;
   }, []);
 
   return (
-    <>
-      {cell.type === "text" && (
-        <div id={"desc"} style={{overflow: "auto"}} className="text-text font-normal text-[24px] leading-[120%] w-[1324px] h-[759px] text-wrap">
-         {
-          //сюда вставляется описание на 25ой строке
-         }
-        </div>
-      )}
-      {cell.type === "media" && cell.images.length === 1 ? (
-        <ModalImage
-          height="700px"
-          src={getServerMediaUrl(cell.images[0].image)}
-        />
-      ) : null}
-      {cell.type === "text-media" && cell.images.length === 1 ? (
-        <>
-          <ModalImage
-            height="463px"
-            src={getServerMediaUrl(cell.images[0].image)}
-          />
-          <div className="text-text font-normal text-[24px] leading-[120%] mt-[32px] text-wrap" dangerouslySetInnerHTML={{ __html: cell.description }}>
-            {/* {cell.description} */}
-          </div>
-        </>
-      ) : null}
-      {cell.type === "media" && cell.images.length > 1 ? (
-        <ModalGallery
-          images={testImages}
-          // images={testImages.map((data) => getServerMediaUrl(data.image))}
-        />
-      ) : null}
-    </>
+    <div className="flex-1 overflow-auto flex flex-col gap-[16px]">
+      {testImages.length > 0 && <ModalGallery images={testImages} description={cell?.description} />}
+      <div
+        className="text-text font-normal text-[24px] leading-[120%] text-wrap"
+        dangerouslySetInnerHTML={{ __html: cell?.description }}
+      />
+    </div>
   );
 };
