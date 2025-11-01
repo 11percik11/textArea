@@ -21,7 +21,7 @@ export const ModalImage = ({
       {/* Background layer with overlay */}
       <div
         className={styles.background}
-        style={{ backgroundColor: color }}
+        style={{ backgroundColor: "#d3d3d3" }}
       ></div>
 
       {/* Foreground content (изображение или видео) */}

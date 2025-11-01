@@ -90,7 +90,7 @@ const AdminTable = observer(
 
     return (
       <div
-        className={`w-[${widthPx}px] h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
+        className={`w-[${widthPx}px] max-h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
       >
         <div ref={ref}>
           <ColorPickModal row={currentRow} onClose={onColorPickModalClose} />

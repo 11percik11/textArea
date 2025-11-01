@@ -12,7 +12,6 @@ import style from "./InfoModal.module.scss";
 import { useNavigate } from "react-router-dom";
 import { linkStore } from "../../../store/LinkHref";
 
-
 //@ts-ignore
 enum ContentVariant {
   OneVideoOnly = "VideoOnly",
@@ -35,7 +34,7 @@ const ContainerPxSize: Record<ContentVariant, string> = {
   [ContentVariant.TextAndOneVideo]: "920",
   [ContentVariant.MultipleImage]: "1076",
   [ContentVariant.MultipleVideo]: "1076",
-  [ContentVariant.Document]: "1076",
+  [ContentVariant.Document]: "1232",
 };
 
 const getLayoutVariant = (
@@ -74,7 +73,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
 
   const toTable = () => {
     navigate(`/user-inner-table?id=${cell.children?.id}`);
-  }
+  };
   return (
     <div
       className={`${preClosed && "opacity-0"} ${PopupShow ? "pt-[100px]" : "pt-[32px]"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10 flex justify-center`}
@@ -91,18 +90,31 @@ const InfoModal = ({ onClose, cell }: Props) => {
         <div className="w-full mb-[32px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
           <div>{cell.title}</div>
           <div className="flex justify-between items-center gap-[12px] mb-auto">
-            {
-              cell.children?.id &&
+            {cell.children?.id && (
               <button className={style.toTableButton} onClick={toTable}>
                 Перейти к таблице
                 <Icons.TableLinkIcon color="#004662" className="size-[28px]" />
               </button>
-            }
+            )}
             <button
               onClick={() => {
                 setPreClosed(true);
-                setTimeout(onClose, 200);
-                navigate(-1);
+                setTimeout(() => {
+                  onClose();
+                }, 200);
+
+                const params = new URLSearchParams(location.search);
+                // удаляем параметры (не важно, были 4/1 или любые другие)
+                params.delete("rowIndex");
+                params.delete("cellIndex");
+
+                navigate(
+                  {
+                    pathname: location.pathname,
+                    search: params.toString() ? `?${params.toString()}` : "",
+                  },
+                  { replace: true }, // не сохранять этот шаг в истории
+                );
               }}
               className="size-[56px] rounded-[12px] bg-accent flex items-center justify-center"
             >

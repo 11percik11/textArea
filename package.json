@@ -28,6 +28,7 @@
     "mobx-react": "^9.2.0",
     "mobx-react-lite": "^4.1.0",
     "node-fetch": "^3.3.2",
+    "pdfjs-dist": "^3.11.174",
     "react": "^19.1.0",
     "react-doc-viewer": "^0.1.14",
     "react-dom": "^19.1.0",

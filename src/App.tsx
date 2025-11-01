@@ -1,32 +1,15 @@
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import MainPage from "./pages/MainPage";
+import { BrowserRouter as Router } from "react-router-dom";
 import PasswordModal from "./comps/modals/PasswordModal";
 import { useState } from "react";
-import AdminPage from "./pages/AdminPage/AdminPage";
-
-import { TablePage } from "./pages/TablePage/TablePage";
-// import { cellStore } from "./store/root";
 import { observer } from "mobx-react-lite";
-import { CellEditPageWrapper } from "./pages/CellEditPage/CellEditPageWrapper";
-
-import UserTablePage from "./pages/UserTablePage/UserTablePage";
 import { VirtualKeyboardProvider } from "./comps/VirtualKeyboard/VirtualKeyboard";
 import { linkStore } from "./store/LinkHref";
 import { PopupCreateLink } from "./comps/modals/PopupCreateLink/PopupCreateLink";
+import { RouterPath } from "./Router";
 
 const App = () => {
   const [isPasswordModalOpen, setPasswordOpen] = useState(false);
   const PopupShow = linkStore.link.showHeader;
-  
-  // const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   console.log("wtf APP", cellStore.currentCell);
-  // }, [cellStore.currentCell]);
-
-  // useEffect(() => {
-  //   console.log("wtf APP", cellStore.currentCellId);
-  // }, [cellStore.currentCellId]);
   return (
     <div className="w-[1920px] h-[1080px] top-0 left-0">
       <button
@@ -65,21 +48,12 @@ const App = () => {
       />
       <VirtualKeyboardProvider>
         <Router>
-        {PopupShow && (
-          <PopupCreateLink/>
-        )}
+          {PopupShow && <PopupCreateLink />}
           {/* <LvlSelectModal /> */}
           {isPasswordModalOpen && (
             <PasswordModal onBack={() => setPasswordOpen(false)} />
           )}
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/table" element={<UserTablePage />} />
-            <Route path="/admin/table" element={<TablePage />} />
-            <Route path="/user-inner-table" element={<UserTablePage />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/celledit" element={<CellEditPageWrapper />} />
-          </Routes>
+          <RouterPath />
         </Router>
       </VirtualKeyboardProvider>
     </div>

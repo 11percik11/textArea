@@ -25,9 +25,8 @@ const AdminCell = ({ data, color, onClick }: Props) => {
         hidden={!data.id}
         className="w-[376px] h-[56px] flex gap-[8px] justify-left items-center"
       >
-        {data.images && data.images.length <= 5 ? (
-          //@ts-ignore
-          data.images?.map((media: any, index: number) => (
+        {/* {data.images && data.images.length <= 5 ? (
+          data.images?.map((_: any, index: number) => (
             <div
               key={index}
               className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center"
@@ -35,20 +34,23 @@ const AdminCell = ({ data, color, onClick }: Props) => {
               <img src={imageIcon} alt="image" className="size-[24px]" />
             </div>
           ))
-        ) : (
-          <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
-            <img src={imagesIcon} alt="image" className="size-[24px]" />
+        ) : ( */}
+        {data.images.length > 0 && 
+          // <div className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center">
+          //   <img src={imagesIcon} alt="image" className="size-[24px]" />
+          // </div>
+          <div className={`${data.images.length > 1 && "p-[10px]"} h-[44px] min-w-[44px] bg-[#0046621A] rounded-full flex justify-center items-center text-[#004662]`}>
+            <img src={imagesIcon} alt="document" className="size-[24px]" />
+            {data.images.length > 1 && (<div className="ml-[14px] text-[20px]">{data.images.length}</div>)}
+          </div>
+        }  
+
+        {data.files.length > 0 && (
+          <div className={`${data.files.length > 1 && "p-[10px]"} h-[44px] min-w-[44px] bg-[#0046621A] rounded-full flex justify-center items-center text-[#004662]`}>
+            <img src={documentIcon} alt="document" className="size-[24px]" />
+            {data.files.length > 1 && (<div className="ml-[14px] text-[20px]">{data.files.length}</div>)}
           </div>
         )}
-        {//@ts-ignore
-        data.files?.map((file, index: number) => (
-          <div
-            key={index}
-            className="size-[44px] bg-[#0046621A] rounded-full flex justify-center items-center"
-          >
-            <img src={documentIcon} alt="document" className="size-[24px]" />
-          </div>
-        ))}
 
         {data.type === "table" && (
           <div className="flex justify-between w-full">
@@ -68,7 +70,6 @@ const AdminCell = ({ data, color, onClick }: Props) => {
       {
         <div
           hidden={!data.id}
-          // className="absolute bottom-[24px] text-[24px] text-accent font-semibold"
           className="text-[24px] text-accent font-semibold"
         >
           {data.title || (

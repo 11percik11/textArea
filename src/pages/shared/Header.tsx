@@ -2,12 +2,14 @@ import { useNavigate } from "react-router-dom";
 
 import exitIcon from "../../assets/icons/exitIcon.svg";
 import arrIcon from "../../assets/icons/arrSimple.svg";
+import { PathlinkStore } from "../../store/PathLink";
 
-export const Header = ({ title }: {title: string}) => {
+export const Header = ({ title, searchParamsSpreadsheetId }: {title: string, searchParamsSpreadsheetId: number}) => {
   const navigate = useNavigate();
 
   const handleBack = () => {
     navigate(-1);
+    PathlinkStore.removeArrLinkById(searchParamsSpreadsheetId);
   };
 
   const admin = false;

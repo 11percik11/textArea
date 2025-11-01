@@ -6,17 +6,10 @@ import { SortableList } from "../../../comps/modals/SortableList";
 import { DragHandleContainer } from "../../../comps/modals/SortableList/components/SortableItem/SortableItem";
 import CellEditAddFileButton from "../CellEditAddFileButton/CellEditAddFileButton";
 import {
-  //useLocalFileLoad,
   useInitFileLoad,
-  //type ImageMedia,
-  //useAllFiles,
 } from "../hooks";
-//import type { MediaData } from "../types";
-//import { isLocalAddedMedia } from "../../../utils/isLocalAddedMedia";
 import { getFileExtensionFromPath } from "../../../utils/getFileExtensionFromPath";
 import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
-//import { cellStore } from "../../../store/root";
-//import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 type Props = {
   cell: SpreadsheetCellEntity;
 };
@@ -30,7 +23,6 @@ export const CellEditMedia = ({ cell }: Props) => {
     );
   //@ts-ignore
     const apiUrl = window.__API_CONFIG__.apiUrl;
-  // console.log("images", cell.images);
 
   const resolveBackgroundImage = (url: string) => {
     return (apiUrl + url);
@@ -40,15 +32,11 @@ export const CellEditMedia = ({ cell }: Props) => {
     <>
       <span className="text-[16px] text-accent font-bold">Медиа</span>
       <div
-        // hidden={images.length === 0 && locallyLoadedFiles.length === 0}
         className="mt-[8px] w-[1184px]  flex gap-[8px]"
       >
-        {/* {images.map(() => (
-          <div className="size-[120px] rounded-[14px] bg-black"></div>
-        ))} */}
 
         <SortableList
-          className="flex gap-[5px] h-auto flex-wrap"
+          className="flex gap-[5px] h-auto overflow-auto pb-[10px]"
           items={initFiles}
           onChange={reorderFiles}
           renderItem={(item, index) => (
@@ -69,7 +57,7 @@ export const CellEditMedia = ({ cell }: Props) => {
                 )}
                 <button
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent event from bubbling to drag handlers
+                    e.stopPropagation();
                     e.preventDefault();
                     handleInitFileDelete(item.id);
                   }}
@@ -88,9 +76,6 @@ export const CellEditMedia = ({ cell }: Props) => {
           )}
         />
 
-        {/* {newImages?.map((media, index) => (
-          
-            ))} */}
       </div>
       <div className="w-[1184px] h-[80px] mt-[16px]">
         <div className="w-[413px] h-[16px] flex gap-[12px]">
@@ -99,7 +84,6 @@ export const CellEditMedia = ({ cell }: Props) => {
             ".png",
             ".mp4",
             ".mov",
-            ".avi",
             ".webp",
             ".webm",
           ].map((format, index) => (
@@ -110,7 +94,7 @@ export const CellEditMedia = ({ cell }: Props) => {
         </div>
         <CellEditAddFileButton
           onFileLoad={onLocalFileLoad}
-          accept=".png, .jpeg, .mp4, .mov, .avi, .jpg, .wepb, .webm"
+          accept=".png, .jpeg, .mp4, .mov, .jpg, .wepb, .webm"
         />
       </div>
     </>

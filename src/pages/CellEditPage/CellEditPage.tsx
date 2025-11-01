@@ -18,15 +18,13 @@ import CellEditConfirmModal from "./CellEditConfirmModal/CellEditConfirmModal";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 import { observer } from "mobx-react-lite";
 import printIcon from "../../assets/icons/printIcon.svg";
-//import { useGetCurrentCell } from "./hooks/useGetCurrentCell";
-//import { tableStore } from "../AdminPage/SpreadsheetStore";
-//import { toJS } from "mobx";
 import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 import { useReactToPrint } from "react-to-print";
 import axios from "axios";
 import listSvg from "../../assets/icons/Link.svg";
 import { linkStore } from "../../store/LinkHref";
 import { ContentEditable } from "./ContentEditable/ContentEditable";
+import { PathlinkStore } from "../../store/PathLink";
 
 type Props = { data: SpreadsheetCellEntity };
 
@@ -37,10 +35,7 @@ const CellEditPage = ({ data }: Props) => {
   const debounceRef = useRef<NodeJS.Timeout | null>(null);
   const childTable = useRef(data.children?.id);
 
-//   const [indexText, setIndexText] = useState([0, 0]);
-//   const [content, setContent] = useState("");
   const [isSelected, setIsSelected] = useState(false);
-  // const [timelineValue, setTimelineValue] = useState("");
   const [titleValue, setTitleValue] = useState(data?.title || "");
   const [textBlockValue] = useState(data?.description || "");
   const [isExitModalOpen, setExitModalOpen] = useState(false);
@@ -53,13 +48,6 @@ const CellEditPage = ({ data }: Props) => {
   //@ts-ignore
   const apiUrl = window.__API_CONFIG__.apiUrl;
 
-
-
-
-  // const handleTimelineChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   setTimelineValue(event.target.value);
-  // };
-
   const debouncedOnBlur = useCallback(() => {
     if (debounceRef.current) {
       clearTimeout(debounceRef.current);
@@ -70,7 +58,7 @@ const CellEditPage = ({ data }: Props) => {
         title: titleValue,
         description: textBlockValue,
       });
-    }, 300); // debounce delay in ms
+    }, 300);
   }, [titleValue, textBlockValue]);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -137,8 +125,6 @@ const CellEditPage = ({ data }: Props) => {
       console.log("cant delete");
     };
   const createTable = () => {
-    //setHasChildTable(true);
-    // console.log(data.id);
     axios
       .post(`${apiUrl}api/spreadsheets?cell=${data.id}`)
       .then((response) => {
@@ -150,12 +136,11 @@ const CellEditPage = ({ data }: Props) => {
       });
   };
 
-    // console.log(linkStore.link.href, linkStore.link.index);
-
   const CreateLink = () => {
     linkStore.link.href = linkBack;
     navigate("/");
     linkStore.setShowHeader(true);
+    PathlinkStore.clearLink();
   };
 
   return (
@@ -212,17 +197,6 @@ const CellEditPage = ({ data }: Props) => {
                     className="w-full h-[20px] mt-[8px] text-text"
                   />
                 </div>
-                {/* <div className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
-                  <span className="text-[16px] text-accent font-bold">
-                    Значение*
-                  </span>
-                  <input
-                    onChange={handleTimelineChange}
-                    value={timelineValue}
-                    placeholder="Укажите временной период"
-                    className="w-full h-[20px] mt-[8px] text-text"
-                  />
-                </div> */}
               </div>
               <div
                 hidden={data.type !== "text-media" && data.type !== "media"}
@@ -251,13 +225,10 @@ const CellEditPage = ({ data }: Props) => {
                 
                 setIsSelected={setIsSelected}
                     data={data}
-                  html={data?.description || ""} // важно: эта строка стабильна и не зависит от index
+                  html={data?.description || ""}
                   onSelect={(info) => {
-                    // console.log(info.start, info.end);
-                    // console.log(info.text.trim().length);
-                    
                     linkStore.setIndex([info.start, info.end]);
-                    setIsSelected(info.text.trim().length > 0); // если надо подсветить кнопку
+                    setIsSelected(info.text.trim().length > 0);
                   }}
                 />
               </div>

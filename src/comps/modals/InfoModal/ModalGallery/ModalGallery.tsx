@@ -12,12 +12,11 @@ import { ModalImage } from "../ModalImage/ModalImage";
 // @ts-ignore
 export const ModalGallery = ({ images, description }) => {
   const [activeIndex, setActiveIndex] = useState(0);
-  console.log(images.length);
+  // console.log(images.length);
 
   return (
     <div className={styles.gallery}>
       <ModalImage src={images[activeIndex]} height={description ? '447px' : '552px'} />
-
 
       {images.length > 1 && <div className={styles.thumbsWrapper}>
         <Swiper

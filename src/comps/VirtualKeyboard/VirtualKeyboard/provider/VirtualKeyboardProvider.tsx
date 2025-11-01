@@ -39,7 +39,9 @@ export const VirtualKeyboardProvider: FC<PropsWithChildren> = ({
     const handleFocusIn = (e: FocusEvent) => {
       const target = e.target as HTMLElement;
 
-      
+        if (target instanceof HTMLElement && target.dataset.noKeyboard !== undefined) {
+    return;
+  }
 
       if (isInputSupported(target)) {
         inputRef.current = target as HTMLInputElement;

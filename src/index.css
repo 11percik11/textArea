@@ -91,3 +91,33 @@ input {
 body{
   overflow: hidden;
 }
+
+
+/* Chrome, Safari, Edge */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  background: #00466270;
+  border-radius: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #004662;
+  border-radius: 16px;
+  background-clip: content-box;  
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #004662;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}

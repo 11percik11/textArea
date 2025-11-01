@@ -1,8 +1,10 @@
+
 import { useState } from "react";
 import styles from "./ModalFiles.module.css";
 import type { Cell, FileType } from "../../../../types";
 import { Icons } from "../../../icons";
 import clsx from "clsx";
+
 type Props = {
   documents: Cell["files"];
   selected: FileType | null;
@@ -18,7 +20,7 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
     setOpen(false);
     setSelected(null);
   };
-  console.log(documents)
+
   return (
     <div className={`${styles["modal-files-container"]}`}>
       <button
@@ -46,8 +48,8 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
               key={document.id}
             >
               <div className={`${styles["modal-files-content-item__format-label"]}`}>
-                {/* .{getFileExtensionFromPath(document.file)} */}
-                .pdf
+                {/* .{document?.file?.split(".").pop().toLowerCase()} */}
+                .файл
               </div>
               <p>{`Документ ${index + 1}`}</p>
             </div>
@@ -61,6 +63,9 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
           Закрыть файл
         </button>
       </div>
+      {/* {open && fileDocument && <PdfViewer url={fileDocument.replace("cell/", "")} key={selected?.file} />} */}
     </div>
   );
 };
+
+

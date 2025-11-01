@@ -11,26 +11,18 @@ type Props = {
 
 const UserTable = ({ onCellInfoOpen, content }: Props) => {
   const [params] = useSearchParams();
-
-  const tableId = params.get("id");
   const rowIndex = params.get("rowIndex");
   const cellIndex = params.get("cellIndex");
 
   useEffect(() => {
-    // console.log("tableId:", tableId);
-    // console.log("rowIndex:", rowIndex);
-    // console.log("cellIndex:", cellIndex);
+    if (!content) return; // ждём загрузку
+    if (rowIndex == null || cellIndex == null) return;
 
-  if (rowIndex && cellIndex && content) {
     const row = content.rows[Number(rowIndex)];
-    const cell = row?.cells[Number(cellIndex)];
+    const cell = row?.cells?.[Number(cellIndex)];
 
-    if (cell) {
-      // console.log("Открываю ячейку из URL:", cell);
-      onCellInfoOpen(cell);
-    }
-  }
-}, [tableId, rowIndex, cellIndex, content]);
+    if (cell) onCellInfoOpen(cell);
+  }, [content, rowIndex, cellIndex, onCellInfoOpen]);
 
   return (
     <div className="border-[2px] border-stroke rounded-[24px] overflow-auto max-h-[850px]">

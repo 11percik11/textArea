@@ -9,10 +9,14 @@ import type { SpreadsheetCellEntity } from "../../store/SpreadsheetCellEntity";
 import { spreadsheetManager } from "../../store/root";
 import { Header } from "../shared/Header";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
+import { PathlinkStore } from "../../store/PathLink";
 // import { useSearchParams } from "react-router-dom";
+
+type TitleWithPos = [string, [number, number]];
 
 const UserTablePage = () => {
   const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
+  PathlinkStore.setArrElement(data);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,11 +33,71 @@ const UserTablePage = () => {
 
   const pageTitle = data ? data.title : "";
 
+  // console.log(data);
+  // console.log(
+  //   data?.rows.flatMap((item) => item.cells.map((cell) => cell.raw.title)),
+  // );
 
+  // useEffect(() => {
+  //   if (data && data != null) {
+  //     console.log("UPDATETABLE");
+
+  //     PathlinkStore.addArrLink([searchParamsSpreadsheetId, [data.rows.flatMap((item: any) => item.cells.map((cell: any) => cell.raw.title))]]);
+  //   }
+  // }, [data])
+
+  // useEffect(() => {
+  //   if (!data) return;
+
+  //   // чтобы не добавлять дважды
+  //   const alreadyAdded = PathlinkStore.link.arrLinks.some(
+  //     ([id]) => id === searchParamsSpreadsheetId,
+  //   );
+  //   if (!alreadyAdded) {
+  //     console.log("Добавляем в PathLinkStore");
+  //     PathlinkStore.addArrLink([
+  //       searchParamsSpreadsheetId,
+  //       // data.rows.flatMap((item: any) =>
+  //       //   item.cells.map((cell: any) => cell.raw.title),
+  //       // ),
+  //       data.rows.flatMap((row, rIdx) =>
+  //   row.cells.map((cell, cIdx): TitleWithPos => [cell.raw.title, [rIdx, cIdx]])
+  // );
+  //       data.title,
+  //     ]);
+  //   }
+  // }, [data]);
+
+  useEffect(() => {
+  if (!data) return;
+
+  const idNum = Number(searchParamsSpreadsheetId); // привели к числу
+
+  // защита от дублей
+  const alreadyAdded = PathlinkStore.link.arrLinks.some(
+    ([id]) => id === idNum
+  );
+  if (alreadyAdded) return;
+
+  console.log("Добавляем в PathLinkStore");
+
+  PathlinkStore.addArrLink([
+    idNum,
+    data.rows.flatMap((row, rIdx) =>
+      row.cells.map(
+        (cell, cIdx): TitleWithPos => [cell.raw.title || "", [rIdx, cIdx]]
+      )
+    ),
+    data.title,
+  ]);
+}, [data, searchParamsSpreadsheetId]);
 
   return (
     <div className="w-full h-full p-[32px]" key={searchParamsSpreadsheetId}>
-      <Header title={pageTitle} />
+      <Header
+        title={pageTitle}
+        searchParamsSpreadsheetId={searchParamsSpreadsheetId}
+      />
       <OverlayLoader isLoading={isLoading} />
       {infoModalCell !== null && (
         <InfoModal
