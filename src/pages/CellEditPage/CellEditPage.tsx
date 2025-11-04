@@ -1,9 +1,4 @@
-import {
-  useCallback,
-  useRef,
-  useState,
-  type ChangeEvent,
-} from "react";
+import { useCallback, useRef, useState, type ChangeEvent } from "react";
 import exitIcon from "../../assets/icons/exitIcon.svg";
 import ExitModal from "../../comps/modals/ExitModal";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -117,13 +112,16 @@ const CellEditPage = ({ data }: Props) => {
     if (!!childTable.current) navigate(`/admin/table?id=${childTable.current}`);
     else console.log("error");
   };
-    const deleteTable = () => {
-        axios.get(`${apiUrl}api/spreadsheets/delete-spreadsheet?spreadsheetId=${childTable.current}`)
-        .then(() => {
-            setHasChildTable(false);
-        })
-      console.log("cant delete");
-    };
+  const deleteTable = () => {
+    axios
+      .get(
+        `${apiUrl}api/spreadsheets/delete-spreadsheet?spreadsheetId=${childTable.current}`,
+      )
+      .then(() => {
+        setHasChildTable(false);
+      });
+    console.log("cant delete");
+  };
   const createTable = () => {
     axios
       .post(`${apiUrl}api/spreadsheets?cell=${data.id}`)
@@ -137,7 +135,7 @@ const CellEditPage = ({ data }: Props) => {
   };
 
   const CreateLink = () => {
-    linkStore.link.href = linkBack;
+    linkStore.link.hrefBack = linkBack;
     navigate("/");
     linkStore.setShowHeader(true);
     PathlinkStore.clearLink();
@@ -222,9 +220,8 @@ const CellEditPage = ({ data }: Props) => {
                 </span>
 
                 <ContentEditable
-                
-                setIsSelected={setIsSelected}
-                    data={data}
+                  setIsSelected={setIsSelected}
+                  data={data}
                   html={data?.description || ""}
                   onSelect={(info) => {
                     linkStore.setIndex([info.start, info.end]);

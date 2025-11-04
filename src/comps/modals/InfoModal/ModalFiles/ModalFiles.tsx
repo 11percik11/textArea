@@ -4,6 +4,7 @@ import styles from "./ModalFiles.module.css";
 import type { Cell, FileType } from "../../../../types";
 import { Icons } from "../../../icons";
 import clsx from "clsx";
+import { linkStore } from "../../../../store/LinkHref";
 
 type Props = {
   documents: Cell["files"];
@@ -12,6 +13,8 @@ type Props = {
 };
 
 export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
+  const PopupShow = linkStore.link.showHeader;
+
   const [open, setOpen] = useState(false);
 
   if (documents.length === 0) return null;
@@ -22,7 +25,7 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
   };
 
   return (
-    <div className={`${styles["modal-files-container"]}`}>
+    <div className={`${PopupShow ? "top-[100px]" : "op-[32px]"} ${styles["modal-files-container"]}`}>
       <button
         className={styles["modal-files-open-button"]}
         hidden={open}

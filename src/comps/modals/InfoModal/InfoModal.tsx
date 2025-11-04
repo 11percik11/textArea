@@ -84,7 +84,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
         setSelected={setSelectedDocument}
       />
       <div
-        className={`${cell.description ? "max-h-[1016px]" : cell.images.length > 1 ? "max-h-[1016px]" : "max-h-[931px]"} h-fit p-[32px] rounded-[32px] bg-white flex flex-col`}
+        className={`${cell.description ? PopupShow ? "max-h-[950px]" : "max-h-[1016px]" : cell.images.length > 1 ? PopupShow ? "max-h-[950px]" : "max-h-[1015px]" : "max-h-[931px]"} h-fit p-[32px] rounded-[32px] bg-white flex flex-col`}
         style={{ width: ContainerPxSize[currentLayoutVariant] + "px" }}
       >
         <div className="w-full mb-[32px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">

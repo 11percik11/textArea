@@ -10,11 +10,13 @@ import { spreadsheetManager } from "../../store/root";
 import { Header } from "../shared/Header";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 import { PathlinkStore } from "../../store/PathLink";
+import { linkStore } from "../../store/LinkHref";
 // import { useSearchParams } from "react-router-dom";
 
 type TitleWithPos = [string, [number, number]];
 
 const UserTablePage = () => {
+  const PopupShow = linkStore.link.showHeader;
   const { data, searchParamsSpreadsheetId } = useGetSpreadsheetByUrl();
   PathlinkStore.setArrElement(data);
 
@@ -93,7 +95,7 @@ const UserTablePage = () => {
 }, [data, searchParamsSpreadsheetId]);
 
   return (
-    <div className="w-full h-full p-[32px]" key={searchParamsSpreadsheetId}>
+    <div className={`w-full h-full p-[32px] flex flex-col ${PopupShow && "pt-[80px]"}`} key={searchParamsSpreadsheetId}>
       <Header
         title={pageTitle}
         searchParamsSpreadsheetId={searchParamsSpreadsheetId}
@@ -107,7 +109,7 @@ const UserTablePage = () => {
       )}
       <div
         hidden={isLoading}
-        className="max-w-[1856px] w-min h-full overflow-scroll hide-scroll"
+        className="max-w-[1856px] w-min overflow-scroll hide-scroll"
       >
         {data && (
           <UserTable

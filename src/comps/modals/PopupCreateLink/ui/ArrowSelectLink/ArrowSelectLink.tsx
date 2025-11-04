@@ -151,7 +151,7 @@ export const ArrowSelectLink = observer(() => {
 
   const data = spreadsheetManager.currentMainSpreadsheet;
 
-  const allTitles = data?.rows[0].cells[0].raw.title;
+  // const allTitles = data?.rows[0].cells[0].raw.title;
   // const arrgg = data?.rows.flatMap((item) =>
   //   item.cells.map((cell) => cell.raw.title),
   // );
@@ -200,17 +200,31 @@ export const ArrowSelectLink = observer(() => {
             {arrLinks.map(([label, key], index) => (
               <div
                 key={key}
+                // onClick={() => {
+                //   if (location.pathname !== "/") {
+                //     navigate("/", {
+                //       replace: true,
+                //       state: { mainLink: key, tabId: index + 1 },
+                //     });
+                //   }
+                //   PathlinkStore.clearLink();
+                //   PathlinkStore.setMainLink(key);
+                //   spreadsheetManager.setCurrentTabId(index + 1);
+                // }}
                 onClick={() => {
-                  if (location.pathname !== "/") {
-                    navigate("/", {
-                      replace: true,
-                      state: { mainLink: key, tabId: index + 1 },
-                    });
-                  }
-                  PathlinkStore.clearLink();
-                  PathlinkStore.setMainLink(key);
-                  spreadsheetManager.setCurrentTabId(index + 1);
-                }}
+  const needClean = location.pathname !== "/" || location.search || location.hash;
+
+  if (needClean) {
+    navigate(
+      { pathname: "/", search: "", hash: "" }, // очищаем ?... и #...
+      { replace: true, state: { mainLink: key, tabId: index + 1 } }
+    );
+  }
+
+  PathlinkStore.clearLink();
+  PathlinkStore.setMainLink(key);
+  spreadsheetManager.setCurrentTabId(index + 1);
+}}
                 className={`p-[12px] rounded-[12px] cursor-pointer transition ${
                   key === mainLink
                     ? "bg-[#004662] text-[#FFFFFF]"

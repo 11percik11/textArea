@@ -1,7 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "./PopupCreateLink.scss";
 import { linkStore } from "../../../store/LinkHref";
-import { PathlinkStore } from "../../../store/PathLink";
 
 import { ArrowSelectLink } from "./ui/ArrowSelectLink/ArrowSelectLink";
 import { CreateSelect } from "./ui/CreateSelect/CreateSelect";
@@ -10,22 +9,28 @@ export const PopupCreateLink = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  
-
   const crateLinkBack = location.pathname.slice(1) + location.search;
-  const LinkBack = linkStore.link.href;
-  const createLinkHref = () => {
-    linkStore.link.href = crateLinkBack;
-    linkStore.setShowHeader(false);
-    navigate(LinkBack);
-  };
+  const LinkBack = linkStore.link.hrefBack;
 
   const BackLink = () => {
+    linkStore.link.href = "";
     linkStore.setShowHeader(false);
     navigate(LinkBack);
   };
 
-  
+  const createLinkHref = () => {
+    // if (crateLinkBack == "") {
+    //   linkStore.link.href = "/";
+    // }else {
+      linkStore.link.href = crateLinkBack;
+    // }
+    linkStore.setShowHeader(false);
+    navigate(LinkBack);
+  };
+
+
+  console.log("Выйти: LinkBack", LinkBack);
+  console.log("Выйти: crateLinkBack", crateLinkBack);
 
   return (
     <div className="bg-white pl-[32px] pr-[32px] w-[100%] h-[68px] fixed z-20 flex items-center gap-[38px]">

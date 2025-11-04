@@ -25,7 +25,7 @@ const UserTable = ({ onCellInfoOpen, content }: Props) => {
   }, [content, rowIndex, cellIndex, onCellInfoOpen]);
 
   return (
-    <div className="border-[2px] border-stroke rounded-[24px] overflow-auto max-h-[850px]">
+    <div className="border-[2px] h-[100%] border-stroke rounded-[24px] overflow-auto">
       {content?.rows.map((row, index: number) => (
         <div
           key={index}

@@ -16,6 +16,7 @@ import { spreadsheetManager } from "../../store/root";
 import OverlayLoader from "../../comps/OverlayLoader/OverlayLoader";
 import { useReactToPrint } from "react-to-print";
 import printIcon from "../../assets/icons/printIcon.svg"
+import { linkStore } from "../../store/LinkHref";
 
 
 type Props = {};
@@ -23,6 +24,7 @@ type Props = {};
 const AdminPage = observer(({}: Props) => {
   const [isExitModalOpen, setExitModalOpen] = useState(false);
   const current = spreadsheetManager.currentMainSpreadsheet;
+  const PopupShow = linkStore.link.showHeader;
 
   useEffect(() => {
     return () => {
@@ -40,7 +42,7 @@ const AdminPage = observer(({}: Props) => {
   });
   //const navigate = useNavigate();
   return (
-    <div className="animate-appear w-full h-full p-[32px]">
+    <div className={`animate-appear w-full h-full ${ PopupShow ? "p-[100px]" : "p-[32px]"}`}>
       <OverlayLoader isLoading={spreadsheetManager.isLoading} />
       <div className="flex items-center gap-[16px] relative">
         <button

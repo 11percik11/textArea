@@ -2,6 +2,7 @@ import { makeAutoObservable } from "mobx";
 
 interface LinkData {
   href: string;
+  hrefBack: string;
   index: [number, number]; // [start, end]
   showHeader: boolean;
 }
@@ -9,6 +10,7 @@ interface LinkData {
 export class LinkStore {
   link: LinkData = {
     href: "",
+    hrefBack: "",
     index: [0, 0],
     showHeader: false, // ← по умолчанию false
   };
@@ -24,6 +26,7 @@ export class LinkStore {
   clearLink() {
     this.link = {
       href: "",
+      hrefBack: "",
       index: [0, 0],
       showHeader: false, // ← по умолчанию false
     };

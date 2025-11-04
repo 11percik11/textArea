@@ -1,4 +1,9 @@
 .UserPage {
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+
   padding: 32px;
   width: 100vw;
   height: 100vh;
