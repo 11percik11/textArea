@@ -12,17 +12,11 @@ type Props = {
   cellIndex: number;
 };
 
-const UserTableCell = ({
-  data,
-  onOpen,
-  ссindex,
-  cellIndex,
-}: Props) => {
+const UserTableCell = ({ data, onOpen, ссindex, cellIndex }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const onCellClick = () => {
-
     if (data.type === "table") {
       navigate(`/user-inner-table?id=${data.spreadsheetParentId}`);
       return;
@@ -32,9 +26,9 @@ const UserTableCell = ({
         //   `${location.pathname}${location.search}&rowIndex=${ссindex}&cellIndex=${cellIndex}`,
         // );
         navigate(
-  `${location.pathname}${location.search}&rowIndex=${ссindex}&cellIndex=${cellIndex}`,
-  { replace: true }
-);
+          `${location.pathname}${location.search}&rowIndex=${ссindex}&cellIndex=${cellIndex}`,
+          { replace: true },
+        );
       } else {
         navigate(
           `${location.pathname}?rowIndex=${ссindex}&cellIndex=${cellIndex}`,
@@ -49,7 +43,6 @@ const UserTableCell = ({
       onClick={onCellClick}
       className={`w-[358px] duration-200 active:min-h-full active:bg-[#004662B2] active:text-white min-h-[74px] max-h-[212px] rounded-[24px] bg-[#FFFFFFB2] p-[12px] flex ${data.title && "gap-[8px]"} justify-center items-center text-accent font-semibold`}
     >
-
       {data.images[0]?.image && (
         <div
           className={`${!data.title ? "w-[334px] h-[188px]" : "w-[121px] h-[121px]"} overflow-hidden flex justify-center rounded-[12px]`}
@@ -61,7 +54,9 @@ const UserTableCell = ({
           />
         </div>
       )}
-      <div className={`custom-clamp flex-1 text-[16px] font-[700] ${!data.images[0]?.image && "text-center"}`}>
+      <div
+        className={`custom-clamp flex-1 text-[16px] font-[700] ${!data.images[0]?.image && "text-center"}`}
+      >
         {data.title} {data.type == "table" && "(таблица)"}
       </div>
     </div>

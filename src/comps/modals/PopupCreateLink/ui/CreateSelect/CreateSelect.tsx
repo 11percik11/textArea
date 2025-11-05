@@ -14,7 +14,6 @@
 //   )
 // }
 
-
 // import { observer } from "mobx-react-lite";
 // import { PathlinkStore } from "../../../../../store/PathLink";
 // import { Select } from "../Select/Select";
@@ -33,7 +32,6 @@
 //   );
 // });
 
-
 // CreateSelect.tsx
 import { observer } from "mobx-react-lite";
 import { PathlinkStore } from "../../../../../store/PathLink";
@@ -45,7 +43,14 @@ export const CreateSelect = observer(() => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handlePick = (colIndex: number, pos: [number, number]) => {
+  // console.log("ARRTT", arrTT[0][1]);
+
+  const handlePick = (
+    colIndex: number,
+    pos: [number, number],
+    type?: string,
+    idTable?: any,
+  ) => {
     // 1) обрезаем всё справа от выбранной колонки
     PathlinkStore.trimFrom?.(colIndex); // если добавил метод из прошлого ответа
 
@@ -59,11 +64,20 @@ export const CreateSelect = observer(() => {
     params.set("rowIndex", String(pos[0]));
     params.set("cellIndex", String(pos[1]));
 
-    // 4) переходим на нужный путь (если нужно именно /user-inner-table)
-    navigate(
-      { pathname: "/user-inner-table", search: `?${params.toString()}` },
-      { replace: true } // или false, если хочешь, чтобы "Назад" закрывал выбор
-    );
+    if (type == "table") {
+      navigate(
+        {
+          pathname: "/user-inner-table",
+          search: `?id=${idTable}`, // можно и без "?", Router сам добавит
+        },// поставь false, если «Назад» должен закрывать выбор
+      );
+    } else {
+      // 4) переходим на нужный путь (если нужно именно /user-inner-table)
+      navigate(
+        { pathname: "/user-inner-table", search: `?${params.toString()}` },
+        { replace: true }, // или false, если хочешь, чтобы "Назад" закрывал выбор
+      );
+    }
   };
 
   return (
@@ -71,8 +85,8 @@ export const CreateSelect = observer(() => {
       {arrTT.map((row, idx) => (
         <div key={idx}>
           <Select
-            name={row[2]}        // заголовок колонки
-            arrMap={row[1]}      // список [title, [r,c]]
+            name={row[2]} // заголовок колонки
+            arrMap={row[1]} // список [title, [r,c]]
             columnIndex={idx}
             onPick={handlePick}
           />
@@ -81,4 +95,3 @@ export const CreateSelect = observer(() => {
     </div>
   );
 });
-

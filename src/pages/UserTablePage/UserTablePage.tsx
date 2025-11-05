@@ -13,7 +13,7 @@ import { PathlinkStore } from "../../store/PathLink";
 import { linkStore } from "../../store/LinkHref";
 // import { useSearchParams } from "react-router-dom";
 
-type TitleWithPos = [string, [number, number]];
+type TitleWithPos = [string, [number, number], string, any];
 
 const UserTablePage = () => {
   const PopupShow = linkStore.link.showHeader;
@@ -87,7 +87,7 @@ const UserTablePage = () => {
     idNum,
     data.rows.flatMap((row, rIdx) =>
       row.cells.map(
-        (cell, cIdx): TitleWithPos => [cell.raw.title || "", [rIdx, cIdx]]
+        (cell, cIdx): TitleWithPos => [cell.raw.title || "", [rIdx, cIdx], cell.raw.type, cell.raw.children?.id]
       )
     ),
     data.title,

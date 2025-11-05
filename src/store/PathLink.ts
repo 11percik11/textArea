@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import type { SpreadsheetEntity } from "./SpreadsheetEntity";
 
-type TitleWithPos = [string, [number, number]];
+type TitleWithPos = [string, [number, number], string, any];
 
 interface PathLink {
   mainLink: "nature" | "society";
