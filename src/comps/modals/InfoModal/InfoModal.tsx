@@ -104,17 +104,20 @@ const InfoModal = ({ onClose, cell }: Props) => {
                 }, 200);
 
                 const params = new URLSearchParams(location.search);
-                // удаляем параметры (не важно, были 4/1 или любые другие)
                 params.delete("rowIndex");
                 params.delete("cellIndex");
 
-                navigate(
-                  {
-                    pathname: location.pathname,
-                    search: params.toString() ? `?${params.toString()}` : "",
-                  },
-                  { replace: true }, // не сохранять этот шаг в истории
-                );
+                if (!PopupShow) {
+                  navigate(-1);
+                }else {
+                  navigate(
+                    {
+                      pathname: location.pathname,
+                      search: params.toString() ? `?${params.toString()}` : "",
+                    },
+                    { replace: true }, // не сохранять этот шаг в истории
+                  );
+                }
               }}
               className="size-[56px] rounded-[12px] bg-accent flex items-center justify-center"
             >

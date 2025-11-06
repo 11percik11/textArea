@@ -18,7 +18,6 @@ import { useReactToPrint } from "react-to-print";
 import printIcon from "../../assets/icons/printIcon.svg"
 import { linkStore } from "../../store/LinkHref";
 
-
 type Props = {};
 
 const AdminPage = observer(({}: Props) => {
@@ -40,7 +39,8 @@ const AdminPage = observer(({}: Props) => {
     //onBeforePrint: handleBeforePrint,
     pageStyle: "{ size: 0 }"
   });
-  //const navigate = useNavigate();
+
+
   return (
     <div className={`animate-appear w-full h-full ${ PopupShow ? "p-[100px]" : "p-[32px]"}`}>
       <OverlayLoader isLoading={spreadsheetManager.isLoading} />
@@ -51,7 +51,7 @@ const AdminPage = observer(({}: Props) => {
         >
           <img src={exitIcon} alt="exit" className="size-[32px]" />
         </button>
-        <div className="w-[1456px] h-[32px] text-accent text-[32px] font-bold">
+        <div className="dd w-[1456px] h-[32px] text-accent text-[32px] font-bold">
           Главные таблицы
         </div>
         <button 

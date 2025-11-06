@@ -12,7 +12,7 @@ export const ModalImage = ({
   height = "463px",
   src = "",
   className = "",
-  color = "",
+  // color = "",
 }: ModalImageProps) => {
   const isVideo = /\.(mp4|mov|avi|webm|gif)$/i.test(src); // Проверяем расширение
 

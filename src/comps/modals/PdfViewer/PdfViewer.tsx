@@ -23,39 +23,6 @@ export default function PdfViewer({ url }: PdfViewerProps) {
   const [showKeyBoard, setShowKeyBoard] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const blobUrlRef = useRef<string | null>(null);
-
-  // useEffect(() => {
-  //   const loadPdf = async () => {
-  //     try {
-  //       setLoading(true);
-  //       setError(null);
-  //       setCurrentPage(1);
-
-  //       console.log("URL", url);
-
-  //       const response = await fetch(url, { cache: "no-store" });
-  //       if (!response.ok) throw new Error("Ошибка загрузки PDF");
-  //       const blob = await response.blob();
-  //       const blobUrl = URL.createObjectURL(blob);
-
-  //       const loadingTask = pdfjsLib.getDocument(blobUrl);
-  //       const pdf = await loadingTask.promise;
-  //       setPdfDoc(pdf);
-  //       setNumPages(pdf.numPages);
-
-  //       URL.revokeObjectURL(blobUrl);
-  //     } catch (err) {
-  //       console.error("Ошибка загрузки PDF:", err);
-  //       setError("Не удалось загрузить PDF.");
-  //     } finally {
-  //       setLoading(false); // Завершение загрузки
-  //     }
-  //   };
-
-  //   if (url) loadPdf();
-  // }, [url]);
-
   useEffect(() => {
   if (!url) return;
 

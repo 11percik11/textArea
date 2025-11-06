@@ -1,4 +1,4 @@
-import imageIcon from "../../assets/icons/imageIcon.svg";
+// import imageIcon from "../../assets/icons/imageIcon.svg";
 
 import documentIcon from "../../assets/icons/Document Text.svg";
 import imagesIcon from "../../assets/icons/AlbumIcon.svg";

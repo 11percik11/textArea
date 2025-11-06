@@ -15,7 +15,7 @@ export const Select = ({ name, arrMap, columnIndex, onPick }: SelectProps) => {
   const [openSelect, setOpenSelect] = useState(false);
   const [activeElement, setActiveElement] = useState(0);
 
-  console.log("arrMapa", arrMap);
+  // console.log("arrMapa", arrMap);
   
 
   const handleClickElement = (index: number, pos: [number, number], type?: string, idTable?: any) => {

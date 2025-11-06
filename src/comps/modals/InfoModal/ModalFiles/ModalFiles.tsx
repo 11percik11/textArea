@@ -25,7 +25,7 @@ export const ModalFiles = ({ documents, selected, setSelected }: Props) => {
   };
 
   return (
-    <div className={`${PopupShow ? "top-[100px]" : "op-[32px]"} ${styles["modal-files-container"]}`}>
+    <div className={`${PopupShow ? "top-[100px]" : "top-[32px]"} ${styles["modal-files-container"]}`}>
       <button
         className={styles["modal-files-open-button"]}
         hidden={open}

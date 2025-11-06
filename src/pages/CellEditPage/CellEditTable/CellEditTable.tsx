@@ -6,13 +6,12 @@ import { spreadsheetManager } from "../../../store/root";
 import { SpreadsheetEntity } from "../../../store/SpreadsheetEntity";
 import { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 
-// const baseSpreadshit: Spreadsheet = MOCK_SPREADSHEET;
-
 type Props = {
   data: SpreadsheetCellEntity | SpreadsheetEntity;
+  ref?: any;
 };
 
-export const CellEditTable = observer(({ data }: Props) => {
+export const CellEditTable = observer(({ data, ref }: Props) => {
   const getTable = () => {
     let table: SpreadsheetEntity | undefined;
 
@@ -39,9 +38,11 @@ export const CellEditTable = observer(({ data }: Props) => {
         />
 
         <AdminTable
-          widthPx={1544}
-          onEdit={() => { } }
-          spreadsheet={table} ref={undefined}        />
+          // widthPx={1544}
+          onEdit={() => {}}
+          spreadsheet={table}
+          ref={ref}
+        />
       </div>
     )
   );

@@ -168,6 +168,7 @@ function getSel(root: HTMLElement) {
   const start = pre.toString().length;
   let text = r.toString();
   let end = start + text.length;
+  
 
   if (text.endsWith("\u00A0") || text.endsWith(" ")) {
     text = text.trimEnd();

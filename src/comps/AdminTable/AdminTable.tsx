@@ -17,30 +17,16 @@ type Props = {
   spreadsheet: SpreadsheetEntity;
   onEdit: (table: Spreadsheet["rows"]) => void;
   // onSelectCell: (data: Cell) => void;
-  widthPx?: number;
   ref: any;
 };
 
 const AdminTable = observer(
-  ({ spreadsheet, /*onEdit,*/ widthPx = 1856, ref }: Props) => {
-    //const content = spreadsheet.rows;
-    // const [changableRows, setChangableRows] = useState(content);
-
-    // const [changableTitles, setChangableTitles] = useState(content[0]?.cells);
+  ({ spreadsheet, /*onEdit,*/ref }: Props) => {
 
     const navigate = useNavigate();
     const onCellClick = (cellId: number) => {
       navigate(`/celledit?id=${cellId}&spreadsheetId=${spreadsheet.id}`);
     };
-
-    // useEffect(() => {
-    //   setChangableRows(content);
-    //   setChangableTitles(content[0]?.cells || undefined);
-    // }, [spreadsheet, content]);
-
-    // useEffect(() => {
-    //   onEdit(finishedTable.current);
-    // }, [finishedTable.current]);
 
     const updateRows = async (
       table: Spreadsheet["rows"],
@@ -90,7 +76,7 @@ const AdminTable = observer(
 
     return (
       <div
-        className={`w-[${widthPx}px] max-h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
+        className={`max-w-[1854px] w-[min-content] max-h-[720px] bg-white rounded-[24px] border-[1px] border-stroke overflow-auto`}
       >
         <div ref={ref}>
           <ColorPickModal row={currentRow} onClose={onColorPickModalClose} />

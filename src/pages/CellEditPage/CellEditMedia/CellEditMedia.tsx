@@ -92,10 +92,20 @@ export const CellEditMedia = ({ cell }: Props) => {
             </div>
           ))}
         </div>
-        <CellEditAddFileButton
+        {/* <CellEditAddFileButton
           onFileLoad={onLocalFileLoad}
           accept=".png, .jpeg, .mp4, .mov, .jpg, .wepb, .webm"
-        />
+        /> */}
+        {/* <CellEditAddFileButton
+          onFileLoad={onLocalFileLoad}
+          accept=".png, .jpeg, .mp4, .mov, .jpg, .wepb, .webm"
+        /> */}
+          <div className="print-hidden">
+    <CellEditAddFileButton
+      onFileLoad={onLocalFileLoad}
+      accept=".png, .jpeg, .mp4, .mov, .jpg, .wepb, .webm"
+    />
+  </div>
       </div>
     </>
   );

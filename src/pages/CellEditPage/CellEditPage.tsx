@@ -73,11 +73,52 @@ const CellEditPage = ({ data }: Props) => {
     await data.updateType(variant);
   };
   const printRef = useRef(null);
-  const onPrint = useReactToPrint({
-    contentRef: printRef,
-    documentTitle: "Редактирование ячейки",
-    pageStyle: "{ size: 0 }",
-  });
+  // const onPrint = useReactToPrint({
+  //   contentRef: printRef,
+  //   documentTitle: "Редактирование ячейки",
+  //   onBeforeGetContent: waitImagesLoaded,
+  //   pageStyle: "{ size: 0 }",
+  // });
+//   const onPrint = useReactToPrint({
+//   contentRef: printRef,
+//   documentTitle: "Редактирование ячейки",
+//   // onBeforeGetContent: waitImagesLoaded,
+//   // см. пункт 3 — нормальные правила печати
+//   pageStyle: `
+//     @page { size: auto; margin: 12mm; }
+//     @media print {
+//       body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+//       img { max-width: 100%; page-break-inside: avoid; break-inside: avoid; }
+//       /* если где-то стоит overflow:hidden; он может "обрезать" фото на печати */
+//       .no-print-clip { overflow: visible !important; }
+//     }
+//   `,
+// });
+
+const onPrint = useReactToPrint({
+  contentRef: printRef,
+  documentTitle: "Редактирование ячейки",
+  pageStyle: `
+    @page { size: auto; margin: 12mm; }
+    @media print {
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      img { max-width: 100%; page-break-inside: avoid; break-inside: avoid; }
+
+      /* Снятие обрезания контента редактора на печать */
+      #virtual-editor {
+        overflow: visible !important;
+        height: auto !important;
+        max-height: none !important;
+      }
+
+      /* На всякий случай — убираем обрезание у родителей */
+      .print-container, .print-container * {
+        overflow: visible !important;
+      }
+      .print-hidden { display: none !important; }
+    }
+  `,
+});
 
   const Modals = (
     <>
@@ -168,7 +209,7 @@ const CellEditPage = ({ data }: Props) => {
           <img src={printIcon} className="size-[32px]" />
         </button>
       </div>
-      <div ref={printRef} className="flex gap-[16px] mt-[16px] bg-[#F6E9DE]">
+      <div className="flex gap-[16px] mt-[16px] bg-[#F6E9DE]">
         <ChooseTemplate
           selectedTemplate={data.type}
           setSelectedTemplate={onSelectTemplate}
@@ -180,7 +221,8 @@ const CellEditPage = ({ data }: Props) => {
               style={{
                 width: `${data.type == "table" ? 1544 : 1232}px`,
               }}
-              className={`h-[928px] flex flex-col gap-[16px]`}
+              className={`h-[928px] flex flex-col gap-[16px] print-container`}
+              ref={printRef} 
             >
               <div className="w-[1232px] h-[92px] flex gap-[16px]">
                 <div className="w-full h-full rounded-[24px] bg-white p-[24px] text-left">
