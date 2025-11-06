@@ -5,13 +5,14 @@ import PahtLinkSvg from "../../../../../assets/icons/PathLink.svg";
 export type TitleWithPos = [string, [number, number], string, any];
 
 interface SelectProps {
+  idTable1: number;
   name: string;
   arrMap: TitleWithPos[];
   columnIndex: number;
-  onPick: (colIndex: number, pos: [number, number], type?: string, idTable?: any) => void;
+  onPick: (colIndex: number, pos: [number, number], type?: string, idTable?: any, idTable1?: number) => void;
 }
 
-export const Select = ({ name, arrMap, columnIndex, onPick }: SelectProps) => {
+export const Select = ({idTable1, name, arrMap, columnIndex, onPick }: SelectProps) => {
   const [openSelect, setOpenSelect] = useState(false);
   const [activeElement, setActiveElement] = useState(0);
 
@@ -20,7 +21,7 @@ export const Select = ({ name, arrMap, columnIndex, onPick }: SelectProps) => {
 
   const handleClickElement = (index: number, pos: [number, number], type?: string, idTable?: any) => {
     setActiveElement(index);
-    onPick(columnIndex, pos, type, idTable);
+    onPick(columnIndex, pos, type, idTable, idTable1);
     setOpenSelect(false);
   };
 

@@ -11,6 +11,7 @@ import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity
 import style from "./InfoModal.module.scss";
 import { useNavigate } from "react-router-dom";
 import { linkStore } from "../../../store/LinkHref";
+import { OpenPopupId } from "../../../store/OpenPopupId";
 
 //@ts-ignore
 enum ContentVariant {
@@ -61,22 +62,28 @@ type Props = {
 };
 
 const InfoModal = ({ onClose, cell }: Props) => {
-  const [preClosed, setPreClosed] = useState(false);
-  // console.log("cell", cell);
+  const PopupShow = linkStore.link.showHeader;
+  // const [preClosed, setPreClosed] = useState(false);
+
+  const closePopup = () => {
+    OpenPopupId.setOpenIndexPopup(false, [ null, null]);
+    
+  }
+  
   const navigate = useNavigate();
   const [selectedDocument, setSelectedDocument] = useState<FileType | null>(
     null,
   );
-  const PopupShow = linkStore.link.showHeader;
 
   const currentLayoutVariant = getLayoutVariant(cell, !!selectedDocument);
 
   const toTable = () => {
+    OpenPopupId.setOpenPopup(false);
     navigate(`/user-inner-table?id=${cell.children?.id}`);
   };
   return (
     <div
-      className={`${preClosed && "opacity-0"} ${PopupShow ? "pt-[100px]" : "pt-[32px]"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10 flex justify-center`}
+      className={`${PopupShow ? "pt-[100px]" : "pt-[32px]"} duration-200 transition animate-appear w-full h-full bg-[#00000099] fixed top-0 left-0 z-10 flex justify-center`}
     >
       <ModalFiles
         documents={cell.files}
@@ -97,28 +104,29 @@ const InfoModal = ({ onClose, cell }: Props) => {
               </button>
             )}
             <button
-              onClick={() => {
-                setPreClosed(true);
-                setTimeout(() => {
-                  onClose();
-                }, 200);
+              onClick={() => closePopup()}
+              // onClick={() => {
+              //   setPreClosed(true);
+              //   setTimeout(() => {
+              //     onClose();
+              //   }, 200);
 
-                const params = new URLSearchParams(location.search);
-                params.delete("rowIndex");
-                params.delete("cellIndex");
+              //   const params = new URLSearchParams(location.search);
+              //   params.delete("rowIndex");
+              //   params.delete("cellIndex");
 
-                if (!PopupShow) {
-                  navigate(-1);
-                }else {
-                  navigate(
-                    {
-                      pathname: location.pathname,
-                      search: params.toString() ? `?${params.toString()}` : "",
-                    },
-                    { replace: true }, // не сохранять этот шаг в истории
-                  );
-                }
-              }}
+              //   if (!PopupShow) {
+              //     navigate(-1);
+              //   }else {
+              //     navigate(
+              //       {
+              //         pathname: location.pathname,
+              //         search: params.toString() ? `?${params.toString()}` : "",
+              //       },
+              //       { replace: true }, // не сохранять этот шаг в истории
+              //     );
+              //   }
+              // }}
               className="size-[56px] rounded-[12px] bg-accent flex items-center justify-center"
             >
               <Icons.CloseIcon className="size-[32px]" color="#fff" />

@@ -2,46 +2,50 @@ import { useLocation, useNavigate } from "react-router-dom";
 import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
 import { getServerMediaUrl } from "../../../utils/getServerMediaUrl";
 import "./UserTableCell.scss";
+import { OpenPopupId } from "../../../store/OpenPopupId";
 
 type Props = {
-  onOpen: (cell: SpreadsheetCellEntity) => void;
   data: SpreadsheetCellEntity;
-  isTimeline: boolean;
-  color: string;
   ссindex: number;
   cellIndex: number;
 };
 
-const UserTableCell = ({ data, onOpen, ссindex, cellIndex }: Props) => {
+const UserTableCell = ({ data, ссindex, cellIndex }: Props) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
+
+  // const onCellClick = () => {
+  //   if (data.type === "table") {
+  //     navigate(`/user-inner-table?id=${data.spreadsheetParentId}`);
+  //     return;
+  //   } else {
+  //     if (location.pathname === "/user-inner-table") {
+  //       navigate(
+  //         `${location.pathname}${location.search}&rowIndex=${ссindex}&cellIndex=${cellIndex}`,
+  //         { replace: true },
+  //       );
+  //     } else {
+  //       navigate(
+  //         `${location.pathname}?rowIndex=${ссindex}&cellIndex=${cellIndex}`,
+  //       );
+  //     }
+  //   }
+  //   onOpen(data);
+  // };
 
   const onCellClick = () => {
     if (data.type === "table") {
       navigate(`/user-inner-table?id=${data.spreadsheetParentId}`);
-      return;
     } else {
-      if (location.pathname === "/user-inner-table") {
-        // navigate(
-        //   `${location.pathname}${location.search}&rowIndex=${ссindex}&cellIndex=${cellIndex}`,
-        // );
-        navigate(
-          `${location.pathname}${location.search}&rowIndex=${ссindex}&cellIndex=${cellIndex}`,
-          { replace: true },
-        );
-      } else {
-        navigate(
-          `${location.pathname}?rowIndex=${ссindex}&cellIndex=${cellIndex}`,
-        );
-      }
+      OpenPopupId.setOpenIndexPopup(true, [ссindex, cellIndex]);
+      console.log("OpenPopup", true, [ссindex, cellIndex]);
     }
-    onOpen(data);
   };
 
   return (
     <div
       onClick={onCellClick}
-      className={`w-[358px] duration-200 active:min-h-full active:bg-[#004662B2] active:text-white min-h-[74px] max-h-[212px] rounded-[24px] bg-[#FFFFFFB2] p-[12px] flex ${data.title && "gap-[8px]"} justify-center items-center text-accent font-semibold`}
+      className={`w-[358px] duration-200 min-h-[74px] max-h-[212px] rounded-[24px] bg-[#FFFFFFB2] p-[12px] flex ${data.title && "gap-[8px]"} justify-center items-center text-accent font-semibold`}
     >
       {data.images[0]?.image && (
         <div

@@ -152,9 +152,9 @@ export const ArrowSelectLink = observer(() => {
   const data = spreadsheetManager.currentMainSpreadsheet;
 
   // const allTitles = data?.rows[0].cells[0].raw.title;
-  const arrgg0 = data?.rows.flatMap((item) => item);
+  // const arrgg0 = data?.rows.flatMap((item) => item);
 
-  console.log(arrgg0);
+  // console.log(arrgg0);
 
   type TitleWithPos = [string, [number, number], string, any];
 
