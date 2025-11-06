@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { linkStore } from "../../../store/LinkHref";
 import type { SpreadsheetCellEntity } from "../../../store/SpreadsheetCellEntity";
+import { OpenPopupId } from "../../../store/OpenPopupId";
 
 const DEBOUNCE_MS = 600;
 
@@ -46,9 +47,23 @@ export const ContentEditable = React.memo(
     
 
     useEffect(() => {
-      const href = linkStore.link.href;
-      console.log("HREF:", href);
+      let href = linkStore.link.href;
+      console.log("HREF:", href, OpenPopupId.link);
+      const params = new URLSearchParams({ rowIndex: `${OpenPopupId.link.index[0]}`, cellIndex: `${OpenPopupId.link.index[1]}` })
+      console.log(params.toString());
+      console.log(href + `&` + params.toString());
       
+      if (OpenPopupId.link.isOpen) {
+        if (href == '') {
+          href = "/" + `?` + params.toString() + "&OpenPopup=true";
+        }else {
+          href = href + `&` + params.toString() + "&OpenPopup=true";
+        }
+      }
+
+      console.log(href);
+      
+
       const idx = linkStore.link.index; 
       if (!ref.current || !href || !Array.isArray(idx)) return;
       // if (!ref.current || !Array.isArray(idx)) return;

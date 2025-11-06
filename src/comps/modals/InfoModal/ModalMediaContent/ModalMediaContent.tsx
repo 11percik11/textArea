@@ -1,9 +1,8 @@
 
-// import { useEffect } from "react";
+
 import type { SpreadsheetCellEntity } from "../../../../store/SpreadsheetCellEntity";
 import type { FileType } from "../../../../types";
 import { getServerMediaUrl } from "../../../../utils/getServerMediaUrl";
-// import PdfReader from "../../PdfReader";
 import { ModalGallery } from "../ModalGallery/ModalGallery";
 import PdfViewer from "../../PdfViewer/PdfViewer";
 import { linkStore } from "../../../../store/LinkHref";
@@ -13,34 +12,6 @@ type Props = {
   cell: SpreadsheetCellEntity;
   selectedDocument: FileType | null;
 };
-// export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
-//   const PopupShow = linkStore.link.showHeader;
-//   const testImages = [...cell.images].map((data) =>
-//     getServerMediaUrl(data.image),
-//   );
-  
-//   if (selectedDocument) {
-//     const url = getServerMediaUrl(selectedDocument.file);
-//     return <PdfViewer url={`http://table-of-time.test.itlabs.top/api/${selectedDocument.file}`} key={url} />;
-//   }
-
-//   useEffect(() => {
-//     const desc = document.getElementById("desc");
-//     if (desc) desc.innerHTML = cell.description;
-//   }, []);
-
-//   return (
-//     <div className={`flex-1 overflow-auto flex flex-col gap-[16px]`}>
-//       {testImages.length > 0 && (
-//         <ModalGallery images={testImages} description={cell?.description} />
-//       )}
-//       <div
-//         className={`${PopupShow && "no-links"} text-text font-normal text-[24px] leading-[120%] text-wrap`}
-//         dangerouslySetInnerHTML={{ __html: cell?.description }}
-//       />
-//     </div>
-//   );
-// };
 
 
 import { useEffect, useRef } from "react";
@@ -57,7 +28,7 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
     if (!el) return;
 
     const onClick = (e: MouseEvent) => {
-      // если клики отключены (класс no-links), выходим
+
       if (el.classList.contains("no-links")) return;
 
       // ЛКМ без модификаторов
@@ -77,7 +48,6 @@ export const ModalMediaContent = ({ cell, selectedDocument }: Props) => {
       navigate(href);
     };
 
-    // лучше в capture, чтобы отработать раньше возможных внутренних обработчиков
     el.addEventListener("click", onClick, true);
     return () => el.removeEventListener("click", onClick, true);
   }, [navigate]);
