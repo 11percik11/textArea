@@ -16,9 +16,6 @@ export const Select = ({idTable1, name, arrMap, columnIndex, onPick }: SelectPro
   const [openSelect, setOpenSelect] = useState(false);
   const [activeElement, setActiveElement] = useState(0);
 
-  // console.log("arrMapa", arrMap);
-  
-
   const handleClickElement = (index: number, pos: [number, number], type?: string, idTable?: any) => {
     setActiveElement(index);
     onPick(columnIndex, pos, type, idTable, idTable1);

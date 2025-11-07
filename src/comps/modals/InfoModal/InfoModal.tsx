@@ -94,7 +94,7 @@ const InfoModal = ({ onClose, cell }: Props) => {
         className={`${cell.description ? PopupShow ? "max-h-[950px]" : "max-h-[1016px]" : cell.images.length > 1 ? PopupShow ? "max-h-[950px]" : "max-h-[1015px]" : "max-h-[931px]"} h-fit p-[32px] rounded-[32px] bg-white flex flex-col`}
         style={{ width: ContainerPxSize[currentLayoutVariant] + "px" }}
       >
-        <div className="w-full mb-[32px] min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]">
+        <div className={`w-full  ${(selectedDocument && PopupShow) ? "mb-[16px]" : "mb-[32px]"}  min-h-[56px] flex justify-between items-center text-[32px] text-accent font-bold leading-[120%]`}>
           <div>{cell.title}</div>
           <div className="flex justify-between items-center gap-[12px] mb-auto">
             {cell.children?.id && (
@@ -105,28 +105,6 @@ const InfoModal = ({ onClose, cell }: Props) => {
             )}
             <button
               onClick={() => closePopup()}
-              // onClick={() => {
-              //   setPreClosed(true);
-              //   setTimeout(() => {
-              //     onClose();
-              //   }, 200);
-
-              //   const params = new URLSearchParams(location.search);
-              //   params.delete("rowIndex");
-              //   params.delete("cellIndex");
-
-              //   if (!PopupShow) {
-              //     navigate(-1);
-              //   }else {
-              //     navigate(
-              //       {
-              //         pathname: location.pathname,
-              //         search: params.toString() ? `?${params.toString()}` : "",
-              //       },
-              //       { replace: true }, // не сохранять этот шаг в истории
-              //     );
-              //   }
-              // }}
               className="size-[56px] rounded-[12px] bg-accent flex items-center justify-center"
             >
               <Icons.CloseIcon className="size-[32px]" color="#fff" />

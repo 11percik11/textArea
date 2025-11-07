@@ -38,7 +38,7 @@ const UserTableCell = ({ data, ссindex, cellIndex }: Props) => {
       navigate(`/user-inner-table?id=${data.spreadsheetParentId}`);
     } else {
       OpenPopupId.setOpenIndexPopup(true, [ссindex, cellIndex]);
-      console.log("OpenPopup", true, [ссindex, cellIndex]);
+      // console.log("OpenPopup", true, [ссindex, cellIndex]);
     }
   };
 

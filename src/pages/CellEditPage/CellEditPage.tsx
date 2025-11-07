@@ -20,6 +20,7 @@ import listSvg from "../../assets/icons/Link.svg";
 import { linkStore } from "../../store/LinkHref";
 import { ContentEditable } from "./ContentEditable/ContentEditable";
 import { PathlinkStore } from "../../store/PathLink";
+import { OpenPopupId } from "../../store/OpenPopupId";
 
 type Props = { data: SpreadsheetCellEntity };
 
@@ -176,6 +177,7 @@ const onPrint = useReactToPrint({
   };
 
   const CreateLink = () => {
+    OpenPopupId.setOpenPopup(false);
     linkStore.link.hrefBack = linkBack;
     navigate("/");
     linkStore.setShowHeader(true);

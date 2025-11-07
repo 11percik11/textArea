@@ -19,18 +19,11 @@ export const PopupCreateLink = () => {
   };
 
   const createLinkHref = () => {
-    // if (crateLinkBack == "") {
-    //   linkStore.link.href = "/";
-    // }else {
-      linkStore.link.href = crateLinkBack;
-    // }
+    linkStore.link.href = crateLinkBack;
     linkStore.setShowHeader(false);
     navigate(LinkBack);
   };
 
-
-  console.log("Выйти: LinkBack", LinkBack);
-  console.log("Выйти: crateLinkBack", crateLinkBack);
 
   return (
     <div className="bg-white pl-[32px] pr-[32px] w-[100%] h-[68px] fixed z-20 flex items-center gap-[38px]">
@@ -41,9 +34,8 @@ export const PopupCreateLink = () => {
         Выйти
       </div>
       <div className="flex-1 flex items-center gap-[6px] text-[#004662] text-[20px] font-[600]">
-        <ArrowSelectLink/>
-        {/* <div>{arrTT.map((item) => <div>{item[1].map((e) => e)}</div>)}</div> */}
-        <CreateSelect/>
+        <ArrowSelectLink />
+        <CreateSelect />
       </div>
       <div
         onClick={createLinkHref}

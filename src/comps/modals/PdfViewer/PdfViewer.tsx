@@ -4,6 +4,7 @@ import * as pdfjsLib from "pdfjs-dist";
 import KeyBoardLetters from "../KeyBoardLetters/KeyBoardLetters";
 import VectorLeft from "../../../assets/icons/back_arrow.svg";
 import VectorRight from "../../../assets/icons/prev_arrow.svg";
+import { linkStore } from "../../../store/LinkHref";
 // import KeyBoardLetters from "../../../../shared/ui/KeyBoardLetters/KeyBoardLetters";
 // import Loader from "../../../../shared/ui/Loader/Loader";
 
@@ -16,6 +17,7 @@ interface PdfViewerProps {
 export default function PdfViewer({ url }: PdfViewerProps) {
   const canvasRef1 = useRef<HTMLCanvasElement>(null);
   const canvasRef2 = useRef<HTMLCanvasElement>(null);
+  const PopupShow = linkStore.link.showHeader;
   const [error, setError] = useState<string | null>(null);
   const [pdfDoc, setPdfDoc] = useState<any>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -165,7 +167,7 @@ export default function PdfViewer({ url }: PdfViewerProps) {
   }
 
   return (
-    <div className={styles.pdfViewer}>
+    <div className={styles.pdfViewer} style={{gap: PopupShow ? "16px" : "32px"}}>
       <div
         onClick={(e) => e.stopPropagation()}
         className={`${styles.viewer} ${numPages >= 3 ? styles.multiPage : ""}`}
